@@ -23,7 +23,7 @@ public class Obstacle extends ImageView {
      public void swing(double screenWidth) {
           if (canMove == true && activated == true) {
                double pos = this.getX();
-               if (pos > screenWidth - this.getFitWidth() - 50 || pos < 50) {
+               if (pos > GameScene.LeftBorder + screenWidth - this.getFitWidth() || pos < GameScene.LeftBorder) {
                     this.toggleDir();
                }
                this.setX(pos + (3 * movementDir));
@@ -34,7 +34,7 @@ public class Obstacle extends ImageView {
           if (this.getY() + this.getFitHeight() > screenHeight && activated == true) {
                this.setY(this.getY() - screenHeight);
 
-               this.setX(((int) (Math.random() * 22) * (screenWidth - 150) / 22) + 50);
+               this.setX(((int) (Math.random() * 22) * (screenWidth- this.getFitWidth()) / 22) + GameScene.LeftBorder);
                double probablity = Math.random();
                if (probablity > 0.5) {
                     this.toggleDir();
@@ -46,11 +46,11 @@ public class Obstacle extends ImageView {
                     this.setMove(false);
                     this.setImage(new Image("DoodleJump/pics/obs.png"));
                }
-               if (Doodle.getScore() > 1000 && index % 2 == 0 && probablity > 0.5) {
-                    this.Deactivate();
-                    num++;
+               if (Doodle.getScore() > 1000 && index % 2 == 1 && probablity > 0) {
+                    //this.Deactivate();
+                    //num++;
                     //System.out.println(num);
-                    this.setImage(new Image("DoodleJump/pics/obs3.png"));
+                    //this.setImage(new Image("DoodleJump/pics/obs3.png"));
                }
           }
      }

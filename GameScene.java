@@ -15,20 +15,18 @@ public class GameScene extends Scene {
     public static Point2D ResolutionFullHD = new Point2D(1920, 1080);
     public static Point2D ResolutionHD = new Point2D(1280, 720);
     public static Point2D ResolutionCustom = new Point2D(600, 1080);
-    private double GameScreenWidth = 0;
-    private double GameScreenHeight = 0;
-
-    private Boolean wMove = false;
-    private Boolean sMove = false;
-    private Boolean aMove = false;
-    private Boolean dMove = false;
-    private Boolean canJump = true;
+    private double GameScreenWidth = 600 - 60;
+    private double GameScreenHeight = 1080;
+    public static double LeftBorder = 660 + 30;
+    public static double RightBorder = 1260;
 
     private long time = System.currentTimeMillis();
     private int FPS = 0;
 
     private Player Doodle = new Player();
     private ImageView BackGround = new ImageView(new Image("DoodleJump/pics/bg.png"));
+
+    private ImageView BackBackGround = new ImageView(new Image("DoodleJump/pics/Background.png"));
 
     private Button startButton = new Button("Start");
     private Label moveXLabel = new Label();
@@ -39,10 +37,11 @@ public class GameScene extends Scene {
 
     private Obstacle[] newObstacles;
 
+    private KeyboardListener keyboardListener;
+
     GameScene(Point2D Resolution) {
         super(gamePane, Resolution.getX(), Resolution.getY());
-        GameScreenWidth = Resolution.getX();
-        GameScreenHeight = Resolution.getY();
+
     }
 
     public void start() {
@@ -54,17 +53,20 @@ public class GameScene extends Scene {
         FPSLabel.setLayoutX(75);
         stopYLabel.setLayoutX(100);
 
-        gamePane.getChildren().addAll(BackGround, Doodle.Hitbox, moveXLabel, moveYLabel, FPSLabel, stopYLabel,
+        BackGround.setX(660);
+
+        gamePane.getChildren().addAll(BackBackGround, BackGround, Doodle.Hitbox, moveXLabel, moveYLabel, FPSLabel,
+                stopYLabel,
                 ScoreLabel);
-        startButton.setLayoutX((int) GameScreenWidth / 2);
+        startButton.setLayoutX((int) GameScreenWidth + LeftBorder / 2);
 
         newObstacles = new Obstacle[21];
 
-        newObstacles[0] = new Obstacle(250, 1000, 58, 15);
+        newObstacles[0] = new Obstacle(LeftBorder + 250, 1000, 58, 15);
         gamePane.getChildren().add(newObstacles[0]);
         for (int i = 1; i < newObstacles.length; i++) {
 
-            double atX = ((int) (Math.random() * 50) * (GameScreenWidth - 150) / 50) + 50;
+            double atX = ((int) (Math.random() * 50) * (GameScreenWidth - 80) / 50) + LeftBorder;
             double atY = 50 * i;
 
             newObstacles[i] = new Obstacle(atX, 1000 - atY, 58, 15);
@@ -78,57 +80,11 @@ public class GameScene extends Scene {
             }
 
         }
+
         gamePane.getChildren().add(Doodle);
         gamePane.getChildren().add(startButton);
-
-        this.setOnKeyPressed(PressedKey -> {
-            switch (PressedKey.getCode()) {
-                case W:
-                    // Move = true;
-                    if (canJump == true) {
-                        Doodle.setyVelocity(-18);
-                        // canJump = false;
-                    }
-                    break;
-                case S:
-                    sMove = true;
-                    break;
-                case A:
-                    aMove = true;
-                    break;
-                case D:
-                    dMove = true;
-
-                    break;
-                case SPACE:
-
-                    Doodle.setxVelocity(15);
-                default:
-            }
-        });
-
-        this.setOnKeyReleased(PressedKey -> {
-
-            switch (PressedKey.getCode()) {
-                case W:
-                    wMove = false;
-                    break;
-                case S:
-                    sMove = false;
-                    break;
-                case A:
-                    aMove = false;
-                    break;
-                case D:
-                    dMove = false;
-                    break;
-                case SPACE:
-                    Doodle.setxVelocity(5);
-                    break;
-
-                default:
-            }
-        });
+        keyboardListener = new KeyboardListener(this, Doodle, newObstacles);
+        keyboardListener.Start();
 
         AnimationTimer GameLoop = new AnimationTimer() {
 
@@ -139,14 +95,7 @@ public class GameScene extends Scene {
                 moveYLabel.setText("Y = " + Doodle.getY());
                 ScoreLabel.setText("Score: " + Doodle.getScore());
 
-                if (wMove == true)
-                    Doodle.moveY(5, newObstacles);
-                if (sMove == true)
-                    Doodle.moveY(5, newObstacles);
-                if (aMove == true)
-                    Doodle.moveX(Player.LEFT, newObstacles);
-                if (dMove == true)
-                    Doodle.moveX(Player.RIGHT, newObstacles);
+                keyboardListener.Loop();
 
                 // moving obstacles From side to side
                 for (int i = 0; i < newObstacles.length; i++) {
@@ -170,6 +119,12 @@ public class GameScene extends Scene {
         startButton.setOnAction(e -> {
             GameLoop.start();
             gamePane.getChildren().remove(startButton);
+        });
+    }
+
+    public void wow() {
+        this.setOnMouseClicked(e -> {
+            start();
         });
     }
 

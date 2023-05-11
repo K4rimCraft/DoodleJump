@@ -14,16 +14,17 @@ public class Player extends ImageView {
     private double Score = 0;
     private double xHitBoxOffset = 5;
     
+    
     private double accerlationOfGravity = 10;
     static final int LEFT = -1;
     static final int RIGHT = 1;
-    Rectangle Hitbox = new Rectangle(275, 950, 33, 49);
+    Rectangle Hitbox = new Rectangle(GameScene.LeftBorder + 262, 950, 33, 49);
 
     Player() {
         super(new Image("DoodleJump/pics/doodleR.png"));
         this.setFitHeight(50);
         this.setFitWidth(50);
-        this.setX(275);
+        this.setX(GameScene.LeftBorder + 262);
         this.setY(950);
         Hitbox.setVisible(false);
     }
