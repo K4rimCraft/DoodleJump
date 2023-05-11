@@ -1,6 +1,13 @@
 package DoodleJump;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
+
+import java.io.File;
+
+import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
@@ -12,21 +19,25 @@ public class Player extends ImageView {
     private double xVelocity = 5;
     private double jumpHeight = -20;
     private double Score = 0;
-    private double xHitBoxOffset = 5;
-    
-    
+    private double xHitBoxOffset = 0;
+    private Point2D initialPosition = new Point2D(262, 940);
+    static private Image playerTiles = new Image("DoodleJump/pics/DoodleTile.png");
+    private AudioClip pop = new AudioClip(new File("C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\jump.wav").toURI().toString());
+
     private double accerlationOfGravity = 10;
     static final int LEFT = -1;
     static final int RIGHT = 1;
-    Rectangle Hitbox = new Rectangle(GameScene.LeftBorder + 262, 950, 33, 49);
+    Rectangle Hitbox = new Rectangle(GameScene.LeftBorder + initialPosition.getX(), initialPosition.getY(), 40, 59);
 
     Player() {
-        super(new Image("DoodleJump/pics/doodleR.png"));
-        this.setFitHeight(50);
-        this.setFitWidth(50);
-        this.setX(GameScene.LeftBorder + 262);
-        this.setY(950);
+        super(playerTiles);
+        this.setFitHeight(60);
+        this.setFitWidth(60);
+        this.setX(GameScene.LeftBorder + initialPosition.getX());
+        this.setY(initialPosition.getY());
         Hitbox.setVisible(false);
+        Hitbox.setFill(Color.color(0, 0, 0, 0.5));
+        this.setViewport(new Rectangle2D(0, 0, 92, 90));
     }
 
     public void moveY(int distance, ImageView newObstacles[]) {
@@ -38,18 +49,22 @@ public class Player extends ImageView {
                         Hitbox.setY(lastYPostion);
                         // canJump = true;
                         yVelocity = jumpHeight;
+                        pop.play(0.2);
                         // direction = -1;
                         return;
                     }
                 }
             }
             lastYPostion = Hitbox.getY();
-            if (distance < 0)
+
+            if (distance < 0) {
                 Hitbox.setY(Hitbox.getY() - 1);
-            if (distance > 0)
+            }
+            if (distance > 0) {
                 Hitbox.setY(Hitbox.getY() + 1);
+            }
+            this.setY(Hitbox.getY());
         }
-        this.setY(Hitbox.getY());
     }
 
     public void moveX(int direction, ImageView newObstacles[]) {
@@ -65,37 +80,50 @@ public class Player extends ImageView {
                 }
             }
             lastXPostion = Hitbox.getX();
+
             if (direction == -1) {
                 Hitbox.setX(Hitbox.getX() - 1);
-                this.setImage(new Image("DoodleJump/pics/doodleL.png"));
-                xHitBoxOffset = 17;
+                this.setViewport(new Rectangle2D(0, 90, 92, 90));
+                xHitBoxOffset = 20;
+
             }
 
             if (direction == 1) {
                 Hitbox.setX(Hitbox.getX() + 1);
-                this.setImage(new Image("DoodleJump/pics/doodleR.png"));
+                this.setViewport(new Rectangle2D(0, 0, 92, 90));
                 xHitBoxOffset = 0;
-            }
 
+            }
+            this.setX(Hitbox.getX() - xHitBoxOffset);
         }
-        this.setX(Hitbox.getX() - xHitBoxOffset);
+
     }
 
-    public void screenScroll(ImageView newObstacles[], double screenHeight) {
+    public void screenScroll(ImageView newObstacles[], double screenHeight, ImageView BG, ImageView BG2) {
+
+        double damping = 0.05;
+
         if (this.getY() < (screenHeight / 1.5)) {
             for (int i = 0; i < (screenHeight / 1.5) - this.getY(); i++) {
                 for (int index = 0; index < newObstacles.length; index++) {
-                    newObstacles[index].setY(newObstacles[index].getY() + 0.025);
+                    newObstacles[index].setY(newObstacles[index].getY() + damping);
                 }
-                Hitbox.setY(Hitbox.getY() + 0.025);
-                Score += 0.025;
+                Hitbox.setY(Hitbox.getY() + damping);
+                this.setY(this.getY() + damping);
+                Score += damping;
+                BG.setY(BG.getY()+0.005);
+                BG2.setY(BG.getY()-screenHeight);
             }
 
             for (int index = 0; index < newObstacles.length; index++) {
                 newObstacles[index].setY(Math.ceil(newObstacles[index].getY()));
             }
             Hitbox.setY(Math.ceil(Hitbox.getY()));
+            this.setY(Math.ceil(this.getY()));
             Score = Math.ceil(Score);
+            BG.setY(Math.ceil(BG.getY()));
+            BG2.setY(BG.getY()-screenHeight);
+        
         }
     }
 

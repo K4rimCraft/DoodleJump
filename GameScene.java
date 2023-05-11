@@ -25,9 +25,11 @@ public class GameScene extends Scene {
     private boolean Status = true;
 
     private Player Doodle = new Player();
-    private Obstacle[] newObstacles= new Obstacle[42];
+    private Obstacle[] newObstacles = new Obstacle[30];
     private ImageView BackGround = new ImageView(new Image("DoodleJump/pics/bg.png"));
+    private ImageView BackGround2 = new ImageView(new Image("DoodleJump/pics/bg.png"));
     private ImageView BackBackGround = new ImageView(new Image("DoodleJump/pics/Background.png"));
+
     private ImageView Lost = new ImageView(new Image("DoodleJump/pics/lose.png"));
 
     private Button startButton = new Button("Start");
@@ -52,20 +54,22 @@ public class GameScene extends Scene {
         FPSLabel.setLayoutX(75);
         stopYLabel.setLayoutX(100);
         BackGround.setX(660);
-
-        gamePane.getChildren().addAll(BackBackGround, BackGround, Doodle.Hitbox, moveXLabel, moveYLabel, FPSLabel, stopYLabel, ScoreLabel);
+        BackGround2.setX(660);
+        BackGround2.setY(-1080);
+        gamePane.getChildren().addAll(BackBackGround, BackGround, BackGround2, Doodle.Hitbox, moveXLabel, moveYLabel,
+                FPSLabel, stopYLabel, ScoreLabel);
         startButton.setLayoutX((int) GameScreenWidth + LeftBorder / 2);
 
         newObstacles[0] = new Obstacle(LeftBorder + 250, 1000, 0);
         gamePane.getChildren().add(newObstacles[0]);
         for (int i = 1; i < newObstacles.length; i++) {
-            newObstacles[i] = new Obstacle(Obstacle.xRandom(GameScreenWidth), 1000 - (25 * i), i);
+            newObstacles[i] = new Obstacle(Obstacle.xRandom(GameScreenWidth), 1000 - (35 * i), i);
             gamePane.getChildren().add(newObstacles[i]);
         }
 
         gamePane.getChildren().add(Doodle);
         gamePane.getChildren().add(startButton);
-        
+
         keyboardListener.Start();
 
         AnimationTimer GameLoop = new AnimationTimer() {
@@ -79,15 +83,21 @@ public class GameScene extends Scene {
 
                     keyboardListener.Loop();
                     Doodle.gravityCycle(newObstacles);
-                    Doodle.screenScroll(newObstacles, GameScreenHeight);
+                    Doodle.screenScroll(newObstacles, GameScreenHeight, BackGround, BackGround2);
 
                     for (int i = 0; i < newObstacles.length; i++) {
                         newObstacles[i].swing(GameScreenWidth);
                         newObstacles[i].teleportUP(Doodle, GameScreenWidth, GameScreenHeight);
                     }
+                    if (BackGround.getY() > GameScreenHeight){
+                        BackGround.setY(BackGround.getY() - 1 * GameScreenHeight);
+                        BackGround2.setY(BackGround2.getY() - 2 * GameScreenHeight);
+
+                    }
+                        
 
                     FPSCounter();
-                    LoseCheck();                  
+                    LoseCheck();
                 }
             }
         };
@@ -102,7 +112,7 @@ public class GameScene extends Scene {
         return Status;
     }
 
-    public void FPSCounter(){
+    public void FPSCounter() {
         if (System.currentTimeMillis() - time > 1000) {
             FPSLabel.setText("FPS: " + FPS);
             time = System.currentTimeMillis();
@@ -111,8 +121,8 @@ public class GameScene extends Scene {
         FPS++;
     }
 
-    public void LoseCheck(){
-        if(Doodle.getY() > GameScreenHeight){
+    public void LoseCheck() {
+        if (Doodle.getY() > GameScreenHeight) {
             Status = false;
             Lost.setFitHeight(600);
             Lost.setFitWidth(600);
