@@ -9,58 +9,63 @@ public class Obstacle extends ImageView {
      private Boolean landOn = false;
      private Boolean canMove = false;
      private Boolean activated = true;
+     static private double Width = 58;
+     static private double Height = 15;
      private int index = 0;
      static private int num = 0;
 
-     Obstacle(double X, double Y, int width, int height) {
+     Obstacle(double X, double Y, int index) {
           super(new Image("DoodleJump/pics/obs.png"));
           this.setX(X);
           this.setY(Y);
-          this.setFitWidth(width);
-          this.setFitHeight(height);
+          this.setFitWidth(Width);
+          this.setFitHeight(Height);
+          this.index = index;
+          if (Math.random() > 0.95) {
+               this.setMove(true);
+               this.setImage(new Image("DoodleJump/pics/obs2.png"));
+           }
      }
 
      public void swing(double screenWidth) {
           if (canMove == true && activated == true) {
                double pos = this.getX();
-               if (pos > GameScene.LeftBorder + screenWidth - this.getFitWidth() || pos < GameScene.LeftBorder) {
+               if (pos > GameScene.LeftBorder + screenWidth - Obstacle.Width || pos < GameScene.LeftBorder) {
                     this.toggleDir();
                }
                this.setX(pos + (3 * movementDir));
           }
      }
 
-     public void teleportUP(Player Doodle, double screenWidth, double screenHeight) {
-          if (this.getY() + this.getFitHeight() > screenHeight && activated == true) {
-               this.setY(this.getY() - screenHeight);
-
-               this.setX(((int) (Math.random() * 22) * (screenWidth- this.getFitWidth()) / 22) + GameScene.LeftBorder);
+     public void teleportUP(Player Doodle, double GameScreenWidth, double GameScreenHeight) {
+          if (this.getY() + Obstacle.Width > GameScreenHeight && activated == true) {
+               this.setY(this.getY() - GameScreenHeight);
+               this.setX(Obstacle.xRandom(GameScreenWidth));
                double probablity = Math.random();
                if (probablity > 0.5) {
                     this.toggleDir();
                }
-               if (probablity > 0.9) {
+               if (probablity > 0.95) {
                     this.setMove(true);
                     this.setImage(new Image("DoodleJump/pics/obs2.png"));
                } else {
                     this.setMove(false);
                     this.setImage(new Image("DoodleJump/pics/obs.png"));
                }
-               if (Doodle.getScore() > 1000 && index % 2 == 1 && probablity > 0) {
-                    //this.Deactivate();
+               if (Doodle.getScore() > 1000 && index % 2 == 1 && probablity > 0.7) {
+                    this.Deactivate();
                     //num++;
                     //System.out.println(num);
-                    //this.setImage(new Image("DoodleJump/pics/obs3.png"));
+                    this.setImage(new Image("DoodleJump/pics/obs3.png"));
                }
           }
+     }
+     static public double xRandom(double GameScreenWidth){
+          return ((int) (Math.random() * 100) * (GameScreenWidth - Obstacle.Width) / 100) + GameScene.LeftBorder;
      }
 
      public int getIndex() {
           return index;
-     }
-
-     public void setIndex(int index) {
-          this.index = index;
      }
 
      public void toggleDir() {

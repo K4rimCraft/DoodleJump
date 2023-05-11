@@ -24,9 +24,8 @@ public class GameScene extends Scene {
     private int FPS = 0;
     private boolean Status = true;
 
-    
-
     private Player Doodle = new Player();
+    private Obstacle[] newObstacles= new Obstacle[42];
     private ImageView BackGround = new ImageView(new Image("DoodleJump/pics/bg.png"));
     private ImageView BackBackGround = new ImageView(new Image("DoodleJump/pics/Background.png"));
     private ImageView Lost = new ImageView(new Image("DoodleJump/pics/lose.png"));
@@ -38,13 +37,10 @@ public class GameScene extends Scene {
     private Label ScoreLabel = new Label();
     private Label stopYLabel = new Label();
 
-    private Obstacle[] newObstacles;
-
-    private KeyboardListener keyboardListener;
+    private KeyboardListener keyboardListener = new KeyboardListener(this, Doodle, newObstacles);
 
     GameScene(Point2D Resolution) {
         super(gamePane, Resolution.getX(), Resolution.getY());
-
     }
 
     public void start() {
@@ -55,37 +51,21 @@ public class GameScene extends Scene {
         stopYLabel.setLayoutY(15);
         FPSLabel.setLayoutX(75);
         stopYLabel.setLayoutX(100);
-
         BackGround.setX(660);
 
-        gamePane.getChildren().addAll(BackBackGround, BackGround, Doodle.Hitbox, moveXLabel, moveYLabel, FPSLabel,
-                stopYLabel, ScoreLabel);
+        gamePane.getChildren().addAll(BackBackGround, BackGround, Doodle.Hitbox, moveXLabel, moveYLabel, FPSLabel, stopYLabel, ScoreLabel);
         startButton.setLayoutX((int) GameScreenWidth + LeftBorder / 2);
 
-        newObstacles = new Obstacle[21];
-
-        newObstacles[0] = new Obstacle(LeftBorder + 250, 1000, 58, 15);
+        newObstacles[0] = new Obstacle(LeftBorder + 250, 1000, 0);
         gamePane.getChildren().add(newObstacles[0]);
         for (int i = 1; i < newObstacles.length; i++) {
-
-            double atX = ((int) (Math.random() * 50) * (GameScreenWidth - 80) / 50) + LeftBorder;
-            double atY = 50 * i;
-
-            newObstacles[i] = new Obstacle(atX, 1000 - atY, 58, 15);
-            newObstacles[i].setIndex(i);
+            newObstacles[i] = new Obstacle(Obstacle.xRandom(GameScreenWidth), 1000 - (25 * i), i);
             gamePane.getChildren().add(newObstacles[i]);
-
-            double probablity = Math.random();
-            if (probablity > 0.9) {
-                newObstacles[i].setMove(true);
-                newObstacles[i].setImage(new Image("DoodleJump/pics/obs2.png"));
-            }
-
         }
 
         gamePane.getChildren().add(Doodle);
         gamePane.getChildren().add(startButton);
-        keyboardListener = new KeyboardListener(this, Doodle, newObstacles);
+        
         keyboardListener.Start();
 
         AnimationTimer GameLoop = new AnimationTimer() {
@@ -98,34 +78,17 @@ public class GameScene extends Scene {
                     ScoreLabel.setText("Score: " + Doodle.getScore());
 
                     keyboardListener.Loop();
+                    Doodle.gravityCycle(newObstacles);
+                    Doodle.screenScroll(newObstacles, GameScreenHeight);
 
-                    // moving obstacles From side to side
                     for (int i = 0; i < newObstacles.length; i++) {
                         newObstacles[i].swing(GameScreenWidth);
                         newObstacles[i].teleportUP(Doodle, GameScreenWidth, GameScreenHeight);
                     }
 
-                    Doodle.gravityCycle(newObstacles);
-                    Doodle.screenScroll(newObstacles, GameScreenHeight);
-
-                    if (System.currentTimeMillis() - time > 1000) {
-                        FPSLabel.setText("FPS: " + FPS);
-                        time = System.currentTimeMillis();
-                        FPS = 0;
-                    }
-                    FPS++;
-
-                    if(Doodle.getY() > GameScreenHeight){
-                        Status = false;
-                        Lost.setFitHeight(600);
-                        Lost.setFitWidth(600);
-                        Lost.setX(650);
-                        Lost.setY(275);
-                        gamePane.getChildren().add(Lost);
-                    }
+                    FPSCounter();
+                    LoseCheck();                  
                 }
-                
-
             }
         };
 
@@ -137,6 +100,26 @@ public class GameScene extends Scene {
 
     public boolean getStatus() {
         return Status;
+    }
+
+    public void FPSCounter(){
+        if (System.currentTimeMillis() - time > 1000) {
+            FPSLabel.setText("FPS: " + FPS);
+            time = System.currentTimeMillis();
+            FPS = 0;
+        }
+        FPS++;
+    }
+
+    public void LoseCheck(){
+        if(Doodle.getY() > GameScreenHeight){
+            Status = false;
+            Lost.setFitHeight(600);
+            Lost.setFitWidth(600);
+            Lost.setX(650);
+            Lost.setY(275);
+            gamePane.getChildren().add(Lost);
+        }
     }
 
 }
