@@ -11,6 +11,7 @@ public class App extends Application {
         game.start();
         primaryStage.setScene(game);
         primaryStage.show();
+    
     }
 
     public static void main(String[] args) throws Exception {
