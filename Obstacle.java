@@ -2,6 +2,7 @@
 package DoodleJump;
 
 import javafx.scene.image.ImageView;
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 
@@ -10,7 +11,7 @@ public class Obstacle extends ImageView {
      private Boolean landOn = false;
      private Boolean canMove = false;
      private Boolean activated = true;
-     //private Rectangle2D tileView = new Rectangle2D(0, 0, 115, 30);
+     static private Point2D PictureDimensions = new Point2D(115, 30);
      static private double Width = 70;
      static private double Height = 18;
      private int index = 0;
@@ -19,7 +20,7 @@ public class Obstacle extends ImageView {
 
      Obstacle(double X, double Y, int index) {
           super(obstacleTiles);
-          this.setViewport(new Rectangle2D(0, 0, 115, 30));
+          this.setViewport(new Rectangle2D(0, 0, PictureDimensions.getX(), PictureDimensions.getY()));
           this.setX(X);
           this.setY(Y);
           this.setFitWidth(Width);
@@ -27,46 +28,46 @@ public class Obstacle extends ImageView {
           this.index = index;
           if (Math.random() > 0.95) {
                this.setMove(true);
-               this.setViewport(new Rectangle2D(0, 30, 115, 30));
+               this.setViewport(new Rectangle2D(0, 30, PictureDimensions.getX(), PictureDimensions.getY()));
            }
           
      }
 
-     public void swing(double screenWidth) {
+     public void swing() {
           if (canMove == true && activated == true) {
                double pos = this.getX();
-               if (pos > GamePane.LeftBorder + screenWidth - Obstacle.Width || pos < GamePane.LeftBorder) {
+               if (pos > GamePane.RightBorder - Obstacle.Width || pos < GamePane.LeftBorder) {
                     this.toggleDir();
                }
                this.setX(pos + (2 * movementDir));
           }
      }
 
-     public void teleportUP(Player Doodle, double GameScreenWidth, double GameScreenHeight) {
-          if (this.getY() + Obstacle.Height > GameScreenHeight && activated == true) {
-               this.setY(this.getY() - GameScreenHeight);
-               this.setX(Obstacle.xRandom(GameScreenWidth));
+     public void teleportUP(Player Doodle) {
+          if (this.getY() + Obstacle.Height > GamePane.GameScreenHeight && activated == true) {
+               this.setY(this.getY() - GamePane.GameScreenHeight);
+               this.setX(Obstacle.xRandom());
                double probablity = Math.random();
                if (probablity > 0.5) {
                     this.toggleDir();
                }
                if (probablity > 0.95) {
                     this.setMove(true);
-                    this.setViewport(new Rectangle2D(0, 30, 115, 30));
+                    this.setViewport(new Rectangle2D(0, 30, PictureDimensions.getX(), PictureDimensions.getY()));
                } else {
                     this.setMove(false);
-                    this.setViewport(new Rectangle2D(0, 0, 115, 30));
+                    this.setViewport(new Rectangle2D(0, 0, PictureDimensions.getX(), PictureDimensions.getY()));
                }
                if (Doodle.getScore() > 3000 && index % 2 == 1 && probablity > 0.7) {
                     this.Deactivate();
                     //num++;
                     //System.out.println(num);
-                    this.setViewport(new Rectangle2D(0, 60, 115, 30));
+                    this.setViewport(new Rectangle2D(0, 60, PictureDimensions.getX(), PictureDimensions.getY()));
                }
           }
      }
-     static public double xRandom(double GameScreenWidth){
-          return ((int) (Math.random() * 100) * (GameScreenWidth - Obstacle.Width) / 100) + GamePane.LeftBorder;
+     static public double xRandom(){
+          return ((int) (Math.random() * 100) * (GamePane.GameScreenWidth - Obstacle.Width) / 100) + GamePane.LeftBorder;
      }
 
      public int getIndex() {

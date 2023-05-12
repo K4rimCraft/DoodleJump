@@ -22,8 +22,9 @@ public class Player extends ImageView {
     private double xHitBoxOffset = 0;
     private Point2D initialPosition = new Point2D(262, 940);
     static private Image playerTiles = new Image("DoodleJump/pics/DoodleTile.png");
-    private AudioClip pop = new AudioClip(new File("C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\jump.wav").toURI().toString());
-
+    private AudioClip pop = new AudioClip(
+            new File("C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\jump.wav").toURI()
+                    .toString());
     private double accerlationOfGravity = 10;
     static final int LEFT = -1;
     static final int RIGHT = 1;
@@ -85,34 +86,39 @@ public class Player extends ImageView {
                 Hitbox.setX(Hitbox.getX() - 1);
                 this.setViewport(new Rectangle2D(0, 90, 92, 90));
                 xHitBoxOffset = 20;
-
+                if(this.getX() < GamePane.PlayerLeftBorder - Hitbox.getWidth()){
+                    Hitbox.setX(GamePane.PlayerRightBorder);
+                }
             }
 
             if (direction == 1) {
                 Hitbox.setX(Hitbox.getX() + 1);
                 this.setViewport(new Rectangle2D(0, 0, 92, 90));
                 xHitBoxOffset = 0;
-
+                if(Hitbox.getX() > GamePane.PlayerRightBorder){
+                   Hitbox.setX(GamePane.PlayerLeftBorder - Hitbox.getWidth());
+                }
             }
+            
             this.setX(Hitbox.getX() - xHitBoxOffset);
         }
 
     }
 
-    public void screenScroll(ImageView newObstacles[], double screenHeight, ImageView BG, ImageView BG2) {
+    public void screenScroll(ImageView newObstacles[], ImageView BG, ImageView BG2) {
 
         double damping = 0.05;
 
-        if (this.getY() < (screenHeight / 1.5)) {
-            for (int i = 0; i < (screenHeight / 1.5) - this.getY(); i++) {
+        if (this.getY() < (GamePane.GameScreenHeight / 1.5)) {
+            for (int i = 0; i < (GamePane.GameScreenHeight / 1.5) - this.getY(); i++) {
                 for (int index = 0; index < newObstacles.length; index++) {
                     newObstacles[index].setY(newObstacles[index].getY() + damping);
                 }
                 Hitbox.setY(Hitbox.getY() + damping);
                 this.setY(this.getY() + damping);
                 Score += damping;
-                BG.setY(BG.getY()+0.005);
-                BG2.setY(BG.getY()-screenHeight);
+                BG.setY(BG.getY() + 0.005);
+                BG2.setY(BG.getY() - GamePane.GameScreenHeight);
             }
 
             for (int index = 0; index < newObstacles.length; index++) {
@@ -122,8 +128,8 @@ public class Player extends ImageView {
             this.setY(Math.ceil(this.getY()));
             Score = Math.ceil(Score);
             BG.setY(Math.ceil(BG.getY()));
-            BG2.setY(BG.getY()-screenHeight);
-        
+            BG2.setY(BG.getY() - GamePane.GameScreenHeight);
+
         }
     }
 

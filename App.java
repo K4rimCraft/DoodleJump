@@ -10,7 +10,6 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         
-        
         GamePane game = new GamePane(GamePane.ResolutionFullHD);
         game.start();
         primaryStage.setScene(new Scene(game,1920,1080));
