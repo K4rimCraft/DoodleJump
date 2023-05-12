@@ -27,13 +27,13 @@ public class Player extends ImageView {
     private double accerlationOfGravity = 10;
     static final int LEFT = -1;
     static final int RIGHT = 1;
-    Rectangle Hitbox = new Rectangle(GameScene.LeftBorder + initialPosition.getX(), initialPosition.getY(), 40, 59);
+    Rectangle Hitbox = new Rectangle(GamePane.LeftBorder + initialPosition.getX(), initialPosition.getY(), 40, 59);
 
     Player() {
         super(playerTiles);
         this.setFitHeight(60);
         this.setFitWidth(60);
-        this.setX(GameScene.LeftBorder + initialPosition.getX());
+        this.setX(GamePane.LeftBorder + initialPosition.getX());
         this.setY(initialPosition.getY());
         Hitbox.setVisible(false);
         Hitbox.setFill(Color.color(0, 0, 0, 0.5));

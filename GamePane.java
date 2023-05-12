@@ -1,7 +1,6 @@
 package DoodleJump;
 
 import javafx.geometry.Point2D;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.Button;
@@ -9,12 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class GameScene extends Scene {
+public class GamePane extends Pane {
 
-    private static Pane gamePane = new Pane();
-    public static Point2D ResolutionFullHD = new Point2D(1920, 1080);
-    public static Point2D ResolutionHD = new Point2D(1280, 720);
-    public static Point2D ResolutionCustom = new Point2D(600, 1080);
+    //private static Pane gamePane = new Pane();
+    public final static Point2D ResolutionFullHD = new Point2D(1920, 1080);
+    public final static Point2D ResolutionHD = new Point2D(1280, 720);
+    public final static Point2D ResolutionCustom = new Point2D(600, 1080);
     private double GameScreenWidth = 600 - 60;
     private double GameScreenHeight = 1080;
     public static double LeftBorder = 660 + 30;
@@ -41,12 +40,13 @@ public class GameScene extends Scene {
 
     private KeyboardListener keyboardListener = new KeyboardListener(this, Doodle, newObstacles);
 
-    GameScene(Point2D Resolution) {
-        super(gamePane, Resolution.getX(), Resolution.getY());
+    GamePane(Point2D Resolution) {
+        super();//gamePane, Resolution.getX(), Resolution.getY());
+        this.setWidth(Resolution.getX());
+        this.setHeight(Resolution.getY());
     }
 
     public void start() {
-
         ScoreLabel.setLayoutX(75);
         ScoreLabel.setLayoutY(15);
         moveYLabel.setLayoutY(15);
@@ -56,19 +56,19 @@ public class GameScene extends Scene {
         BackGround.setX(660);
         BackGround2.setX(660);
         BackGround2.setY(-1080);
-        gamePane.getChildren().addAll(BackBackGround, BackGround, BackGround2, Doodle.Hitbox, moveXLabel, moveYLabel,
+        this.getChildren().addAll(BackBackGround, BackGround, BackGround2, Doodle.Hitbox, moveXLabel, moveYLabel,
                 FPSLabel, stopYLabel, ScoreLabel);
         startButton.setLayoutX((int) GameScreenWidth + LeftBorder / 2);
 
         newObstacles[0] = new Obstacle(LeftBorder + 250, 1000, 0);
-        gamePane.getChildren().add(newObstacles[0]);
+        this.getChildren().add(newObstacles[0]);
         for (int i = 1; i < newObstacles.length; i++) {
             newObstacles[i] = new Obstacle(Obstacle.xRandom(GameScreenWidth), 1000 - (35 * i), i);
-            gamePane.getChildren().add(newObstacles[i]);
+            this.getChildren().add(newObstacles[i]);
         }
 
-        gamePane.getChildren().add(Doodle);
-        gamePane.getChildren().add(startButton);
+        this.getChildren().add(Doodle);
+        this.getChildren().add(startButton);
 
         keyboardListener.Start();
 
@@ -104,7 +104,7 @@ public class GameScene extends Scene {
 
         startButton.setOnAction(e -> {
             GameLoop.start();
-            gamePane.getChildren().remove(startButton);
+            this.getChildren().remove(startButton);
         });
     }
 
@@ -128,7 +128,7 @@ public class GameScene extends Scene {
             Lost.setFitWidth(600);
             Lost.setX(650);
             Lost.setY(275);
-            gamePane.getChildren().add(Lost);
+            this.getChildren().add(Lost);
         }
     }
 

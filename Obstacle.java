@@ -35,7 +35,7 @@ public class Obstacle extends ImageView {
      public void swing(double screenWidth) {
           if (canMove == true && activated == true) {
                double pos = this.getX();
-               if (pos > GameScene.LeftBorder + screenWidth - Obstacle.Width || pos < GameScene.LeftBorder) {
+               if (pos > GamePane.LeftBorder + screenWidth - Obstacle.Width || pos < GamePane.LeftBorder) {
                     this.toggleDir();
                }
                this.setX(pos + (2 * movementDir));
@@ -66,7 +66,7 @@ public class Obstacle extends ImageView {
           }
      }
      static public double xRandom(double GameScreenWidth){
-          return ((int) (Math.random() * 100) * (GameScreenWidth - Obstacle.Width) / 100) + GameScene.LeftBorder;
+          return ((int) (Math.random() * 100) * (GameScreenWidth - Obstacle.Width) / 100) + GamePane.LeftBorder;
      }
 
      public int getIndex() {

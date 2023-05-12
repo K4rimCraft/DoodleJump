@@ -1,10 +1,7 @@
 package DoodleJump;
 
-import java.io.File;
-
 import javafx.application.Application;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
@@ -14,10 +11,9 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         
         
-        GameScene game = new GameScene(GameScene.ResolutionFullHD);
+        GamePane game = new GamePane(GamePane.ResolutionFullHD);
         game.start();
-        
-        primaryStage.setScene(game);
+        primaryStage.setScene(new Scene(game,1920,1080));
         primaryStage.show();
     
     }
