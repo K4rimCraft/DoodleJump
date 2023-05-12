@@ -59,18 +59,18 @@ public class GamePane extends Pane {
         BackGround.setX(635);
         BackGround2.setX(635);
         BackGround2.setY(-1080);
-        this.getChildren().addAll(BackGround, BackGround2, Doodle.Hitbox, moveXLabel, moveYLabel,
-                FPSLabel, stopYLabel, ScoreLabel);
+        this.getChildren().addAll(BackGround, BackGround2, Doodle.Hitbox
+                );
         startButton.setLayoutX((int) GameScreenWidth + LeftBorder / 2);
 
-        newObstacles[0] = new Obstacle(LeftBorder + 250, 1000, 0);
-        this.getChildren().add(newObstacles[0]);
+        newObstacles[0] = new Obstacle(LeftBorder + 250, 1000, 0,this);
+        //this.getChildren().add(newObstacles[0]);
         for (int i = 1; i < newObstacles.length; i++) {
-            newObstacles[i] = new Obstacle(Obstacle.xRandom(), 1000 - (35 * i), i);
-            this.getChildren().add(newObstacles[i]);
+            newObstacles[i] = new Obstacle(Obstacle.xRandom(), 1000 - (35 * i), i,this);
+            //this.getChildren().add(newObstacles[i]);
         }
 
-        this.getChildren().addAll(Doodle,startButton,BackBackGround);
+        this.getChildren().addAll(Doodle,startButton,BackBackGround, moveXLabel, moveYLabel,FPSLabel, stopYLabel, ScoreLabel);
         
 
         keyboardListener.Start();
@@ -86,20 +86,18 @@ public class GamePane extends Pane {
 
                     keyboardListener.Loop();
                     Doodle.gravityCycle(newObstacles);
-                
                     Doodle.screenScroll(newObstacles, BackGround, BackGround2);
-
 
                     for (int i = 0; i < newObstacles.length; i++) {
                         newObstacles[i].swing();
                         newObstacles[i].teleportUP(Doodle);
+                        
                     }
                     if (BackGround.getY() > GameScreenHeight){
                         BackGround.setY(BackGround.getY() - 1 * GameScreenHeight);
                         BackGround2.setY(BackGround2.getY() - 2 * GameScreenHeight);
                     }
                         
-
                     FPSCounter();
                     LoseCheck();
                 }
@@ -132,7 +130,7 @@ public class GamePane extends Pane {
             Lost.setFitWidth(600);
             Lost.setX(650);
             Lost.setY(275);
-            //this.getChildren().add(Lost);
+            this.getChildren().add(Lost);
         }
     }
 

@@ -2,6 +2,7 @@
 package DoodleJump;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -14,12 +15,17 @@ public class Obstacle extends ImageView {
      static private Point2D PictureDimensions = new Point2D(115, 30);
      static private double Width = 70;
      static private double Height = 18;
+     private Boolean hasPowerUP = false;
+
      private int index = 0;
      static private int num = 0;
      static private Image obstacleTiles = new Image("DoodleJump/pics/ObstacleTiles.png");
+     // private
+     private PowerUp powerUp;
 
-     Obstacle(double X, double Y, int index) {
+     Obstacle(double X, double Y, int index, Pane gamePane) {
           super(obstacleTiles);
+          gamePane.getChildren().add(this);
           this.setViewport(new Rectangle2D(0, 0, PictureDimensions.getX(), PictureDimensions.getY()));
           this.setX(X);
           this.setY(Y);
@@ -29,8 +35,11 @@ public class Obstacle extends ImageView {
           if (Math.random() > 0.95) {
                this.setMove(true);
                this.setViewport(new Rectangle2D(0, 30, PictureDimensions.getX(), PictureDimensions.getY()));
-           }
-          
+          }
+          if (Math.random() > 0.9) {
+               powerUp = new PowerUp(this, gamePane);
+               hasPowerUP = true;
+          }
      }
 
      public void swing() {
@@ -48,6 +57,9 @@ public class Obstacle extends ImageView {
                this.setY(this.getY() - GamePane.GameScreenHeight);
                this.setX(Obstacle.xRandom());
                double probablity = Math.random();
+               if(this.getHasPowerUP())
+                    this.powerUp.switchType();
+
                if (probablity > 0.5) {
                     this.toggleDir();
                }
@@ -60,14 +72,16 @@ public class Obstacle extends ImageView {
                }
                if (Doodle.getScore() > 3000 && index % 2 == 1 && probablity > 0.7) {
                     this.Deactivate();
-                    //num++;
-                    //System.out.println(num);
+                    // num++;
+                    // System.out.println(num);
                     this.setViewport(new Rectangle2D(0, 60, PictureDimensions.getX(), PictureDimensions.getY()));
                }
           }
      }
-     static public double xRandom(){
-          return ((int) (Math.random() * 100) * (GamePane.GameScreenWidth - Obstacle.Width) / 100) + GamePane.LeftBorder;
+
+     static public double xRandom() {
+          return ((int) (Math.random() * 100) * (GamePane.GameScreenWidth - Obstacle.Width) / 100)
+                    + GamePane.LeftBorder;
      }
 
      public int getIndex() {
@@ -109,4 +123,11 @@ public class Obstacle extends ImageView {
           return this.canMove;
      }
 
+     public PowerUp getPowerUp() {
+          return powerUp;
+     }
+
+     public Boolean getHasPowerUP() {
+          return hasPowerUP;
+     }
 }

@@ -41,7 +41,7 @@ public class Player extends ImageView {
         this.setViewport(new Rectangle2D(0, 0, 92, 90));
     }
 
-    public void moveY(int distance, ImageView newObstacles[]) {
+    public void moveY(int distance, Obstacle newObstacles[]) {
 
         for (int i = 0; i < Math.abs(yVelocity); i++) {
             for (int j = 0; j < newObstacles.length; j++) {
@@ -55,6 +55,25 @@ public class Player extends ImageView {
                         return;
                     }
                 }
+                if(newObstacles[j].getHasPowerUP()){
+                    if(Hitbox.getBoundsInParent().intersects(newObstacles[j].getPowerUp().getBoundsInParent())){
+                        switch (newObstacles[j].getPowerUp().getType()){
+                            case PowerUp.SPRING:
+                            if(Hitbox.getY() + Hitbox.getHeight() == newObstacles[j].getPowerUp().getY() && distance > 0){
+                                Hitbox.setY(lastYPostion);
+                                yVelocity = jumpHeight-10;
+                            }
+                            break;
+                            case PowerUp.HAT:
+                            break;
+                            case PowerUp.TRAMPOLINE:
+                            break;
+                            case PowerUp.JETPACK:
+                            break;
+                        }
+                    }
+                }
+                
             }
             lastYPostion = Hitbox.getY();
 
@@ -68,7 +87,7 @@ public class Player extends ImageView {
         }
     }
 
-    public void moveX(int direction, ImageView newObstacles[]) {
+    public void moveX(int direction, Obstacle newObstacles[]) {
 
         for (int i = 0; i < Math.abs(xVelocity); i++) {
             for (int j = 0; j < newObstacles.length; j++) {
@@ -105,7 +124,7 @@ public class Player extends ImageView {
 
     }
 
-    public void screenScroll(ImageView newObstacles[], ImageView BG, ImageView BG2) {
+    public void screenScroll(Obstacle newObstacles[], ImageView BG, ImageView BG2) {
 
         double damping = 0.05;
 
@@ -113,6 +132,7 @@ public class Player extends ImageView {
             for (int i = 0; i < (GamePane.GameScreenHeight / 1.5) - this.getY(); i++) {
                 for (int index = 0; index < newObstacles.length; index++) {
                     newObstacles[index].setY(newObstacles[index].getY() + damping);
+                    
                 }
                 Hitbox.setY(Hitbox.getY() + damping);
                 this.setY(this.getY() + damping);
@@ -123,6 +143,7 @@ public class Player extends ImageView {
 
             for (int index = 0; index < newObstacles.length; index++) {
                 newObstacles[index].setY(Math.ceil(newObstacles[index].getY()));
+                
             }
             Hitbox.setY(Math.ceil(Hitbox.getY()));
             this.setY(Math.ceil(this.getY()));
@@ -133,7 +154,7 @@ public class Player extends ImageView {
         }
     }
 
-    public void gravityCycle(ImageView newObstacles[]) {
+    public void gravityCycle(Obstacle newObstacles[]) {
         if (yVelocity < accerlationOfGravity)
             yVelocity++;
         this.moveY((int) yVelocity, newObstacles);
