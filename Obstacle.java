@@ -36,7 +36,7 @@ public class Obstacle extends ImageView {
                this.setMove(true);
                this.setViewport(new Rectangle2D(0, 30, PictureDimensions.getX(), PictureDimensions.getY()));
           }
-          if (Math.random() > 0.9) {
+          if (Math.random() > 0.95) {
                powerUp = new PowerUp(this, gamePane);
                hasPowerUP = true;
           }
@@ -56,6 +56,9 @@ public class Obstacle extends ImageView {
           if (this.getY() + Obstacle.Height > GamePane.GameScreenHeight && activated == true) {
                this.setY(this.getY() - GamePane.GameScreenHeight);
                this.setX(Obstacle.xRandom());
+               if(hasPowerUP){
+                    this.getPowerUp().setVisible(true);
+               }
                double probablity = Math.random();
                if(this.getHasPowerUP())
                     this.powerUp.switchType();
@@ -65,10 +68,8 @@ public class Obstacle extends ImageView {
                }
                if (probablity > 0.95) {
                     this.setMove(true);
-                    this.setViewport(new Rectangle2D(0, 30, PictureDimensions.getX(), PictureDimensions.getY()));
                } else {
                     this.setMove(false);
-                    this.setViewport(new Rectangle2D(0, 0, PictureDimensions.getX(), PictureDimensions.getY()));
                }
                if (Doodle.getScore() > 3000 && index % 2 == 1 && probablity > 0.7) {
                     this.Deactivate();
@@ -116,6 +117,10 @@ public class Obstacle extends ImageView {
      }
 
      public void setMove(Boolean i) {
+          if(i == false)
+               this.setViewport(new Rectangle2D(0, 0, PictureDimensions.getX(), PictureDimensions.getY()));
+          if(i == true)
+               this.setViewport(new Rectangle2D(0, 30, PictureDimensions.getX(), PictureDimensions.getY()));
           this.canMove = i;
      }
 

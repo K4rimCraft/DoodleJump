@@ -55,22 +55,9 @@ public class Player extends ImageView {
                         return;
                     }
                 }
-                if(newObstacles[j].getHasPowerUP()){
+                if(newObstacles[j].getHasPowerUP() == true){
                     if(Hitbox.getBoundsInParent().intersects(newObstacles[j].getPowerUp().getBoundsInParent())){
-                        switch (newObstacles[j].getPowerUp().getType()){
-                            case PowerUp.SPRING:
-                            if(Hitbox.getY() + Hitbox.getHeight() == newObstacles[j].getPowerUp().getY() && distance > 0){
-                                Hitbox.setY(lastYPostion);
-                                yVelocity = jumpHeight-10;
-                            }
-                            break;
-                            case PowerUp.HAT:
-                            break;
-                            case PowerUp.TRAMPOLINE:
-                            break;
-                            case PowerUp.JETPACK:
-                            break;
-                        }
+                        newObstacles[j].getPowerUp().Execute(this, Hitbox, distance, lastYPostion , jumpHeight);
                     }
                 }
                 
