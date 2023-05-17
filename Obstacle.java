@@ -12,16 +12,16 @@ public class Obstacle extends ImageView {
      private Boolean landOn = false;
      private Boolean canMove = false;
      private Boolean activated = true;
+     private Boolean isOccupied = false;
+
      static private Point2D PictureDimensions = new Point2D(115, 30);
-     static private double Width = 70;
-     static private double Height = 18;
-     private Boolean hasPowerUP = false;
+     static public double Width = 70;
+     static public double Height = 18;
 
      private int index = 0;
      static private int num = 0;
      static private Image obstacleTiles = new Image("DoodleJump/pics/ObstacleTiles.png");
-     // private
-     private PowerUp powerUp;
+
 
      Obstacle(double X, double Y, int index, Pane gamePane) {
           super(obstacleTiles);
@@ -36,10 +36,13 @@ public class Obstacle extends ImageView {
                this.setMove(true);
                this.setViewport(new Rectangle2D(0, 30, PictureDimensions.getX(), PictureDimensions.getY()));
           }
-          if (Math.random() > 0.95) {
-               powerUp = new PowerUp(this, gamePane);
-               hasPowerUP = true;
-          }
+     }
+
+     public static void initialize(Obstacle newObstacles[], GamePane gamePane){
+          newObstacles[0] = new Obstacle(GamePane.LeftBorder + 250, 1000, 0,gamePane);
+        for (int i = 1; i < newObstacles.length; i++) {
+            newObstacles[i] = new Obstacle(Obstacle.xRandom(), 1000 - (35 * i), i,gamePane);
+        }
      }
 
      public void swing() {
@@ -52,17 +55,29 @@ public class Obstacle extends ImageView {
           }
      }
 
-     public void teleportUP(Player Doodle) {
+     public void teleportUP(Player Doodle, PowerUp newPowerUps[],Monster newMonsters[]) {
           if (this.getY() + Obstacle.Height > GamePane.GameScreenHeight && activated == true) {
                this.setY(this.getY() - GamePane.GameScreenHeight);
                this.setX(Obstacle.xRandom());
-               if(hasPowerUP){
-                    this.getPowerUp().setVisible(true);
-               }
-               double probablity = Math.random();
-               if(this.getHasPowerUP())
-                    this.powerUp.switchType();
 
+               double probablity = Math.random();
+
+               for(int i = 0; i < newPowerUps.length; i++){
+                    if(newPowerUps[i].getObstacleIndex() == index){
+                         newPowerUps[i].radnomActivation();
+                         newPowerUps[i].boundTo(this);
+
+                    }
+               }
+
+               for(int i = 0; i < newMonsters.length; i++){
+                    if(newMonsters[i].getObstacleIndex() == index){
+                         newMonsters[i].radnomActivation();
+                         newMonsters[i].boundTo(this);
+
+                    }
+               }
+     
                if (probablity > 0.5) {
                     this.toggleDir();
                }
@@ -82,7 +97,8 @@ public class Obstacle extends ImageView {
 
      static public double xRandom() {
           return ((int) (Math.random() * 100) * (GamePane.GameScreenWidth - Obstacle.Width) / 100)
-                    + GamePane.LeftBorder;
+                     + GamePane.LeftBorder;
+          //return 900;     
      }
 
      public int getIndex() {
@@ -128,11 +144,8 @@ public class Obstacle extends ImageView {
           return this.canMove;
      }
 
-     public PowerUp getPowerUp() {
-          return powerUp;
+     public void setOccupied(Boolean isOccupied) {
+          this.isOccupied = isOccupied;
      }
 
-     public Boolean getHasPowerUP() {
-          return hasPowerUP;
-     }
 }

@@ -1,0 +1,64 @@
+package DoodleJump;
+
+import javafx.animation.AnimationTimer;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+
+public class GameLoop extends AnimationTimer {
+
+
+    GameLoop(){
+
+    }
+
+    @Override
+    public void handle(long arg0) {
+        if (Status == true) {
+            moveXLabel.setText("X = " + Doodle.getX());
+            moveYLabel.setText("Y = " + Doodle.getY());
+            ScoreLabel.setText("Score: " + Doodle.getScore());
+
+            keyboardListener.Loop();
+            Doodle.gravityCycle(newObstacles);
+            Doodle.screenScroll(newObstacles, BackGround, BackGround2);
+
+            for (int i = 0; i < newObstacles.length; i++) {
+                newObstacles[i].swing();
+                newObstacles[i].teleportUP(Doodle);
+
+            }
+            if (BackGround.getY() > GamePane.GameScreenHeight) {
+                BackGround.setY(BackGround.getY() - 1 * GamePane.GameScreenHeight);
+                BackGround2.setY(BackGround2.getY() - 2 * GamePane.GameScreenHeight);
+            }
+
+            FPSCounter();
+            LoseCheck();
+        }
+    }
+
+    public boolean getStatus() {
+        return Status;
+    }
+
+    public void FPSCounter() {
+        if (System.currentTimeMillis() - time > 1000) {
+            FPSLabel.setText("FPS: " + FPS);
+            time = System.currentTimeMillis();
+            FPS = 0;
+        }
+        FPS++;
+    }
+
+    public void LoseCheck() {
+        if (Doodle.getY() > GameScreenHeight) {
+            Status = false;
+            Lost.setFitHeight(600);
+            Lost.setFitWidth(600);
+            Lost.setX(650);
+            Lost.setY(275);
+            this.getChildren().add(Lost);
+        }
+    }
+
+}

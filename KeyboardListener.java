@@ -1,4 +1,5 @@
 package DoodleJump;
+
 import javafx.scene.layout.Pane;
 
 public class KeyboardListener {
@@ -10,11 +11,15 @@ public class KeyboardListener {
     private Pane selectedPane;
     private Player selectedPlayer;
     private Obstacle[] selectedObstacles;
+    private PowerUp[] selectedPowerUp;
+    private Monster[] selectedMonsters;
 
-    KeyboardListener(Pane scene, Player player, Obstacle obstacle[]) {
+    KeyboardListener(Pane scene, Player player, Obstacle obstacle[], PowerUp powerUp[], Monster monster[]) {
         selectedPane = scene;
         selectedPlayer = player;
         selectedObstacles = obstacle;
+        selectedPowerUp = powerUp;
+        selectedMonsters = monster;
     }
 
     public void Start() {
@@ -64,14 +69,13 @@ public class KeyboardListener {
             }
         });
 
-        
     }
 
     public void Loop() {
         if (wMove == true)
-            selectedPlayer.moveY(5, selectedObstacles);
+            selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
         if (sMove == true)
-            selectedPlayer.moveY(5, selectedObstacles);
+            selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
         if (aMove == true)
             selectedPlayer.moveX(Player.LEFT, selectedObstacles);
         if (dMove == true)
@@ -79,6 +83,5 @@ public class KeyboardListener {
 
         selectedPane.requestFocus();
     }
-    
 
 }

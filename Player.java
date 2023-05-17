@@ -41,12 +41,13 @@ public class Player extends ImageView {
         this.setViewport(new Rectangle2D(0, 0, 92, 90));
     }
 
-    public void moveY(int distance, Obstacle newObstacles[]) {
+    public void moveY(int distance, Obstacle newObstacles[], PowerUp newPowerUp[]) {
 
         for (int i = 0; i < Math.abs(yVelocity); i++) {
-            for (int j = 0; j < newObstacles.length; j++) {
-                if (Hitbox.getBoundsInParent().intersects(newObstacles[j].getBoundsInParent())) {
-                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[j].getY() && distance > 0) {
+            for (int index = 0; index < newObstacles.length; index++) {
+                if (Hitbox.getBoundsInParent().intersects(newObstacles[index].getBoundsInParent()) && Hitbox.getY()
+                        + Hitbox.getHeight() < (GamePane.GameScreenHeight - GamePane.GameScreenHeightOffset)) {
+                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && distance > 0) {
                         Hitbox.setY(lastYPostion);
                         // canJump = true;
                         yVelocity = jumpHeight;
@@ -55,13 +56,16 @@ public class Player extends ImageView {
                         return;
                     }
                 }
-                if(newObstacles[j].getHasPowerUP() == true){
-                    if(Hitbox.getBoundsInParent().intersects(newObstacles[j].getPowerUp().getBoundsInParent())){
-                        newObstacles[j].getPowerUp().Execute(this, Hitbox, distance, lastYPostion , jumpHeight);
-                    }
-                }
-                
             }
+
+            for (int index = 0; index < newPowerUp.length; index++) {
+                if (Hitbox.getBoundsInParent().intersects(newPowerUp[index].getBoundsInParent())) {
+                    newPowerUp[index].Execute(this, Hitbox, distance, lastYPostion, jumpHeight);
+                }
+            }
+
+
+
             lastYPostion = Hitbox.getY();
 
             if (distance < 0) {
@@ -77,22 +81,25 @@ public class Player extends ImageView {
     public void moveX(int direction, Obstacle newObstacles[]) {
 
         for (int i = 0; i < Math.abs(xVelocity); i++) {
-            for (int j = 0; j < newObstacles.length; j++) {
-                if (Hitbox.getBoundsInParent().intersects(newObstacles[j].getBoundsInParent())) {
-                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[j].getY() && direction > 0) {
+            for (int index = 0; index < newObstacles.length; index++) {
+                if (Hitbox.getBoundsInParent().intersects(newObstacles[index].getBoundsInParent())) {
+                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && direction > 0) {
                         Hitbox.setX(lastXPostion);
                         // canJump = true;
                         return;
                     }
                 }
             }
+
+        
+
             lastXPostion = Hitbox.getX();
 
             if (direction == -1) {
                 Hitbox.setX(Hitbox.getX() - 1);
                 this.setViewport(new Rectangle2D(0, 90, 92, 90));
                 xHitBoxOffset = 20;
-                if(this.getX() < GamePane.PlayerLeftBorder - Hitbox.getWidth()){
+                if (this.getX() < GamePane.PlayerLeftBorder - Hitbox.getWidth()) {
                     Hitbox.setX(GamePane.PlayerRightBorder);
                 }
             }
@@ -101,11 +108,11 @@ public class Player extends ImageView {
                 Hitbox.setX(Hitbox.getX() + 1);
                 this.setViewport(new Rectangle2D(0, 0, 92, 90));
                 xHitBoxOffset = 0;
-                if(Hitbox.getX() > GamePane.PlayerRightBorder){
-                   Hitbox.setX(GamePane.PlayerLeftBorder - Hitbox.getWidth());
+                if (Hitbox.getX() > GamePane.PlayerRightBorder) {
+                    Hitbox.setX(GamePane.PlayerLeftBorder - Hitbox.getWidth());
                 }
             }
-            
+
             this.setX(Hitbox.getX() - xHitBoxOffset);
         }
 
@@ -115,11 +122,17 @@ public class Player extends ImageView {
 
         double damping = 0.05;
 
-        if (this.getY() < (GamePane.GameScreenHeight / 1.5)) {
-            for (int i = 0; i < (GamePane.GameScreenHeight / 1.5) - this.getY(); i++) {
+        if (this.getY() < (GamePane.GameScreenHeight / 1.8)) {
+            for (int i = 0; i < (GamePane.GameScreenHeight / 1.8) - this.getY(); i++) {
                 for (int index = 0; index < newObstacles.length; index++) {
-                    newObstacles[index].setY(newObstacles[index].getY() + damping);
+                    if(newObstacles[index].getActivated() == false && newObstacles[index].getY() > GamePane.GameScreenHeight){
+                        newObstacles[index].setVisible(false);
+                    }else {
+                        newObstacles[index].setY(newObstacles[index].getY() + damping);
+
+                    }
                     
+
                 }
                 Hitbox.setY(Hitbox.getY() + damping);
                 this.setY(this.getY() + damping);
@@ -129,8 +142,13 @@ public class Player extends ImageView {
             }
 
             for (int index = 0; index < newObstacles.length; index++) {
-                newObstacles[index].setY(Math.ceil(newObstacles[index].getY()));
+                if(newObstacles[index].getActivated() == false && newObstacles[index].getY() > GamePane.GameScreenHeight){
+                    
+                }else{
+                    newObstacles[index].setY(Math.ceil(newObstacles[index].getY()));
+                }
                 
+
             }
             Hitbox.setY(Math.ceil(Hitbox.getY()));
             this.setY(Math.ceil(this.getY()));
@@ -141,10 +159,10 @@ public class Player extends ImageView {
         }
     }
 
-    public void gravityCycle(Obstacle newObstacles[]) {
+    public void gravityCycle(Obstacle newObstacles[], PowerUp newPowerUp[], Monster newMonsters[]) {
         if (yVelocity < accerlationOfGravity)
             yVelocity++;
-        this.moveY((int) yVelocity, newObstacles);
+        this.moveY((int) yVelocity, newObstacles, newPowerUp);
     }
 
     public void setyVelocity(double yVelocity) {

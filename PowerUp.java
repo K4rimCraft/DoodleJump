@@ -1,7 +1,5 @@
 package DoodleJump;
 
-import java.util.function.DoubleUnaryOperator;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
@@ -17,23 +15,92 @@ public class PowerUp extends ImageView {
     static final public int HAT = 2;
     static final public int TRAMPOLINE = 3;
     static final public int JETPACK = 4;
-    private Obstacle myObstacle;
 
+    // private Obstacle myObstacle;
+    private double probablityActivated = 0.6;
     private int Type = 0;
+    private Boolean activated = false;
+    private int obstacleIndex = 0;
 
-    static private Image Spring = new Image("DoodleJump/pics/Spring.png");
+    public int getObstacleIndex() {
+        return obstacleIndex;
+    }
+
+    static private Image Spring = new Image("DoodleJump/pics/spring.png");
     static private Image Hat = new Image("DoodleJump/pics/hat.png");
     static private Image Trampoline = new Image("DoodleJump/pics/trampoline.png");
     static private Image JetPack = new Image("DoodleJump/pics/jetpack.png");
 
-    PowerUp(Obstacle obstacle, Pane gamePane) {
+    PowerUp(Pane gamePane) {
         super();
         gamePane.getChildren().add(this);
-        this.myObstacle = obstacle;
-        this.switchType();
+        // this.myObstacle = obstacle;
+        // this.switchType();
     }
 
-    public void setType(int type) {
+    public static void initialize(PowerUp newPowerUps[], Obstacle newObstacles[], GamePane gamePane) {
+        for (int i = 0; i < newPowerUps.length; i++) {
+            newPowerUps[i] = new PowerUp(gamePane);
+
+        }
+        for (int i = 0; i < newPowerUps.length; i++) {
+            newPowerUps[i].Activate(newPowerUps, newObstacles);
+        }
+    }
+
+    public void Activate(PowerUp newPowerUps[], Obstacle newObstacles[]) {
+        int nowObstacleIndex;
+        do {
+            nowObstacleIndex = (int) (newObstacles.length * Math.random());
+        } while (CheckDuplicates(newPowerUps, nowObstacleIndex));
+
+        // System.out.println(nowObstacleIndex);
+        this.radnomActivation();
+        this.obstacleIndex = nowObstacleIndex;
+        newObstacles[nowObstacleIndex].setOccupied(true);
+        this.boundTo(newObstacles[nowObstacleIndex]);
+    }
+
+    public void radnomActivation() {
+        double probablity = Math.random();
+
+        if (probablity > 1 - probablityActivated) {
+            this.setVisible(true);
+            this.activated = true;
+
+        } else {
+            this.setVisible(false);
+            this.activated = false;
+        }
+
+    }
+
+    private Boolean CheckDuplicates(PowerUp newPowerUps[], int nowObstacleIndex) {
+        for (int i = 0; i < newPowerUps.length; i++) {
+            if (nowObstacleIndex == newPowerUps[i].getObstacleIndex()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void boundTo(Obstacle myObstacle) {
+
+        double probablity = Math.random();
+        // System.out.println(probablity);
+        if (probablity > 0.20) {
+            this.setType(SPRING, myObstacle);
+        } else if (probablity > 0.10) {
+            this.setType(TRAMPOLINE, myObstacle);
+        } else if (probablity > 0.02) {
+            this.setType(HAT, myObstacle);
+        } else if (probablity > 0) {
+            this.setType(JETPACK, myObstacle);
+        }
+
+    }
+
+    public void setType(int type, Obstacle myObstacle) {
         switch (type) {
             case SPRING:
                 this.Type = type;
@@ -42,7 +109,7 @@ public class PowerUp extends ImageView {
                 this.setFitWidth(20);
                 this.setFitHeight(13);
                 this.yProperty().bind(myObstacle.yProperty().subtract(this.getFitHeight() - 1));
-                this.xProperty().bind(myObstacle.xProperty().add(6));
+                this.xProperty().bind(myObstacle.xProperty().add((int) (Math.random() * 40) + 6));
                 break;
             case HAT:
                 this.Type = type;
@@ -76,13 +143,18 @@ public class PowerUp extends ImageView {
     }
 
     public void Execute(Player Doodle, Rectangle Hitbox, int distance, double lastYPostion, double jumpHeight) {
+        if (this.activated == false) {
+            return;
+        }
         switch (this.getType()) {
+
             case PowerUp.SPRING:
                 if (Hitbox.getY() + Hitbox.getHeight() == this.getY() && distance > 0) {
                     Doodle.setyVelocity(jumpHeight - 10);
                     Hitbox.setY(lastYPostion);
                 }
                 break;
+
             case PowerUp.HAT:
                 Timeline hatFly = new Timeline(new KeyFrame(Duration.millis(20), e -> {
                     Doodle.setyVelocity(jumpHeight);
@@ -91,12 +163,14 @@ public class PowerUp extends ImageView {
                 hatFly.play();
                 this.setVisible(false);
                 break;
+
             case PowerUp.TRAMPOLINE:
                 if (Hitbox.getY() + Hitbox.getHeight() == this.getY() && distance > 0) {
                     Doodle.setyVelocity(jumpHeight - 25);
                     Hitbox.setY(lastYPostion);
                 }
                 break;
+
             case PowerUp.JETPACK:
                 Timeline jetFly = new Timeline(new KeyFrame(Duration.millis(20), e -> {
                     Doodle.setyVelocity(jumpHeight - 5);
@@ -105,8 +179,16 @@ public class PowerUp extends ImageView {
                 jetFly.play();
                 this.setVisible(false);
                 break;
+
         }
 
+    }
+
+    public void teleportUP(Player Doodle, Obstacle newObstacles[]) {
+        if (this.getY() + this.getFitHeight() < 0) {
+            this.radnomActivation();
+            this.boundTo(newObstacles[this.obstacleIndex]);
+        }
     }
 
     public void setPostion(double X, double Y) {
@@ -118,20 +200,8 @@ public class PowerUp extends ImageView {
         return Type;
     }
 
-    public void switchType() {
-
-        double probablity = Math.random();
-        System.out.println(probablity);
-        if (probablity > 0.35) {
-            this.setType(SPRING);
-        } else if (probablity > 0.15) {
-            this.setType(HAT);
-        } else if (probablity > 0.025) {
-            this.setType(TRAMPOLINE);
-        } else if (probablity > 0) {
-            this.setType(JETPACK);
-        }
-
+    public Boolean getStatus() {
+        return activated;
     }
 
 }
