@@ -25,11 +25,16 @@ public class Monster extends ImageView {
     private int i = 0;
     private Boolean reverse = false;
 
-    private double probablityActivated = 0.5;
+    private double probablityActivated = 1;
     private int Type = 0;
     private Boolean activated = false;
     public Boolean getStatus() {
         return activated;
+    }
+
+    public void Deactivate() {
+        this.setVisible(false);
+        this.activated = false;
     }
 
     private int obstacleIndex = 0;

@@ -12,8 +12,8 @@ public class App extends Application {
         
         GamePane game = new GamePane(GamePane.ResolutionFullHD);
         game.start();
-        Scene sc = new Scene(game,1920, 1080);
-        //primaryStage.setResizable(false);
+        Scene sc = new Scene(game,1600, 900);
+        primaryStage.setResizable(false);
         primaryStage.setScene(sc);
         primaryStage.show();
     

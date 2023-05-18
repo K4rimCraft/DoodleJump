@@ -158,7 +158,12 @@ public class PowerUp extends ImageView {
             case PowerUp.HAT:
                 Timeline hatFly = new Timeline(new KeyFrame(Duration.millis(20), e -> {
                     Doodle.setyVelocity(jumpHeight);
+                    Doodle.setHasSomething(true);
+
                 }));
+                hatFly.setOnFinished(e -> {
+                    Doodle.setHasSomething(false);
+                });
                 hatFly.setCycleCount(200);
                 hatFly.play();
                 this.setVisible(false);
@@ -166,7 +171,7 @@ public class PowerUp extends ImageView {
 
             case PowerUp.TRAMPOLINE:
                 if (Hitbox.getY() + Hitbox.getHeight() == this.getY() && distance > 0) {
-                    Doodle.setyVelocity(jumpHeight - 25);
+                    Doodle.setyVelocity(jumpHeight - 20);
                     Hitbox.setY(lastYPostion);
                 }
                 break;
@@ -174,7 +179,11 @@ public class PowerUp extends ImageView {
             case PowerUp.JETPACK:
                 Timeline jetFly = new Timeline(new KeyFrame(Duration.millis(20), e -> {
                     Doodle.setyVelocity(jumpHeight - 5);
+                    Doodle.setHasSomething(true);
                 }));
+                jetFly.setOnFinished(e -> {
+                    Doodle.setHasSomething(false);
+                });
                 jetFly.setCycleCount(300);
                 jetFly.play();
                 this.setVisible(false);

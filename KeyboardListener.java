@@ -1,6 +1,7 @@
 package DoodleJump;
 
 import javafx.scene.layout.Pane;
+import java.util.ArrayList;
 
 public class KeyboardListener {
     private Boolean wMove = false;
@@ -13,13 +14,15 @@ public class KeyboardListener {
     private Obstacle[] selectedObstacles;
     private PowerUp[] selectedPowerUp;
     private Monster[] selectedMonsters;
+    private ArrayList<Projectile> selectedProjectiles;
 
-    KeyboardListener(Pane scene, Player player, Obstacle obstacle[], PowerUp powerUp[], Monster monster[]) {
+    KeyboardListener(Pane scene, Player player, Obstacle obstacle[], PowerUp powerUp[], Monster monster[], ArrayList<Projectile> projectile) {
         selectedPane = scene;
         selectedPlayer = player;
         selectedObstacles = obstacle;
         selectedPowerUp = powerUp;
         selectedMonsters = monster;
+        selectedProjectiles = projectile;
     }
 
     public void Start() {
@@ -67,6 +70,10 @@ public class KeyboardListener {
                     break;
                 default:
             }
+        });
+
+        selectedPane.setOnMouseClicked(Mouse -> {
+            Projectile.create(selectedPlayer, selectedProjectiles,selectedPane, Mouse.getSceneX(), Mouse.getSceneY());
         });
 
     }

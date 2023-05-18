@@ -2,6 +2,10 @@ package DoodleJump;
 
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+
+import java.io.File;
+import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,16 +32,20 @@ public class GamePane extends Pane {
     private int FPS = 0;
     private boolean Status = true;
 
+    private AnimationTimer GameLoop;
     private Player Doodle = new Player();
     private Obstacle[] newObstacles = new Obstacle[37];
     private PowerUp[] newPowerUps = new PowerUp[6];
     private Monster[] newMonsters = new Monster[2];
+    private ArrayList<Projectile> newProjectiles = new ArrayList<Projectile>();
     private ImageView BackGround = new ImageView(new Image("DoodleJump/pics/bg.png"));
     private ImageView BackGround2 = new ImageView(new Image("DoodleJump/pics/bg.png"));
     private ImageView BackBackGround = new ImageView(new Image("DoodleJump/pics/Background.png"));
-
     private ImageView Lost = new ImageView(new Image("DoodleJump/pics/lose.png"));
 
+
+    private Font font = Font.loadFont(new File("C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\DoodleJump.ttf").toURI()
+    .toString(), 10);
     private Button startButton = new Button("Start");
     private Label moveXLabel = new Label();
     private Label moveYLabel = new Label();
@@ -46,7 +54,7 @@ public class GamePane extends Pane {
     private Label stopYLabel = new Label();
 
     private KeyboardListener keyboardListener = new KeyboardListener(this, Doodle, newObstacles, newPowerUps,
-            newMonsters);
+            newMonsters, newProjectiles);
 
     GamePane(Point2D Resolution) {
         super();// gamePane, Resolution.getX(), Resolution.getY());
@@ -55,9 +63,10 @@ public class GamePane extends Pane {
     }
 
     public void start() {
-        //this.setLayoutX(-133);
-        //this.setLayoutY(-75);
+        this.setLayoutX(-133);
+        this.setLayoutY(-75);
         ScoreLabel.setLayoutX(75);
+        ScoreLabel.setFont(font);
         ScoreLabel.setLayoutY(15);
         moveYLabel.setLayoutY(15);
         stopYLabel.setLayoutY(15);
@@ -78,16 +87,18 @@ public class GamePane extends Pane {
 
         keyboardListener.Start();
 
-        //this.setScaleX(2.5 / 3);
-        //this.setScaleY(2.5 / 3);
+        this.setScaleX(2.5 / 3);
+        this.setScaleY(2.5 / 3);
 
-        AnimationTimer GameLoop = new AnimationTimer() {
+        GameLoop = new AnimationTimer() {
 
             @Override
             public void handle(long arg0) {
                 if (Status == true) {
                     moveXLabel.setText("X = " + Doodle.getX());
                     moveYLabel.setText("Y = " + Doodle.getY());
+                    // moveXLabel.setText("ad = " + newProjectiles.size());
+                    // moveYLabel.setText("re = " + removeProjectiles.size());
                     ScoreLabel.setText("Score: " + Doodle.getScore());
 
                     keyboardListener.Loop();
@@ -104,9 +115,16 @@ public class GamePane extends Pane {
                         BackGround2.setY(BackGround2.getY() - 2 * (GameScreenHeight));
                     }
 
+                    
+                    Projectile.Loop(newProjectiles, newMonsters);
+                    //BackBackGround.toFront();
+                    // for (Projectile pro : removeProjectiles){
+                    // pro.setVisible(false);
+                    // pro = null;
+                    // }
                     FPSCounter();
                     LoseCheck();
-                    
+
                 }
             }
         };
@@ -138,14 +156,15 @@ public class GamePane extends Pane {
         if (Doodle.getY() > GameScreenHeight - GameScreenHeightOffset) {
             Lose();
         }
-        for(int i = 0; i < newMonsters.length; i++){
-            if(Doodle.Hitbox.getBoundsInParent().intersects(newMonsters[i].getBoundsInParent()) && newMonsters[i].getStatus() == true){
+        for (int i = 0; i < newMonsters.length; i++) {
+            if (Doodle.Hitbox.getBoundsInParent().intersects(newMonsters[i].getBoundsInParent())
+                    && newMonsters[i].getStatus() == true && Doodle.getHasSomething() == false) {
                 Lose();
             }
         }
     }
 
-    private void Lose(){
+    private void Lose() {
         Status = false;
         Lost.setFitHeight(600);
         Lost.setFitWidth(600);
@@ -153,5 +172,4 @@ public class GamePane extends Pane {
         Lost.setY(275);
         this.getChildren().add(Lost);
     }
-
 }

@@ -21,6 +21,8 @@ public class Player extends ImageView {
     private double Score = 0;
     private double xHitBoxOffset = 0;
     private Point2D initialPosition = new Point2D(262, 940);
+    private Boolean hasSomething = false;
+    
     static private Image playerTiles = new Image("DoodleJump/pics/DoodleTile.png");
     private AudioClip pop = new AudioClip(
             new File("C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\jump.wav").toURI()
@@ -28,6 +30,7 @@ public class Player extends ImageView {
     private double accerlationOfGravity = 10;
     static final int LEFT = -1;
     static final int RIGHT = 1;
+
     Rectangle Hitbox = new Rectangle(GamePane.LeftBorder + initialPosition.getX(), initialPosition.getY(), 40, 59);
 
     Player() {
@@ -180,4 +183,13 @@ public class Player extends ImageView {
     public double getScore() {
         return Score;
     }
+    
+    public Boolean getHasSomething() {
+        return hasSomething;
+    }
+
+    public void setHasSomething(Boolean hasSomething) {
+        this.hasSomething = hasSomething;
+    }
+
 }

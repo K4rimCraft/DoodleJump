@@ -86,11 +86,16 @@ public class Obstacle extends ImageView {
                } else {
                     this.setMove(false);
                }
-               if (Doodle.getScore() > 3000 && index % 2 == 1 && probablity > 0.7) {
+               if (Doodle.getScore() > 1000 && index % 2 == 1 && probablity > 0.7) {
                     this.Deactivate();
                     // num++;
                     // System.out.println(num);
                     this.setViewport(new Rectangle2D(0, 60, PictureDimensions.getX(), PictureDimensions.getY()));
+               }
+
+               if (Doodle.getScore() > 3000 && index % 4 == 0 && probablity > 0.7) {
+                    this.Deactivate();
+                    this.setViewport(new Rectangle2D(0, 90, PictureDimensions.getX(), PictureDimensions.getY()));
                }
           }
      }
@@ -98,7 +103,7 @@ public class Obstacle extends ImageView {
      static public double xRandom() {
           return ((int) (Math.random() * 100) * (GamePane.GameScreenWidth - Obstacle.Width) / 100)
                      + GamePane.LeftBorder;
-          //return 900;     
+          // return 900;     
      }
 
      public int getIndex() {
