@@ -3,13 +3,14 @@ package DoodleJump;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-
 import java.io.File;
-
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 public class Player extends ImageView {
 
@@ -22,9 +23,16 @@ public class Player extends ImageView {
     private double xHitBoxOffset = 0;
     private Point2D initialPosition = new Point2D(262, 940);
     private Boolean hasSomething = false;
-    
+    private Boolean canFlip = true;
+    private boolean shooting = false;
+
+    public void setCanFlip(Boolean canFlip) {
+        this.canFlip = canFlip;
+    }
+
     static private Image playerTiles = new Image("DoodleJump/pics/DoodleTile.png");
-    private AudioClip pop = new AudioClip(
+
+    private static AudioClip pop = new AudioClip(
             new File("C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\jump.wav").toURI()
                     .toString());
     private double accerlationOfGravity = 10;
@@ -32,6 +40,7 @@ public class Player extends ImageView {
     static final int RIGHT = 1;
 
     Rectangle Hitbox = new Rectangle(GamePane.LeftBorder + initialPosition.getX(), initialPosition.getY(), 40, 59);
+    ImageView Nozzle = new ImageView(new Image("DoodleJump/pics/Nozzle.png"));
 
     Player() {
         super(playerTiles);
@@ -42,6 +51,12 @@ public class Player extends ImageView {
         Hitbox.setVisible(false);
         Hitbox.setFill(Color.color(0, 0, 0, 0.5));
         this.setViewport(new Rectangle2D(0, 0, 92, 90));
+        Nozzle.xProperty().bind(Hitbox.xProperty().add(10));
+        Nozzle.yProperty().bind(Hitbox.yProperty().subtract(14));
+        Nozzle.setRotate(90);
+        Nozzle.setFitHeight(78);
+        Nozzle.setFitWidth(20);
+        Nozzle.setVisible(false);
     }
 
     public void moveY(int distance, Obstacle newObstacles[], PowerUp newPowerUp[]) {
@@ -64,10 +79,9 @@ public class Player extends ImageView {
             for (int index = 0; index < newPowerUp.length; index++) {
                 if (Hitbox.getBoundsInParent().intersects(newPowerUp[index].getBoundsInParent())) {
                     newPowerUp[index].Execute(this, Hitbox, distance, lastYPostion, jumpHeight);
+
                 }
             }
-
-
 
             lastYPostion = Hitbox.getY();
 
@@ -94,14 +108,15 @@ public class Player extends ImageView {
                 }
             }
 
-        
-
             lastXPostion = Hitbox.getX();
 
             if (direction == -1) {
                 Hitbox.setX(Hitbox.getX() - 1);
-                this.setViewport(new Rectangle2D(0, 90, 92, 90));
-                xHitBoxOffset = 20;
+                if (canFlip == true && shooting == false) {
+                    this.setViewport(new Rectangle2D(0, 90, 92, 90));
+                    xHitBoxOffset = 20;
+                }
+
                 if (this.getX() < GamePane.PlayerLeftBorder - Hitbox.getWidth()) {
                     Hitbox.setX(GamePane.PlayerRightBorder);
                 }
@@ -109,8 +124,11 @@ public class Player extends ImageView {
 
             if (direction == 1) {
                 Hitbox.setX(Hitbox.getX() + 1);
-                this.setViewport(new Rectangle2D(0, 0, 92, 90));
-                xHitBoxOffset = 0;
+                if (canFlip == true && shooting == false) {
+                    this.setViewport(new Rectangle2D(0, 0, 92, 90));
+                    xHitBoxOffset = 0;
+                }
+
                 if (Hitbox.getX() > GamePane.PlayerRightBorder) {
                     Hitbox.setX(GamePane.PlayerLeftBorder - Hitbox.getWidth());
                 }
@@ -128,13 +146,13 @@ public class Player extends ImageView {
         if (this.getY() < (GamePane.GameScreenHeight / 1.8)) {
             for (int i = 0; i < (GamePane.GameScreenHeight / 1.8) - this.getY(); i++) {
                 for (int index = 0; index < newObstacles.length; index++) {
-                    if(newObstacles[index].getActivated() == false && newObstacles[index].getY() > GamePane.GameScreenHeight){
+                    if (newObstacles[index].getActivated() == false
+                            && newObstacles[index].getY() > GamePane.GameScreenHeight) {
                         newObstacles[index].setVisible(false);
-                    }else {
+                    } else {
                         newObstacles[index].setY(newObstacles[index].getY() + damping);
 
                     }
-                    
 
                 }
                 Hitbox.setY(Hitbox.getY() + damping);
@@ -145,12 +163,12 @@ public class Player extends ImageView {
             }
 
             for (int index = 0; index < newObstacles.length; index++) {
-                if(newObstacles[index].getActivated() == false && newObstacles[index].getY() > GamePane.GameScreenHeight){
-                    
-                }else{
+                if (newObstacles[index].getActivated() == false
+                        && newObstacles[index].getY() > GamePane.GameScreenHeight) {
+
+                } else {
                     newObstacles[index].setY(Math.ceil(newObstacles[index].getY()));
                 }
-                
 
             }
             Hitbox.setY(Math.ceil(Hitbox.getY()));
@@ -168,6 +186,30 @@ public class Player extends ImageView {
         this.moveY((int) yVelocity, newObstacles, newPowerUp);
     }
 
+    public void shoot(double Angle) {
+
+        Timeline delay = new Timeline(new KeyFrame(Duration.millis(10), e -> {
+                this.setViewport(new Rectangle2D(0, 180, 92, 90));
+                xHitBoxOffset = 10;
+                this.setX(Hitbox.getX() - xHitBoxOffset);
+                this.Nozzle.setRotate(Math.toDegrees(Angle));
+                this.Nozzle.setVisible(true);
+                this.shooting = true;
+        }));
+
+        delay.setOnFinished(e -> {
+            this.setViewport(new Rectangle2D(0, 90, 92, 90));
+            xHitBoxOffset = 20;
+            this.setX(Hitbox.getX() - xHitBoxOffset);
+            this.Nozzle.setVisible(false);
+            this.shooting = false;
+        });
+        delay.setCycleCount(20);
+        delay.playFromStart();
+        //delay.setDelay(Duration.millis(2000));
+
+    }
+
     public void setyVelocity(double yVelocity) {
         this.yVelocity = yVelocity;
     }
@@ -183,7 +225,7 @@ public class Player extends ImageView {
     public double getScore() {
         return Score;
     }
-    
+
     public Boolean getHasSomething() {
         return hasSomething;
     }

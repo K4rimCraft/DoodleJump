@@ -2,9 +2,6 @@ package DoodleJump;
 
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
-
-import java.io.File;
 import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.Button;
@@ -18,6 +15,7 @@ public class GamePane extends Pane {
     public final static Point2D ResolutionFullHD = new Point2D(1920, 1080);
     public final static Point2D ResolutionHD = new Point2D(1280, 720);
     public final static Point2D ResolutionCustom = new Point2D(1600, 900);
+    public final static double Factor = 2.5; 
 
     public static double GameScreenHeightOffset = 215;
 
@@ -43,9 +41,9 @@ public class GamePane extends Pane {
     private ImageView BackBackGround = new ImageView(new Image("DoodleJump/pics/Background.png"));
     private ImageView Lost = new ImageView(new Image("DoodleJump/pics/lose.png"));
 
-
-    private Font font = Font.loadFont(new File("C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\DoodleJump.ttf").toURI()
-    .toString(), 10);
+    // private Font font = Font.loadFont(new File("C:\\Users\\kimos\\Downloads\\CSE1
+    // 2nd Term\\Programming\\VS Code Java Projects\\DoodleJump.ttf").toURI()
+    // .toString(), 10);
     private Button startButton = new Button("Start");
     private Label moveXLabel = new Label();
     private Label moveYLabel = new Label();
@@ -66,7 +64,6 @@ public class GamePane extends Pane {
         this.setLayoutX(-133);
         this.setLayoutY(-75);
         ScoreLabel.setLayoutX(75);
-        ScoreLabel.setFont(font);
         ScoreLabel.setLayoutY(15);
         moveYLabel.setLayoutY(15);
         stopYLabel.setLayoutY(15);
@@ -82,13 +79,14 @@ public class GamePane extends Pane {
         PowerUp.initialize(newPowerUps, newObstacles, this);
         Monster.initialize(newMonsters, newPowerUps, newObstacles, this);
 
-        this.getChildren().addAll(Doodle, startButton, BackBackGround, moveXLabel, moveYLabel, FPSLabel, stopYLabel,
+        this.getChildren().addAll(Doodle.Nozzle, Doodle, startButton, BackBackGround, moveXLabel, moveYLabel, FPSLabel,
+                stopYLabel,
                 ScoreLabel);
 
         keyboardListener.Start();
 
-        this.setScaleX(2.5 / 3);
-        this.setScaleY(2.5 / 3);
+        this.setScaleX(Factor / 3);
+        this.setScaleY(Factor / 3);
 
         GameLoop = new AnimationTimer() {
 
@@ -115,9 +113,8 @@ public class GamePane extends Pane {
                         BackGround2.setY(BackGround2.getY() - 2 * (GameScreenHeight));
                     }
 
-                    
                     Projectile.Loop(newProjectiles, newMonsters);
-                    //BackBackGround.toFront();
+                    BackBackGround.toFront();
                     // for (Projectile pro : removeProjectiles){
                     // pro.setVisible(false);
                     // pro = null;

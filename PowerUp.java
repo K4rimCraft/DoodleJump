@@ -171,10 +171,24 @@ public class PowerUp extends ImageView {
 
             case PowerUp.TRAMPOLINE:
                 if (Hitbox.getY() + Hitbox.getHeight() == this.getY() && distance > 0) {
-                    Doodle.setyVelocity(jumpHeight - 20);
-                    Hitbox.setY(lastYPostion);
+                    Doodle.setyVelocity(jumpHeight -20);
+                    Hitbox.setY(lastYPostion - 40);
+                    //Hitbox.setY(lastYPostion);
+                    Timeline flip = new Timeline(new KeyFrame(Duration.millis(4), e -> {
+                        Doodle.setCanFlip(false);
+                        Doodle.setRotate(Doodle.getRotate()+ 2);
+    
+                    }));
+                    flip.setOnFinished(e -> {
+                         Doodle.setRotate(0);
+                         Doodle.setCanFlip(true);
+                    });
+                    flip.setCycleCount(180);
+                    flip.play();
+                    
                 }
                 break;
+                
 
             case PowerUp.JETPACK:
                 Timeline jetFly = new Timeline(new KeyFrame(Duration.millis(20), e -> {

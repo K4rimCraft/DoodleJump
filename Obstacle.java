@@ -93,10 +93,10 @@ public class Obstacle extends ImageView {
                     this.setViewport(new Rectangle2D(0, 60, PictureDimensions.getX(), PictureDimensions.getY()));
                }
 
-               if (Doodle.getScore() > 3000 && index % 4 == 0 && probablity > 0.7) {
-                    this.Deactivate();
-                    this.setViewport(new Rectangle2D(0, 90, PictureDimensions.getX(), PictureDimensions.getY()));
-               }
+               // if (Doodle.getScore() > 3000 && index % 4 == 0 && probablity > 0.7) {
+               //      this.Deactivate();
+               //      this.setViewport(new Rectangle2D(0, 90, PictureDimensions.getX(), PictureDimensions.getY()));
+               // }
           }
      }
 
