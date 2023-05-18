@@ -26,10 +26,10 @@ public class PowerUp extends ImageView {
         return obstacleIndex;
     }
 
-    static private Image Spring = new Image("DoodleJump/pics/spring.png");
-    static private Image Hat = new Image("DoodleJump/pics/hat.png");
-    static private Image Trampoline = new Image("DoodleJump/pics/trampoline.png");
-    static private Image JetPack = new Image("DoodleJump/pics/jetpack.png");
+    static private Image Spring = new Image("DoodleJump/pics/Spring.png");
+    static private Image Hat = new Image("DoodleJump/pics/Hat.png");
+    static private Image Trampoline = new Image("DoodleJump/pics/Trampoline.png");
+    static private Image JetPack = new Image("DoodleJump/pics/Jetpack.png");
 
     PowerUp(Pane gamePane) {
         super();
