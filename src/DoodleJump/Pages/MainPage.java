@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -16,8 +15,7 @@ import javafx.util.Duration;
 
 public class MainPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
+    private Stage PrimaryStage;
     private Pane buttons = new Pane();
 
     private ImageView Background_iv = new ImageView(Images.Background1);
@@ -36,7 +34,7 @@ public class MainPage extends Pane {
     private Audio audioGame;
 
     public MainPage(Stage stage) {
-        this.stage = stage;
+        this.PrimaryStage = stage;
         audioGame = new Audio(Main.PathToResources + "jump.wav");
         audioGame.audioPlayer();
     }
@@ -97,9 +95,7 @@ public class MainPage extends Pane {
         });
         Play_iv.setOnMouseClicked(e -> {
             audioGame.stop();
-            SelectPage page = new SelectPage(stage);
-            page.start();
-            stage.setScene(page.play());
+            PrimaryStage.setScene(new SelectPage(PrimaryStage).Create());
         }
         );
 ////////////////////////////////////////////////////////////////////////////////
@@ -121,9 +117,7 @@ public class MainPage extends Pane {
         });
         Settings_iv.setOnMouseClicked(e -> {
             audioGame.stop();
-            SettingsPage settings = new SettingsPage(stage);
-            settings.start();
-            stage.setScene(settings.setting());
+            PrimaryStage.setScene(new SettingsPage(PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
         Scores_iv.setFitHeight(y);
@@ -143,9 +137,7 @@ public class MainPage extends Pane {
         });
         Scores_iv.setOnMouseClicked(e -> {
             audioGame.stop();
-            ScoresPage score = new ScoresPage(stage);
-            score.start();
-            stage.setScene(score.play());
+            PrimaryStage.setScene(new ScoresPage(PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -165,7 +157,7 @@ public class MainPage extends Pane {
             Exit_iv.setFitHeight(y);
         });
         Exit_iv.setOnMouseClicked(e -> {
-            stage.close();
+            PrimaryStage.close();
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -198,8 +190,8 @@ public class MainPage extends Pane {
         this.getChildren().addAll(Background_iv, bat_iv, buttons);
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        start();
+        return new Scene(this);
     }
 }

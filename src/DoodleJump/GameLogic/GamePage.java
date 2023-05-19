@@ -16,7 +16,9 @@ import DoodleJump.Pages.*;
 
 public class GamePage extends Pane {
 
-    // private static Pane gamePane = new Pane();
+    private Stage PrimaryStage;
+    private Scene thisScene;
+
     public final static Point2D ResolutionFullHD = new Point2D(1920, 1080);
     public final static Point2D ResolutionHD = new Point2D(1280, 720);
     public final static Point2D ResolutionCustom = new Point2D(1600, 900);
@@ -55,8 +57,7 @@ public class GamePage extends Pane {
 
     private Text score = new Text(1425, 850, "");
 
-    private Stage stage;
-    private Scene scene;
+    
     private String AudioState;
     //private Audio audioGame;
     private Audio audioFall;
@@ -68,7 +69,7 @@ public class GamePage extends Pane {
         super();
         this.setWidth(Resolution.getX());
         this.setHeight(Resolution.getY());
-        this.stage = stage;
+        this.PrimaryStage = stage;
         audioFall = new Audio(Main.PathToResources + "fall.wav");
         audioFall.audioPlayer(1);
     }
@@ -161,7 +162,7 @@ public class GamePage extends Pane {
             Pause_iv.setFitHeight(80);
         });
         Pause_iv.setOnMouseClicked(e -> {
-            stage.setScene(PausePage.Pause(stage, scene, Doodle, GameLoop));
+            PrimaryStage.setScene(PausePage.Pause(PrimaryStage, thisScene, Doodle, GameLoop));
             GameLoop.stop();
         });
 
@@ -206,14 +207,13 @@ public class GamePage extends Pane {
             } else if (AudioState.equals("OFF")) {
                 audioFall.stop();
             }
-            GameOverPage gameover = new GameOverPage(stage);
-            gameover.start();
-            stage.setScene(gameover.play());
+            PrimaryStage.setScene(new GameOverPage(PrimaryStage).Create());
     }
 
-    public Scene play() {
-        scene = new Scene(this,1600,900);
-        return scene;
+    public Scene Create() {
+        thisScene = new Scene(this,1600,900);
+        start();
+        return thisScene;
     }
 
 }

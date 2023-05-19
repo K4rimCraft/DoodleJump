@@ -14,17 +14,14 @@ import javafx.stage.Stage;
 
 public class ScoresPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
-    private Pane pane = new Pane();
-
+    private Stage PrimaryStage;
     private ImageView Background5_iv = new ImageView(Images.Background5);
     private ImageView X_iv = new ImageView(Images.X);
     private Text topscore =new Text(1050,475,FileIO.Read("TopScore.txt"));
     private Text playerName =new Text(650,475,FileIO.Read("PlayerName.txt"));
 
     public ScoresPage(Stage stage) {
-        this.stage = stage;
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -47,15 +44,13 @@ public class ScoresPage extends Pane {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            MainPage mainPage = new MainPage(stage);
-            mainPage.start();
-            stage.setScene(mainPage.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
         this.getChildren().addAll(Background5_iv, topscore,X_iv,playerName);
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        start();
+        return new Scene(this);
     }
 }

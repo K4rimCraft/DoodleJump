@@ -8,8 +8,7 @@ import javafx.stage.Stage;
 
 public class SelectPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
+    private Stage PrimaryStage;
 
     private ImageView Background_iv = new ImageView(Images.Background8);
     private ImageView NewGame_iv = new ImageView(Images.NewGame);
@@ -17,7 +16,7 @@ public class SelectPage extends Pane {
     private ImageView X_iv = new ImageView(Images.X);
 
     public SelectPage(Stage stage) {
-        this.stage = stage;
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -40,9 +39,7 @@ public class SelectPage extends Pane {
             NewGame_iv.setFitHeight(y);
         });
         NewGame_iv.setOnMouseClicked(e -> {
-            LoginPage login = new LoginPage(stage);
-            login.start();
-            stage.setScene(login.play());
+            PrimaryStage.setScene(new LoginPage(PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -62,9 +59,7 @@ public class SelectPage extends Pane {
             Continue_iv.setFitHeight(y);
         });
         Continue_iv.setOnMouseClicked(e -> {
-            DifficultyPage play = new DifficultyPage(stage);
-            play.start();
-            stage.setScene(play.play());
+            PrimaryStage.setScene(new DifficultyPage(PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -80,9 +75,7 @@ public class SelectPage extends Pane {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            MainPage mainPage = new MainPage(stage);
-            mainPage.start();
-            stage.setScene(mainPage.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -95,8 +88,8 @@ public class SelectPage extends Pane {
         }
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        start();
+        return new Scene(this);
     }
 }

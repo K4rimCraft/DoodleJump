@@ -35,9 +35,7 @@ public class Main extends Application {
                 // gamePane.start();
                 // stage.setScene(gamePane.play());
 
-                MainPage mainPage = new MainPage(stage);
-                mainPage.start();
-                stage.setScene(mainPage.play());
+                stage.setScene(new MainPage(stage).Create());
 
 
                 // Intro.play();

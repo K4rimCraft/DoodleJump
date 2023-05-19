@@ -9,8 +9,7 @@ import javafx.stage.Stage;
 
 public class LoginPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
+    private Stage PrimaryStage;
     private ImageView Background_iv = new ImageView(Images.Background4);
     private ImageView Next_iv = new ImageView(Images.Next);
     private ImageView X_iv = new ImageView(Images.X);
@@ -19,7 +18,7 @@ public class LoginPage extends Pane {
     ChoiceDialog b = new ChoiceDialog();
 
     public LoginPage(Stage stage) {
-        this.stage = stage;
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -40,9 +39,7 @@ public class LoginPage extends Pane {
                 FileIO.Write(Name.getText(), "PlayerName.txt");
                 FileIO.Write("0", "Score.txt");
                 FileIO.Write("0", "TopScore.txt");
-                DifficultyPage play = new DifficultyPage(stage);
-                play.start();
-                stage.setScene(play.play());
+                PrimaryStage.setScene(new DifficultyPage(PrimaryStage).Create());
             }
         });
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,9 +56,7 @@ public class LoginPage extends Pane {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            MainPage mainPage = new MainPage(stage);
-            mainPage.start();
-            stage.setScene(mainPage.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,8 +75,8 @@ public class LoginPage extends Pane {
 
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        start();
+        return new Scene(this);
     }
 }

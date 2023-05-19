@@ -1,6 +1,5 @@
 package DoodleJump.Pages;
 
-
 import javafx.animation.*;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -14,9 +13,7 @@ import javafx.util.Duration;
 
 public class GameOverPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
-
+    private Stage PrimaryStage;
     private ImageView Background6_iv = new ImageView(Images.Background6);
     private ImageView Character_iv = new ImageView(Images.Character);
     private ImageView PlayAgain_iv = new ImageView(Images.PlayAgain);
@@ -30,7 +27,7 @@ public class GameOverPage extends Pane {
     private Text score = new Text(1425, 850, FileIO.Read("Score.txt"));
 
     public GameOverPage(Stage stage) {
-        this.stage = stage;
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -60,12 +57,10 @@ public class GameOverPage extends Pane {
         });
         PlayAgain_iv.setOnMouseClicked(e -> {
             FileIO.Write("OFF", "AudioState.txt");
-            DifficultyPage play = new DifficultyPage(stage);
-            play.start();
-            stage.setScene(play.play());
+            PrimaryStage.setScene(new DifficultyPage(PrimaryStage).Create());
         });
 
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
         Main_iv.setX(1430);
         Main_iv.setY(500);
         Main_iv.setFitHeight(y);
@@ -82,12 +77,10 @@ public class GameOverPage extends Pane {
             Main_iv.setFitWidth(x);
         });
         Main_iv.setOnMouseClicked(e -> {
-            MainPage firstPage = new MainPage(stage);
-            firstPage.start();
-            stage.setScene(firstPage.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
         Character_iv.setX(490);
         Character_iv.setY(740);
         Character_iv.setFitWidth(89);
@@ -98,7 +91,7 @@ public class GameOverPage extends Pane {
         path.setCycleCount(Timeline.INDEFINITE);
         path.play();
 
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
         bat_iv.setFitHeight(67);
         bat_iv.setFitWidth(120);
         bat_iv.setX(770);
@@ -126,8 +119,8 @@ public class GameOverPage extends Pane {
 
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        start();
+        return new Scene(this);
     }
 }

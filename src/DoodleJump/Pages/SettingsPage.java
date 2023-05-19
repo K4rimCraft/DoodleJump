@@ -10,8 +10,7 @@ import javafx.scene.layout.Pane;
 
 public class SettingsPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
+    private Stage PrimaryStage;
     private Pane buttons = new Pane();
 
     private ImageView Background3_iv = new ImageView(Images.Background3);
@@ -30,7 +29,7 @@ public class SettingsPage extends Pane {
     boolean click2 = false;
 
     public SettingsPage(Stage stage) {
-        this.stage = stage;
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -212,9 +211,7 @@ public class SettingsPage extends Pane {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            MainPage mainPage = new MainPage(stage);
-            mainPage.start();
-            stage.setScene(mainPage.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -320,8 +317,8 @@ public class SettingsPage extends Pane {
 
     }
 
-    public Scene setting() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        start();
+        return new Scene(this);
     }
 }

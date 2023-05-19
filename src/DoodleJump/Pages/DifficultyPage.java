@@ -13,8 +13,7 @@ import DoodleJump.GameLogic.GamePage;
 
 public class DifficultyPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
+    private Stage PrimaryStage;
     private Pane buttons = new Pane();
 
     private ImageView Background2_iv = new ImageView(Images.Background2);
@@ -24,7 +23,7 @@ public class DifficultyPage extends Pane {
     private ImageView X_iv = new ImageView(Images.X);
 
     public DifficultyPage(Stage stage) {
-        this.stage = stage;
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -49,10 +48,8 @@ public class DifficultyPage extends Pane {
         });
 
         Easy_iv.setOnMouseClicked(e -> {
-            GamePage game = new GamePage(GamePage.ResolutionCustom, stage);
-            game.start();
-            stage.setScene(game.play());
-
+            
+            PrimaryStage.setScene(new GamePage(GamePage.ResolutionCustom, PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -110,9 +107,7 @@ public class DifficultyPage extends Pane {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            MainPage main = new MainPage(stage);
-            main.start();
-            stage.setScene(main.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -120,8 +115,8 @@ public class DifficultyPage extends Pane {
         this.getChildren().addAll(Background2_iv, X_iv, buttons);
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        start();
+        return new Scene(this);
     }
 }

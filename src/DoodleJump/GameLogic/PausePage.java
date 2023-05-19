@@ -11,6 +11,9 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import javax.security.auth.login.CredentialException;
+
 import DoodleJump.Pages.*;
 
 public class PausePage {
@@ -45,9 +48,7 @@ public class PausePage {
             PlayAgain_iv.setFitHeight(138.29);
         });
         PlayAgain_iv.setOnMouseClicked(e -> {
-            DifficultyPage play = new DifficultyPage(stage);
-            play.start();
-            stage.setScene(play.play());
+            stage.setScene(new DifficultyPage(stage).Create());
         });
 
 
@@ -67,9 +68,7 @@ public class PausePage {
             Main_iv.setFitHeight(138.29);
         });
         Main_iv.setOnMouseClicked(e -> {
-            MainPage mainPage = new MainPage(stage);
-            mainPage.start();
-            stage.setScene(mainPage.play());
+            stage.setScene(new MainPage(stage).Create());
         });
 
 
