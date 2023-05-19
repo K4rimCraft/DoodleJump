@@ -1,13 +1,12 @@
 package DoodleJump.Pages;
 
-
-
 ////////////////////////////////////////////////////////////////////////////////
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import DoodleJump.Main;
 import DoodleJump.GameLogic.GamePage;
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -49,7 +48,7 @@ public class DifficultyPage extends Pane {
 
         Easy_iv.setOnMouseClicked(e -> {
             
-            PrimaryStage.setScene(new GamePage(GamePage.ResolutionCustom, PrimaryStage).Create());
+            PrimaryStage.setScene(new GamePage(Main.ResolutionCustom, PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -116,7 +115,11 @@ public class DifficultyPage extends Pane {
     }
 
     public Scene Create() {
+        this.setLayoutX(Main.SelectedOffset.getX());
+        this.setLayoutY(Main.SelectedOffset.getY());
+        this.setScaleX(Main.Factor / 3);
+        this.setScaleY(Main.Factor / 3);
         start();
-        return new Scene(this);
+        return new Scene(this, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
     }
 }

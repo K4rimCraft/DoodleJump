@@ -28,14 +28,19 @@ public class Images {
     public static Image Hard2 = new Image("Buttons/Hard2.png");
     public static Image Main = new Image("Buttons/Main.png");
     public static Image Main2 = new Image("Buttons/Main2.png");
+
     public static Image Play = new Image("Buttons/Play.png");
-    public static Image Play2 = new Image("Buttons/Play2.png");
+    public static Image Play2 = new Image("Buttons/Play-on.png");
+    
     public static Image Settings = new Image("Buttons/Settings.png");
-    public static Image Settings2 = new Image("Buttons/Settings2.png");
+    public static Image Settings2 = new Image("Buttons/Settings-on.png");
+
     public static Image Scores = new Image("Buttons/Scores.png");
-    public static Image Scores2 = new Image("Buttons/Scores2.png");
+    public static Image Scores2 = new Image("Buttons/Scores-on.png");
+
     public static Image Exit = new Image("Buttons/Exit.png");
-    public static Image Exit2 = new Image("Buttons/Exit2.png");
+    public static Image Exit2 = new Image("Buttons/Exit-on.png");
+
     public static Image NewGame = new Image("Buttons/NewGame.png");
     public static Image NewGame2 = new Image("Buttons/NewGame2.png");
     public static Image Continue = new Image("Buttons/Continue.png");
@@ -55,6 +60,7 @@ public class Images {
     public static Image Von2 = new Image("Buttons/Von2.png");
     public static Image Von3 = new Image("Buttons/Von3.png");
     ////////////////////////////////////////////////////////////////////////////////
+    public static Image Logo = new Image("Images/Logo.png");
     public static Image Character = new Image("Character/Character_Right_1.png");
     public static Image Bat1 = new Image("Character/bat1.png");
     public static Image Bat3 = new Image("Character/bat3.png");

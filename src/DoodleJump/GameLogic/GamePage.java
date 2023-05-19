@@ -19,11 +19,6 @@ public class GamePage extends Pane {
     private Stage PrimaryStage;
     private Scene thisScene;
 
-    public final static Point2D ResolutionFullHD = new Point2D(1920, 1080);
-    public final static Point2D ResolutionHD = new Point2D(1280, 720);
-    public final static Point2D ResolutionCustom = new Point2D(1600, 900);
-    public final static double Factor = 2.5; 
-
     public static double GameScreenHeightOffset = 215;
 
     public static double GameScreenWidth = 650 - 60;
@@ -36,7 +31,7 @@ public class GamePage extends Pane {
     private long time = System.currentTimeMillis();
     private int FPS = 0;
     private boolean Status = true;
-    
+
     private AnimationTimer GameLoop;
     private Player Doodle = new Player();
     private Obstacle[] newObstacles = new Obstacle[37];
@@ -57,9 +52,8 @@ public class GamePage extends Pane {
 
     private Text score = new Text(1425, 850, "");
 
-    
     private String AudioState;
-    //private Audio audioGame;
+    // private Audio audioGame;
     private Audio audioFall;
 
     private KeyboardListener keyboardListener = new KeyboardListener(this, Doodle, newObstacles, newPowerUps,
@@ -75,9 +69,8 @@ public class GamePage extends Pane {
     }
 
     public void start() {
-        this.setLayoutX(-133);
-        this.setLayoutY(-75);
         
+
         FileIO.Write((int) Doodle.getScore() + "", "Score.txt");
         AudioState = FileIO.Read("AudioState.txt");
 
@@ -103,8 +96,7 @@ public class GamePage extends Pane {
 
         keyboardListener.Start();
 
-        this.setScaleX(Factor / 3);
-        this.setScaleY(Factor / 3);
+        
 
         GameLoop = new AnimationTimer() {
 
@@ -115,7 +107,7 @@ public class GamePage extends Pane {
                     moveYLabel.setText("Y = " + Doodle.getY());
                     // moveXLabel.setText("ad = " + newProjectiles.size());
                     // moveYLabel.setText("re = " + removeProjectiles.size());
-                    ScoreLabel.setText("Score: " + (int)Doodle.getScore());
+                    ScoreLabel.setText("Score: " + (int) Doodle.getScore());
 
                     keyboardListener.Loop();
                     Doodle.gravityCycle(newObstacles, newPowerUps, newMonsters);
@@ -132,7 +124,7 @@ public class GamePage extends Pane {
                     }
 
                     Projectile.Loop(newProjectiles, newMonsters);
-                    //BackBackGround.toFront();
+                    // BackBackGround.toFront();
                     // for (Projectile pro : removeProjectiles){
                     // pro.setVisible(false);
                     // pro = null;
@@ -144,7 +136,7 @@ public class GamePage extends Pane {
             }
         };
 
-            GameLoop.start();
+        GameLoop.start();
 
         Pause_iv.setX(550);
         Pause_iv.setY(10);
@@ -165,7 +157,6 @@ public class GamePage extends Pane {
             PrimaryStage.setScene(PausePage.Pause(PrimaryStage, thisScene, Doodle, GameLoop));
             GameLoop.stop();
         });
-
 
     }
 
@@ -201,17 +192,21 @@ public class GamePage extends Pane {
     private void Lose() {
         Status = false;
         score = new Text(1425, 850, FileIO.Read("Score.txt"));
-            FileIO.Write((int) Doodle.getScore() + "", "Score.txt");
-            if (AudioState.equals("ON")) {
-                audioFall.play();
-            } else if (AudioState.equals("OFF")) {
-                audioFall.stop();
-            }
-            PrimaryStage.setScene(new GameOverPage(PrimaryStage).Create());
+        FileIO.Write((int) Doodle.getScore() + "", "Score.txt");
+        if (AudioState.equals("ON")) {
+            audioFall.play();
+        } else if (AudioState.equals("OFF")) {
+            audioFall.stop();
+        }
+        PrimaryStage.setScene(new GameOverPage(PrimaryStage).Create());
     }
 
     public Scene Create() {
-        thisScene = new Scene(this,1600,900);
+        thisScene = new Scene(this, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
+        this.setLayoutX(Main.SelectedOffset.getX());
+        this.setLayoutY(Main.SelectedOffset.getY());
+        this.setScaleX(Main.Factor / 3);
+        this.setScaleY(Main.Factor / 3);
         start();
         return thisScene;
     }

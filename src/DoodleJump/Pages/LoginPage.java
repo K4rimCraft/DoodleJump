@@ -1,5 +1,6 @@
 package DoodleJump.Pages;
 
+import DoodleJump.Main;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -76,7 +77,11 @@ public class LoginPage extends Pane {
     }
 
     public Scene Create() {
+        this.setLayoutX(Main.SelectedOffset.getX());
+        this.setLayoutY(Main.SelectedOffset.getY());
+        this.setScaleX(Main.Factor / 3);
+        this.setScaleY(Main.Factor / 3);
         start();
-        return new Scene(this);
+        return new Scene(this, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
     }
 }

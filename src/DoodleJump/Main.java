@@ -6,6 +6,7 @@ import DoodleJump.GameLogic.GamePage;
 import DoodleJump.Pages.Images;
 import DoodleJump.Pages.MainPage;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -16,6 +17,20 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
+        public final static Point2D SelectedResolution = new Point2D(1600, 900);
+        public final static Point2D SelectedOffset = new Point2D(-133, -75);
+        public final static double Factor = 2.5; 
+        
+        public final static Point2D ResolutionFullHD = new Point2D(1920, 1080);
+        public final static Point2D ResolutionHD = new Point2D(1280, 720);
+        public final static Point2D ResolutionCustom = new Point2D(1600, 900);
+
+        public final static Point2D OffsetFullHD = new Point2D(0, 0);
+        public final static Point2D OffsetHD = new Point2D(-213, -119);
+        public final static Point2D OffsetCustom = new Point2D(-133, -75);
+
+        
 
         public static String PathToFont = "file:E:\\";
         public static String PathToResources = "C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\DoodleJump\\";
