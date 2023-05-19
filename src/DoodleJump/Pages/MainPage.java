@@ -46,8 +46,8 @@ public class MainPage extends Pane {
         double y = 110.63;
 ////////////////////////////////////////////////////////////////////////////////
 
-        data = ReadAndWrite.Read("Character_Right.txt");
-        AudioState = ReadAndWrite.Read("AudioState.txt");
+        data = FileIO.Read("Character_Right.txt");
+        AudioState = FileIO.Read("AudioState.txt");
 
         if (AudioState.equals("ON")) {
             audioGame.play();
@@ -97,7 +97,7 @@ public class MainPage extends Pane {
         });
         Play_iv.setOnMouseClicked(e -> {
             audioGame.stop();
-            SecondPage page = new SecondPage(stage);
+            SelectPage page = new SelectPage(stage);
             page.start();
             stage.setScene(page.play());
         }
@@ -121,7 +121,7 @@ public class MainPage extends Pane {
         });
         Settings_iv.setOnMouseClicked(e -> {
             audioGame.stop();
-            Settings settings = new Settings(stage);
+            SettingsPage settings = new SettingsPage(stage);
             settings.start();
             stage.setScene(settings.setting());
         });
@@ -143,7 +143,7 @@ public class MainPage extends Pane {
         });
         Scores_iv.setOnMouseClicked(e -> {
             audioGame.stop();
-            Scores score = new Scores(stage);
+            ScoresPage score = new ScoresPage(stage);
             score.start();
             stage.setScene(score.play());
         });

@@ -14,13 +14,13 @@ import javafx.scene.image.ImageView;
 import DoodleJump.Main;
 import DoodleJump.Pages.*;
 
-public class GamePane extends Pane {
+public class GamePage extends Pane {
 
     // private static Pane gamePane = new Pane();
     public final static Point2D ResolutionFullHD = new Point2D(1920, 1080);
     public final static Point2D ResolutionHD = new Point2D(1280, 720);
     public final static Point2D ResolutionCustom = new Point2D(1600, 900);
-    public final static double Factor = 3; 
+    public final static double Factor = 2.5; 
 
     public static double GameScreenHeightOffset = 215;
 
@@ -64,7 +64,7 @@ public class GamePane extends Pane {
     private KeyboardListener keyboardListener = new KeyboardListener(this, Doodle, newObstacles, newPowerUps,
             newMonsters, newProjectiles);
 
-    public GamePane(Point2D Resolution, Stage stage) {
+    public GamePage(Point2D Resolution, Stage stage) {
         super();
         this.setWidth(Resolution.getX());
         this.setHeight(Resolution.getY());
@@ -74,11 +74,11 @@ public class GamePane extends Pane {
     }
 
     public void start() {
-        //this.setLayoutX(-133);
-        //this.setLayoutY(-75);
+        this.setLayoutX(-133);
+        this.setLayoutY(-75);
         
-        ReadAndWrite.Write((int) Doodle.getScore() + "", "Score.txt");
-        AudioState = ReadAndWrite.Read("AudioState.txt");
+        FileIO.Write((int) Doodle.getScore() + "", "Score.txt");
+        AudioState = FileIO.Read("AudioState.txt");
 
         ScoreLabel.setLayoutX(75);
         ScoreLabel.setLayoutY(15);
@@ -161,7 +161,7 @@ public class GamePane extends Pane {
             Pause_iv.setFitHeight(80);
         });
         Pause_iv.setOnMouseClicked(e -> {
-            stage.setScene(PausePane.Pause(stage, scene, Doodle, GameLoop));
+            stage.setScene(PausePage.Pause(stage, scene, Doodle, GameLoop));
             GameLoop.stop();
         });
 
@@ -199,20 +199,20 @@ public class GamePane extends Pane {
 
     private void Lose() {
         Status = false;
-        score = new Text(1425, 850, ReadAndWrite.Read("Score.txt"));
-            ReadAndWrite.Write((int) Doodle.getScore() + "", "Score.txt");
+        score = new Text(1425, 850, FileIO.Read("Score.txt"));
+            FileIO.Write((int) Doodle.getScore() + "", "Score.txt");
             if (AudioState.equals("ON")) {
                 audioFall.play();
             } else if (AudioState.equals("OFF")) {
                 audioFall.stop();
             }
-            GameOver gameover = new GameOver(stage);
+            GameOverPage gameover = new GameOverPage(stage);
             gameover.start();
             stage.setScene(gameover.play());
     }
 
     public Scene play() {
-        scene = new Scene(this);
+        scene = new Scene(this,1600,900);
         return scene;
     }
 

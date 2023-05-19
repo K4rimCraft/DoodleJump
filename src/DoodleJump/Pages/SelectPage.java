@@ -6,7 +6,7 @@ import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class SecondPage extends Pane {
+public class SelectPage extends Pane {
 
     private Stage stage;
     private Scene scene;
@@ -16,7 +16,7 @@ public class SecondPage extends Pane {
     private ImageView Continue_iv = new ImageView(Images.Continue);
     private ImageView X_iv = new ImageView(Images.X);
 
-    public SecondPage(Stage stage) {
+    public SelectPage(Stage stage) {
         this.stage = stage;
     }
 
@@ -40,7 +40,7 @@ public class SecondPage extends Pane {
             NewGame_iv.setFitHeight(y);
         });
         NewGame_iv.setOnMouseClicked(e -> {
-            Login login = new Login(stage);
+            LoginPage login = new LoginPage(stage);
             login.start();
             stage.setScene(login.play());
         });
@@ -62,7 +62,7 @@ public class SecondPage extends Pane {
             Continue_iv.setFitHeight(y);
         });
         Continue_iv.setOnMouseClicked(e -> {
-            LevelPage play = new LevelPage(stage);
+            DifficultyPage play = new DifficultyPage(stage);
             play.start();
             stage.setScene(play.play());
         });
@@ -87,7 +87,7 @@ public class SecondPage extends Pane {
 ////////////////////////////////////////////////////////////////////////////////
 
         this.getChildren().addAll(Background_iv, NewGame_iv, X_iv);
-        if (!(ReadAndWrite.Read("PlayerName.txt").equals(""))) {
+        if (!(FileIO.Read("PlayerName.txt").equals(""))) {
             this.getChildren().add(Continue_iv);
         } else {
             NewGame_iv.setX(722.34);

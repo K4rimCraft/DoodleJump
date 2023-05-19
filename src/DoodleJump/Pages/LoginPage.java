@@ -1,6 +1,5 @@
 package DoodleJump.Pages;
 
-
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -8,7 +7,7 @@ import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Login extends Pane {
+public class LoginPage extends Pane {
 
     private Stage stage;
     private Scene scene;
@@ -19,7 +18,7 @@ public class Login extends Pane {
     TextField Age = new TextField();
     ChoiceDialog b = new ChoiceDialog();
 
-    public Login(Stage stage) {
+    public LoginPage(Stage stage) {
         this.stage = stage;
     }
 
@@ -38,10 +37,10 @@ public class Login extends Pane {
         });
         Next_iv.setOnMouseClicked(e -> {
             if (!(Name.getText().equals("") && Age.getText().equals(""))) {
-                ReadAndWrite.Write(Name.getText(), "PlayerName.txt");
-                ReadAndWrite.Write("0", "Score.txt");
-                ReadAndWrite.Write("0", "TopScore.txt");
-                LevelPage play = new LevelPage(stage);
+                FileIO.Write(Name.getText(), "PlayerName.txt");
+                FileIO.Write("0", "Score.txt");
+                FileIO.Write("0", "TopScore.txt");
+                DifficultyPage play = new DifficultyPage(stage);
                 play.start();
                 stage.setScene(play.play());
             }

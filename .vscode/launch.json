@@ -10,7 +10,7 @@
             "request": "launch",
             "mainClass": "DoodleJump.Main",
             "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-20.0.1/lib\" --add-modules=javafx.controls,javafx.media",
-            "projectName": "DoodleJump_4b14864a"
+            "projectName": "DoodleJump_6ec5af5e"
         },
         {
             "type": "java",

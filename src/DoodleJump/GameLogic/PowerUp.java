@@ -39,7 +39,7 @@ public class PowerUp extends ImageView {
         // this.switchType();
     }
 
-    public static void initialize(PowerUp newPowerUps[], Obstacle newObstacles[], GamePane gamePane) {
+    public static void initialize(PowerUp newPowerUps[], Obstacle newObstacles[], GamePage gamePane) {
         for (int i = 0; i < newPowerUps.length; i++) {
             newPowerUps[i] = new PowerUp(gamePane);
 

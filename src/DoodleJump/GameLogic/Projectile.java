@@ -45,7 +45,7 @@ public class Projectile extends ImageView {
                             kill2Clip.play(0.2);
                     }
                 }
-                if (pro.getX() > GamePane.PlayerRightBorder || pro.getX() < GamePane.PlayerLeftBorder - 50
+                if (pro.getX() > GamePage.PlayerRightBorder || pro.getX() < GamePage.PlayerLeftBorder - 50
                         || pro.getY() > 1080
                         || pro.getY() < -20) {
                     removeProjectiles.add(pro);
@@ -58,15 +58,15 @@ public class Projectile extends ImageView {
     }
 
     public static void create(Player Doodle, ArrayList<Projectile> newProjectiles, Pane gamePane, double X, double Y) {
-        if (Y > Doodle.Hitbox.getY() * GamePane.Factor / 3 || X > GamePane.PlayerRightBorder || X < GamePane.PlayerLeftBorder) {
+        if (Y > Doodle.Hitbox.getY() * GamePage.Factor / 3 || X > GamePage.PlayerRightBorder || X < GamePage.PlayerLeftBorder) {
             return;
         }
         Projectile nowProjectile = new Projectile();
         gamePane.getChildren().add(nowProjectile);
         newProjectiles.add(nowProjectile);
 
-        double tempX = X - (Doodle.Hitbox.getX() + 10) * GamePane.Factor / 3;
-        double tempY = (Doodle.Hitbox.getY() + 10) * GamePane.Factor / 3 - Y;
+        double tempX = X - (Doodle.Hitbox.getX() + 10) * GamePage.Factor / 3;
+        double tempY = (Doodle.Hitbox.getY() + 10) * GamePage.Factor / 3 - Y;
         nowProjectile.Angle = Math.atan2(tempX, tempY);
         nowProjectile.Xspeed = Math.sin(nowProjectile.Angle) * 10;
         nowProjectile.Yspeed = Math.cos(nowProjectile.Angle) * 10;

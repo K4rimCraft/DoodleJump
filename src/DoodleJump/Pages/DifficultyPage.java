@@ -8,10 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import DoodleJump.GameLogic.GamePane;
+import DoodleJump.GameLogic.GamePage;
 ////////////////////////////////////////////////////////////////////////////////
 
-public class LevelPage extends Pane {
+public class DifficultyPage extends Pane {
 
     private Stage stage;
     private Scene scene;
@@ -23,7 +23,7 @@ public class LevelPage extends Pane {
     private ImageView Hard_iv = new ImageView(Images.Hard);
     private ImageView X_iv = new ImageView(Images.X);
 
-    public LevelPage(Stage stage) {
+    public DifficultyPage(Stage stage) {
         this.stage = stage;
     }
 
@@ -49,7 +49,7 @@ public class LevelPage extends Pane {
         });
 
         Easy_iv.setOnMouseClicked(e -> {
-            GamePane game = new GamePane(GamePane.ResolutionFullHD, stage);
+            GamePage game = new GamePage(GamePage.ResolutionCustom, stage);
             game.start();
             stage.setScene(game.play());
 

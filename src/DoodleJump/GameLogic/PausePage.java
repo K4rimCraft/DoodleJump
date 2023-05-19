@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import DoodleJump.Pages.*;
 
-public class PausePane {
+public class PausePage {
 
     private static ImageView X_iv = new ImageView(Images.X);
     private static ImageView PlayAgain_iv = new ImageView(Images.PlayAgain);
@@ -45,7 +45,7 @@ public class PausePane {
             PlayAgain_iv.setFitHeight(138.29);
         });
         PlayAgain_iv.setOnMouseClicked(e -> {
-            LevelPage play = new LevelPage(stage);
+            DifficultyPage play = new DifficultyPage(stage);
             play.start();
             stage.setScene(play.play());
         });

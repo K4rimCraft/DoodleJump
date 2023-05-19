@@ -2,6 +2,7 @@ package DoodleJump;
 
 import java.io.File;
 
+import DoodleJump.GameLogic.GamePage;
 import DoodleJump.Pages.Images;
 import DoodleJump.Pages.MainPage;
 import javafx.application.Application;
@@ -30,11 +31,16 @@ public class Main extends Application {
                 // intro.setFitHeight(1080);
 
                 Images images = new Images();
-                MainPage firstPage = new MainPage(stage);
-                firstPage.start();
+                // GamePane gamePane = new GamePane(GamePane.ResolutionCustom, stage);
+                // gamePane.start();
+                // stage.setScene(gamePane.play());
+
+                MainPage mainPage = new MainPage(stage);
+                mainPage.start();
+                stage.setScene(mainPage.play());
+
 
                 // Intro.play();
-                stage.setScene(firstPage.play());
                 // Intro.setOnEndOfMedia(new Runnable() {
                 // @Override
                 // public void run() {
@@ -43,7 +49,7 @@ public class Main extends Application {
                 // stage.setScene(firstPage.play());
                 // }
                 // });
-
+                stage.setResizable(false);
                 stage.setTitle("Doddle_Jumb");
                 stage.show();
         }

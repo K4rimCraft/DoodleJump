@@ -39,8 +39,8 @@ public class Obstacle extends ImageView {
           }
      }
 
-     public static void initialize(Obstacle newObstacles[], GamePane gamePane){
-          newObstacles[0] = new Obstacle(GamePane.LeftBorder + 250, 1000, 0,gamePane);
+     public static void initialize(Obstacle newObstacles[], GamePage gamePane){
+          newObstacles[0] = new Obstacle(GamePage.LeftBorder + 250, 1000, 0,gamePane);
         for (int i = 1; i < newObstacles.length; i++) {
             newObstacles[i] = new Obstacle(Obstacle.xRandom(), 1000 - (35 * i), i,gamePane);
         }
@@ -49,7 +49,7 @@ public class Obstacle extends ImageView {
      public void swing() {
           if (canMove == true && activated == true) {
                double pos = this.getX();
-               if (pos > GamePane.RightBorder - Obstacle.Width || pos < GamePane.LeftBorder) {
+               if (pos > GamePage.RightBorder - Obstacle.Width || pos < GamePage.LeftBorder) {
                     this.toggleDir();
                }
                this.setX(pos + (2 * movementDir));
@@ -57,8 +57,8 @@ public class Obstacle extends ImageView {
      }
 
      public void teleportUP(Player Doodle, PowerUp newPowerUps[],Monster newMonsters[]) {
-          if (this.getY() + Obstacle.Height > GamePane.GameScreenHeight && activated == true) {
-               this.setY(this.getY() - GamePane.GameScreenHeight);
+          if (this.getY() + Obstacle.Height > GamePage.GameScreenHeight && activated == true) {
+               this.setY(this.getY() - GamePage.GameScreenHeight);
                this.setX(Obstacle.xRandom());
 
                double probablity = Math.random();
@@ -102,8 +102,8 @@ public class Obstacle extends ImageView {
      }
 
      static public double xRandom() {
-          return ((int) (Math.random() * 100) * (GamePane.GameScreenWidth - Obstacle.Width) / 100)
-                     + GamePane.LeftBorder;
+          return ((int) (Math.random() * 100) * (GamePage.GameScreenWidth - Obstacle.Width) / 100)
+                     + GamePage.LeftBorder;
           // return 900;     
      }
 

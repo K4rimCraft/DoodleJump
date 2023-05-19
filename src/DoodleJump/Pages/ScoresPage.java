@@ -12,7 +12,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class Scores extends Pane {
+public class ScoresPage extends Pane {
 
     private Stage stage;
     private Scene scene;
@@ -20,10 +20,10 @@ public class Scores extends Pane {
 
     private ImageView Background5_iv = new ImageView(Images.Background5);
     private ImageView X_iv = new ImageView(Images.X);
-    private Text topscore =new Text(1050,475,ReadAndWrite.Read("TopScore.txt"));
-    private Text playerName =new Text(650,475,ReadAndWrite.Read("PlayerName.txt"));
+    private Text topscore =new Text(1050,475,FileIO.Read("TopScore.txt"));
+    private Text playerName =new Text(650,475,FileIO.Read("PlayerName.txt"));
 
-    public Scores(Stage stage) {
+    public ScoresPage(Stage stage) {
         this.stage = stage;
     }
 

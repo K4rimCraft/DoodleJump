@@ -12,7 +12,7 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class GameOver extends Pane {
+public class GameOverPage extends Pane {
 
     private Stage stage;
     private Scene scene;
@@ -27,9 +27,9 @@ public class GameOver extends Pane {
     private int time = 1;
     private long time2 = System.currentTimeMillis();
     private String data;
-    private Text score = new Text(1425, 850, ReadAndWrite.Read("Score.txt"));
+    private Text score = new Text(1425, 850, FileIO.Read("Score.txt"));
 
-    public GameOver(Stage stage) {
+    public GameOverPage(Stage stage) {
         this.stage = stage;
     }
 
@@ -37,8 +37,8 @@ public class GameOver extends Pane {
         double x = 340.3;
         double y = 129;
 
-        if (Integer.parseInt(ReadAndWrite.Read("TopScore.txt")) < Integer.parseInt(ReadAndWrite.Read("Score.txt"))) {
-            ReadAndWrite.Write(ReadAndWrite.Read("Score.txt"), "TopScore.txt");
+        if (Integer.parseInt(FileIO.Read("TopScore.txt")) < Integer.parseInt(FileIO.Read("Score.txt"))) {
+            FileIO.Write(FileIO.Read("Score.txt"), "TopScore.txt");
         }
         score.setFill(Color.BLACK);
         score.setFont(Font.font("Impact", FontWeight.BOLD, FontPosture.ITALIC, 50));
@@ -59,8 +59,8 @@ public class GameOver extends Pane {
             PlayAgain_iv.setFitWidth(x);
         });
         PlayAgain_iv.setOnMouseClicked(e -> {
-            ReadAndWrite.Write("OFF", "AudioState.txt");
-            LevelPage play = new LevelPage(stage);
+            FileIO.Write("OFF", "AudioState.txt");
+            DifficultyPage play = new DifficultyPage(stage);
             play.start();
             stage.setScene(play.play());
         });

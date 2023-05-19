@@ -53,7 +53,7 @@ public class Monster extends ImageView {
     }
 
     public static void initialize(Monster newMonsters[], PowerUp newPowerUps[], Obstacle newObstacles[],
-            GamePane gamePane) {
+            GamePage gamePane) {
         for (int i = 0; i < newMonsters.length; i++) {
             newMonsters[i] = new Monster(gamePane);
 
