@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
         public static String PathToFont = "file:E:\\";
-        public static String PathToResources = "C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\DoodleJump Mahmod\\";
+        public static String PathToResources = "C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\DoodleJump\\";
 
         @Override
         public void start(Stage stage) {

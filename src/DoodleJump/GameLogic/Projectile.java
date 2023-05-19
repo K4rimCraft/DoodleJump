@@ -58,7 +58,7 @@ public class Projectile extends ImageView {
     }
 
     public static void create(Player Doodle, ArrayList<Projectile> newProjectiles, Pane gamePane, double X, double Y) {
-        if (Y > Doodle.Hitbox.getY() * GamePane.Factor / 3) {
+        if (Y > Doodle.Hitbox.getY() * GamePane.Factor / 3 || X > GamePane.PlayerRightBorder || X < GamePane.PlayerLeftBorder) {
             return;
         }
         Projectile nowProjectile = new Projectile();

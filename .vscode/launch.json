@@ -6,6 +6,14 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "DoodleJump.Main",
+            "vmArgs": "--module-path \"C:/Program Files/Java/javafx-sdk-20.0.1/lib\" --add-modules=javafx.controls,javafx.media",
+            "projectName": "DoodleJump_4b14864a"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

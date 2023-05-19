@@ -98,7 +98,7 @@ public class GamePane extends Pane {
 
         this.getChildren().addAll(Doodle.Nozzle, Doodle, BackBackGround, moveXLabel, moveYLabel, FPSLabel,
                 stopYLabel,
-                ScoreLabel);
+                ScoreLabel, Pause_iv);
 
         keyboardListener.Start();
 
@@ -145,7 +145,7 @@ public class GamePane extends Pane {
 
             GameLoop.start();
 
-        Pause_iv.setX(650);
+        Pause_iv.setX(550);
         Pause_iv.setY(10);
         Pause_iv.setFitWidth(80);
         Pause_iv.setFitHeight(80);

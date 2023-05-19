@@ -107,6 +107,7 @@ public class PausePane {
         });
         X_iv.setOnMouseClicked(e -> {
             stage.setScene(scene);
+            GameLoop.start();
         });
 
 
