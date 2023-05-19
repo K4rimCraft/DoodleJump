@@ -34,7 +34,7 @@ public class GamePane extends Pane {
     private long time = System.currentTimeMillis();
     private int FPS = 0;
     private boolean Status = true;
-
+    //damn
     private AnimationTimer GameLoop;
     private Player Doodle = new Player();
     private Obstacle[] newObstacles = new Obstacle[37];
