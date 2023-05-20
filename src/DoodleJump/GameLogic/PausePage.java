@@ -11,9 +11,10 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import DoodleJump.Main;
 import DoodleJump.Pages.*;
 
-public class PausePane {
+public class PausePage {
 
     private static ImageView X_iv = new ImageView(Images.X);
     private static ImageView PlayAgain_iv = new ImageView(Images.PlayAgain);
@@ -23,6 +24,10 @@ public class PausePane {
 
     public static Scene Pause(Stage stage, Scene scene, Player Doodle, AnimationTimer GameLoop) {
         Pane pane = new Pane();
+        pane.setLayoutX(Main.SelectedOffset.getX());
+        pane.setLayoutY(Main.SelectedOffset.getY());
+        pane.setScaleX(Main.Factor / 3);
+        pane.setScaleY(Main.Factor / 3);
         Scene scene2;
         Text score = new Text(1150, 375, (int) Doodle.getScore() + "");
         score.setFill(Color.BLACK);
@@ -45,9 +50,7 @@ public class PausePane {
             PlayAgain_iv.setFitHeight(138.29);
         });
         PlayAgain_iv.setOnMouseClicked(e -> {
-            LevelPage play = new LevelPage(stage);
-            play.start();
-            stage.setScene(play.play());
+            stage.setScene(new DifficultyPage(stage).Create());
         });
 
 
@@ -67,9 +70,7 @@ public class PausePane {
             Main_iv.setFitHeight(138.29);
         });
         Main_iv.setOnMouseClicked(e -> {
-            MainPage mainPage = new MainPage(stage);
-            mainPage.start();
-            stage.setScene(mainPage.play());
+            stage.setScene(new MainPage(stage).Create());
         });
 
 

@@ -39,14 +39,14 @@ public class Player extends ImageView {
     static final int LEFT = -1;
     static final int RIGHT = 1;
 
-    Rectangle Hitbox = new Rectangle(GamePane.LeftBorder + initialPosition.getX(), initialPosition.getY(), 40, 59);
+    Rectangle Hitbox = new Rectangle(GamePage.LeftBorder + initialPosition.getX(), initialPosition.getY(), 40, 59);
     ImageView Nozzle = new ImageView(Images.Nozzle);
 
     Player() {
         super(playerTiles);
         this.setFitHeight(60);
         this.setFitWidth(60);
-        this.setX(GamePane.LeftBorder + initialPosition.getX());
+        this.setX(GamePage.LeftBorder + initialPosition.getX());
         this.setY(initialPosition.getY());
         Hitbox.setVisible(false);
         Hitbox.setFill(Color.color(0, 0, 0, 0.5));
@@ -64,7 +64,7 @@ public class Player extends ImageView {
         for (int i = 0; i < Math.abs(yVelocity); i++) {
             for (int index = 0; index < newObstacles.length; index++) {
                 if (Hitbox.getBoundsInParent().intersects(newObstacles[index].getBoundsInParent()) && Hitbox.getY()
-                        + Hitbox.getHeight() < (GamePane.GameScreenHeight - GamePane.GameScreenHeightOffset)) {
+                        + Hitbox.getHeight() < (GamePage.GameScreenHeight - GamePage.GameScreenHeightOffset)) {
                     if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && distance > 0) {
                         Hitbox.setY(lastYPostion);
                         // canJump = true;
@@ -117,8 +117,8 @@ public class Player extends ImageView {
                     xHitBoxOffset = 20;
                 }
 
-                if (this.getX() < GamePane.PlayerLeftBorder - Hitbox.getWidth()) {
-                    Hitbox.setX(GamePane.PlayerRightBorder);
+                if (this.getX() < GamePage.PlayerLeftBorder - Hitbox.getWidth()) {
+                    Hitbox.setX(GamePage.PlayerRightBorder);
                 }
             }
 
@@ -129,8 +129,8 @@ public class Player extends ImageView {
                     xHitBoxOffset = 0;
                 }
 
-                if (Hitbox.getX() > GamePane.PlayerRightBorder) {
-                    Hitbox.setX(GamePane.PlayerLeftBorder - Hitbox.getWidth());
+                if (Hitbox.getX() > GamePage.PlayerRightBorder) {
+                    Hitbox.setX(GamePage.PlayerLeftBorder - Hitbox.getWidth());
                 }
             }
 
@@ -143,11 +143,11 @@ public class Player extends ImageView {
 
         double damping = 0.05;
 
-        if (this.getY() < (GamePane.GameScreenHeight / 1.8)) {
-            for (int i = 0; i < (GamePane.GameScreenHeight / 1.8) - this.getY(); i++) {
+        if (this.getY() < (GamePage.GameScreenHeight / 1.8)) {
+            for (int i = 0; i < (GamePage.GameScreenHeight / 1.8) - this.getY(); i++) {
                 for (int index = 0; index < newObstacles.length; index++) {
                     if (newObstacles[index].getActivated() == false
-                            && newObstacles[index].getY() > GamePane.GameScreenHeight) {
+                            && newObstacles[index].getY() > GamePage.GameScreenHeight) {
                         newObstacles[index].setVisible(false);
                     } else {
                         newObstacles[index].setY(newObstacles[index].getY() + damping);
@@ -159,12 +159,12 @@ public class Player extends ImageView {
                 this.setY(this.getY() + damping);
                 Score += damping;
                 BG.setY(BG.getY() + 0.005);
-                BG2.setY(BG.getY() - GamePane.GameScreenHeight);
+                BG2.setY(BG.getY() - GamePage.GameScreenHeight);
             }
 
             for (int index = 0; index < newObstacles.length; index++) {
                 if (newObstacles[index].getActivated() == false
-                        && newObstacles[index].getY() > GamePane.GameScreenHeight) {
+                        && newObstacles[index].getY() > GamePage.GameScreenHeight) {
 
                 } else {
                     newObstacles[index].setY(Math.ceil(newObstacles[index].getY()));
@@ -175,7 +175,7 @@ public class Player extends ImageView {
             this.setY(Math.ceil(this.getY()));
             Score = Math.ceil(Score);
             BG.setY(Math.ceil(BG.getY()));
-            BG2.setY(BG.getY() - GamePane.GameScreenHeight);
+            BG2.setY(BG.getY() - GamePage.GameScreenHeight);
 
         }
     }

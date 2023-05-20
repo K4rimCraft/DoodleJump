@@ -1,23 +1,23 @@
 package DoodleJump.Pages;
 
+import DoodleJump.Main;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class SecondPage extends Pane {
+public class SelectPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
+    private Stage PrimaryStage;
 
     private ImageView Background_iv = new ImageView(Images.Background8);
     private ImageView NewGame_iv = new ImageView(Images.NewGame);
     private ImageView Continue_iv = new ImageView(Images.Continue);
     private ImageView X_iv = new ImageView(Images.X);
 
-    public SecondPage(Stage stage) {
-        this.stage = stage;
+    public SelectPage(Stage stage) {
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -40,9 +40,7 @@ public class SecondPage extends Pane {
             NewGame_iv.setFitHeight(y);
         });
         NewGame_iv.setOnMouseClicked(e -> {
-            Login login = new Login(stage);
-            login.start();
-            stage.setScene(login.play());
+            PrimaryStage.setScene(new LoginPage(PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -62,9 +60,7 @@ public class SecondPage extends Pane {
             Continue_iv.setFitHeight(y);
         });
         Continue_iv.setOnMouseClicked(e -> {
-            LevelPage play = new LevelPage(stage);
-            play.start();
-            stage.setScene(play.play());
+            PrimaryStage.setScene(new DifficultyPage(PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -80,14 +76,12 @@ public class SecondPage extends Pane {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            MainPage mainPage = new MainPage(stage);
-            mainPage.start();
-            stage.setScene(mainPage.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
         this.getChildren().addAll(Background_iv, NewGame_iv, X_iv);
-        if (!(ReadAndWrite.Read("PlayerName.txt").equals(""))) {
+        if (!(FileIO.Read("PlayerName.txt").equals(""))) {
             this.getChildren().add(Continue_iv);
         } else {
             NewGame_iv.setX(722.34);
@@ -95,8 +89,12 @@ public class SecondPage extends Pane {
         }
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        this.setLayoutX(Main.SelectedOffset.getX());
+        this.setLayoutY(Main.SelectedOffset.getY());
+        this.setScaleX(Main.Factor / 3);
+        this.setScaleY(Main.Factor / 3);
+        start();
+        return new Scene(this, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
     }
 }

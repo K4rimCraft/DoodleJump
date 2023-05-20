@@ -1,6 +1,7 @@
 package DoodleJump.Pages;
 
 
+import DoodleJump.Main;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
@@ -12,19 +13,16 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class Scores extends Pane {
+public class ScoresPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
-    private Pane pane = new Pane();
-
+    private Stage PrimaryStage;
     private ImageView Background5_iv = new ImageView(Images.Background5);
     private ImageView X_iv = new ImageView(Images.X);
-    private Text topscore =new Text(1050,475,ReadAndWrite.Read("TopScore.txt"));
-    private Text playerName =new Text(650,475,ReadAndWrite.Read("PlayerName.txt"));
+    private Text topscore =new Text(1050,475,FileIO.Read("TopScore.txt"));
+    private Text playerName =new Text(650,475,FileIO.Read("PlayerName.txt"));
 
-    public Scores(Stage stage) {
-        this.stage = stage;
+    public ScoresPage(Stage stage) {
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -47,15 +45,17 @@ public class Scores extends Pane {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            MainPage mainPage = new MainPage(stage);
-            mainPage.start();
-            stage.setScene(mainPage.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
         this.getChildren().addAll(Background5_iv, topscore,X_iv,playerName);
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        this.setLayoutX(Main.SelectedOffset.getX());
+        this.setLayoutY(Main.SelectedOffset.getY());
+        this.setScaleX(Main.Factor / 3);
+        this.setScaleY(Main.Factor / 3);
+        start();
+        return new Scene(this, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
     }
 }

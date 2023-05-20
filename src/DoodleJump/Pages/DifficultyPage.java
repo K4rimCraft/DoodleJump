@@ -1,20 +1,18 @@
 package DoodleJump.Pages;
 
-
-
 ////////////////////////////////////////////////////////////////////////////////
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import DoodleJump.GameLogic.GamePane;
+import DoodleJump.Main;
+import DoodleJump.GameLogic.GamePage;
 ////////////////////////////////////////////////////////////////////////////////
 
-public class LevelPage extends Pane {
+public class DifficultyPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
+    private Stage PrimaryStage;
     private Pane buttons = new Pane();
 
     private ImageView Background2_iv = new ImageView(Images.Background2);
@@ -23,8 +21,8 @@ public class LevelPage extends Pane {
     private ImageView Hard_iv = new ImageView(Images.Hard);
     private ImageView X_iv = new ImageView(Images.X);
 
-    public LevelPage(Stage stage) {
-        this.stage = stage;
+    public DifficultyPage(Stage stage) {
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -49,10 +47,8 @@ public class LevelPage extends Pane {
         });
 
         Easy_iv.setOnMouseClicked(e -> {
-            GamePane game = new GamePane(GamePane.ResolutionFullHD, stage);
-            game.start();
-            stage.setScene(game.play());
-
+            
+            PrimaryStage.setScene(new GamePage(Main.ResolutionCustom, PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -110,9 +106,7 @@ public class LevelPage extends Pane {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            MainPage main = new MainPage(stage);
-            main.start();
-            stage.setScene(main.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -120,8 +114,12 @@ public class LevelPage extends Pane {
         this.getChildren().addAll(Background2_iv, X_iv, buttons);
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        this.setLayoutX(Main.SelectedOffset.getX());
+        this.setLayoutY(Main.SelectedOffset.getY());
+        this.setScaleX(Main.Factor / 3);
+        this.setScaleY(Main.Factor / 3);
+        start();
+        return new Scene(this, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
     }
 }

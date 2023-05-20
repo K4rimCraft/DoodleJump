@@ -14,13 +14,10 @@ import javafx.scene.image.ImageView;
 import DoodleJump.Main;
 import DoodleJump.Pages.*;
 
-public class GamePane extends Pane {
+public class GamePage extends Pane {
 
-    // private static Pane gamePane = new Pane();
-    public final static Point2D ResolutionFullHD = new Point2D(1920, 1080);
-    public final static Point2D ResolutionHD = new Point2D(1280, 720);
-    public final static Point2D ResolutionCustom = new Point2D(1600, 900);
-    public final static double Factor = 3; 
+    private Stage PrimaryStage;
+    private Scene thisScene;
 
     public static double GameScreenHeightOffset = 215;
 
@@ -34,7 +31,7 @@ public class GamePane extends Pane {
     private long time = System.currentTimeMillis();
     private int FPS = 0;
     private boolean Status = true;
-    //damn
+
     private AnimationTimer GameLoop;
     private Player Doodle = new Player();
     private Obstacle[] newObstacles = new Obstacle[37];
@@ -55,30 +52,27 @@ public class GamePane extends Pane {
 
     private Text score = new Text(1425, 850, "");
 
-    private Stage stage;
-    private Scene scene;
     private String AudioState;
-    //private Audio audioGame;
+    // private Audio audioGame;
     private Audio audioFall;
 
     private KeyboardListener keyboardListener = new KeyboardListener(this, Doodle, newObstacles, newPowerUps,
             newMonsters, newProjectiles);
 
-    public GamePane(Point2D Resolution, Stage stage) {
+    public GamePage(Point2D Resolution, Stage stage) {
         super();
         this.setWidth(Resolution.getX());
         this.setHeight(Resolution.getY());
-        this.stage = stage;
+        this.PrimaryStage = stage;
         audioFall = new Audio(Main.PathToResources + "fall.wav");
         audioFall.audioPlayer(1);
     }
 
     public void start() {
-        //this.setLayoutX(-133);
-        //this.setLayoutY(-75);
         
-        ReadAndWrite.Write((int) Doodle.getScore() + "", "Score.txt");
-        AudioState = ReadAndWrite.Read("AudioState.txt");
+
+        FileIO.Write((int) Doodle.getScore() + "", "Score.txt");
+        AudioState = FileIO.Read("AudioState.txt");
 
         ScoreLabel.setLayoutX(75);
         ScoreLabel.setLayoutY(15);
@@ -102,8 +96,7 @@ public class GamePane extends Pane {
 
         keyboardListener.Start();
 
-        this.setScaleX(Factor / 3);
-        this.setScaleY(Factor / 3);
+        
 
         GameLoop = new AnimationTimer() {
 
@@ -114,7 +107,7 @@ public class GamePane extends Pane {
                     moveYLabel.setText("Y = " + Doodle.getY());
                     // moveXLabel.setText("ad = " + newProjectiles.size());
                     // moveYLabel.setText("re = " + removeProjectiles.size());
-                    ScoreLabel.setText("Score: " + (int)Doodle.getScore());
+                    ScoreLabel.setText("Score: " + (int) Doodle.getScore());
 
                     keyboardListener.Loop();
                     Doodle.gravityCycle(newObstacles, newPowerUps, newMonsters);
@@ -131,7 +124,7 @@ public class GamePane extends Pane {
                     }
 
                     Projectile.Loop(newProjectiles, newMonsters);
-                    //BackBackGround.toFront();
+                    // BackBackGround.toFront();
                     // for (Projectile pro : removeProjectiles){
                     // pro.setVisible(false);
                     // pro = null;
@@ -143,7 +136,7 @@ public class GamePane extends Pane {
             }
         };
 
-            GameLoop.start();
+        GameLoop.start();
 
         Pause_iv.setX(550);
         Pause_iv.setY(10);
@@ -161,10 +154,9 @@ public class GamePane extends Pane {
             Pause_iv.setFitHeight(80);
         });
         Pause_iv.setOnMouseClicked(e -> {
-            stage.setScene(PausePane.Pause(stage, scene, Doodle, GameLoop));
+            PrimaryStage.setScene(PausePage.Pause(PrimaryStage, thisScene, Doodle, GameLoop));
             GameLoop.stop();
         });
-
 
     }
 
@@ -199,21 +191,24 @@ public class GamePane extends Pane {
 
     private void Lose() {
         Status = false;
-        score = new Text(1425, 850, ReadAndWrite.Read("Score.txt"));
-            ReadAndWrite.Write((int) Doodle.getScore() + "", "Score.txt");
-            if (AudioState.equals("ON")) {
-                audioFall.play();
-            } else if (AudioState.equals("OFF")) {
-                audioFall.stop();
-            }
-            GameOver gameover = new GameOver(stage);
-            gameover.start();
-            stage.setScene(gameover.play());
+        score = new Text(1425, 850, FileIO.Read("Score.txt"));
+        FileIO.Write((int) Doodle.getScore() + "", "Score.txt");
+        if (AudioState.equals("ON")) {
+            audioFall.play();
+        } else if (AudioState.equals("OFF")) {
+            audioFall.stop();
+        }
+        PrimaryStage.setScene(new GameOverPage(PrimaryStage).Create());
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        thisScene = new Scene(this, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
+        this.setLayoutX(Main.SelectedOffset.getX());
+        this.setLayoutY(Main.SelectedOffset.getY());
+        this.setScaleX(Main.Factor / 3);
+        this.setScaleY(Main.Factor / 3);
+        start();
+        return thisScene;
     }
 
 }

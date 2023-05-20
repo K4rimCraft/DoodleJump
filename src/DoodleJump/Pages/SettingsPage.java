@@ -1,6 +1,7 @@
 package DoodleJump.Pages;
 
 
+import DoodleJump.Main;
 import javafx.scene.Cursor;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -8,10 +9,9 @@ import javafx.scene.image.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 
-public class Settings extends Pane {
+public class SettingsPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
+    private Stage PrimaryStage;
     private Pane buttons = new Pane();
 
     private ImageView Background3_iv = new ImageView(Images.Background3);
@@ -29,8 +29,8 @@ public class Settings extends Pane {
     boolean click = false;
     boolean click2 = false;
 
-    public Settings(Stage stage) {
-        this.stage = stage;
+    public SettingsPage(Stage stage) {
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -62,10 +62,10 @@ public class Settings extends Pane {
             Char4_iv.setImage(Images.Char);
             Char5_iv.setImage(Images.Char);
             Char1_iv.setImage(Images.Char1_3);
-            ReadAndWrite.Write("Character/Character_Left_1.png", "Character_Left.txt");
-            ReadAndWrite.Write("Character/Character_Right_1.png", "Character_Right.txt");
-            ReadAndWrite.Write("Character/Character_Plus_Right_1.png", "Character_Plus_Right.txt");
-            ReadAndWrite.Write("Character/Character_Plus_Left_1.png", "Character_Plus_Left.txt");
+            FileIO.Write("Character/Character_Left_1.png", "Character_Left.txt");
+            FileIO.Write("Character/Character_Right_1.png", "Character_Right.txt");
+            FileIO.Write("Character/Character_Plus_Right_1.png", "Character_Plus_Right.txt");
+            FileIO.Write("Character/Character_Plus_Left_1.png", "Character_Plus_Left.txt");
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,10 +95,10 @@ public class Settings extends Pane {
             Char4_iv.setImage(Images.Char);
             Char5_iv.setImage(Images.Char);
             Char2_iv.setImage(Images.Char2_3);
-            ReadAndWrite.Write("Character/Character_Left_2.png", "Character_Left.txt");
-            ReadAndWrite.Write("Character/Character_Right_2.png", "Character_Right.txt");
-            ReadAndWrite.Write("Character/Character_Plus_Right_2.png", "Character_Plus_Right.txt");
-            ReadAndWrite.Write("Character/Character_Plus_Left_2.png", "Character_Plus_Left.txt");
+            FileIO.Write("Character/Character_Left_2.png", "Character_Left.txt");
+            FileIO.Write("Character/Character_Right_2.png", "Character_Right.txt");
+            FileIO.Write("Character/Character_Plus_Right_2.png", "Character_Plus_Right.txt");
+            FileIO.Write("Character/Character_Plus_Left_2.png", "Character_Plus_Left.txt");
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -128,10 +128,10 @@ public class Settings extends Pane {
             Char4_iv.setImage(Images.Char);
             Char5_iv.setImage(Images.Char);
             Char3_iv.setImage(Images.Char3_3);
-            ReadAndWrite.Write("Character/Character_Left_3.png", "Character_Left.txt");
-            ReadAndWrite.Write("Character/Character_Right_3.png", "Character_Right.txt");
-            ReadAndWrite.Write("Character/Character_Plus_Right_3.png", "Character_Plus_Right.txt");
-            ReadAndWrite.Write("Character/Character_Plus_Left_3.png", "Character_Plus_Left.txt");
+            FileIO.Write("Character/Character_Left_3.png", "Character_Left.txt");
+            FileIO.Write("Character/Character_Right_3.png", "Character_Right.txt");
+            FileIO.Write("Character/Character_Plus_Right_3.png", "Character_Plus_Right.txt");
+            FileIO.Write("Character/Character_Plus_Left_3.png", "Character_Plus_Left.txt");
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -161,10 +161,10 @@ public class Settings extends Pane {
             Char3_iv.setImage(Images.Char);
             Char5_iv.setImage(Images.Char);
             Char4_iv.setImage(Images.Char4_3);
-            ReadAndWrite.Write("Character/Character_Right_4.png", "Character_Right.txt");
-            ReadAndWrite.Write("Character/Character_Plus_Right_4.png", "Character_Plus_Right.txt");
-            ReadAndWrite.Write("Character/Character_Left_4.png", "Character_Left.txt");
-            ReadAndWrite.Write("Character/Character_Plus_Left_4.png", "Character_Plus_Left.txt");
+            FileIO.Write("Character/Character_Right_4.png", "Character_Right.txt");
+            FileIO.Write("Character/Character_Plus_Right_4.png", "Character_Plus_Right.txt");
+            FileIO.Write("Character/Character_Left_4.png", "Character_Left.txt");
+            FileIO.Write("Character/Character_Plus_Left_4.png", "Character_Plus_Left.txt");
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -194,10 +194,10 @@ public class Settings extends Pane {
             Char3_iv.setImage(Images.Char);
             Char4_iv.setImage(Images.Char);
             Char5_iv.setImage(Images.Char5_3);
-            ReadAndWrite.Write("Character/Character_Right_5.png", "Character_Right.txt");
-            ReadAndWrite.Write("Character/Character_Left_5.png", "Character_Left.txt");
-            ReadAndWrite.Write("Character/Character_Plus_Right_5.png", "Character_Plus_Right.txt");
-            ReadAndWrite.Write("Character/Character_Plus_Left_5.png", "Character_Plus_Left.txt");
+            FileIO.Write("Character/Character_Right_5.png", "Character_Right.txt");
+            FileIO.Write("Character/Character_Left_5.png", "Character_Left.txt");
+            FileIO.Write("Character/Character_Plus_Right_5.png", "Character_Plus_Right.txt");
+            FileIO.Write("Character/Character_Plus_Left_5.png", "Character_Plus_Left.txt");
         });
 ////////////////////////////////////////////////////////////////////////////////
         X_iv.setX(1380);
@@ -212,9 +212,7 @@ public class Settings extends Pane {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            MainPage mainPage = new MainPage(stage);
-            mainPage.start();
-            stage.setScene(mainPage.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +239,7 @@ public class Settings extends Pane {
             click2 = true;
             Von_iv.setImage(Images.Von3);
             Voff_iv.setImage(Images.Voff);
-            ReadAndWrite.Write("OFF", "AudioState.txt");
+            FileIO.Write("OFF", "AudioState.txt");
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -268,7 +266,7 @@ public class Settings extends Pane {
             click2 = true;
             Voff_iv.setImage(Images.Voff3);
             Von_iv.setImage(Images.Von);
-            ReadAndWrite.Write("ON", "AudioState.txt");
+            FileIO.Write("ON", "AudioState.txt");
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -320,8 +318,12 @@ public class Settings extends Pane {
 
     }
 
-    public Scene setting() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        this.setLayoutX(Main.SelectedOffset.getX());
+        this.setLayoutY(Main.SelectedOffset.getY());
+        this.setScaleX(Main.Factor / 3);
+        this.setScaleY(Main.Factor / 3);
+        start();
+        return new Scene(this, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
     }
 }

@@ -1,6 +1,6 @@
 package DoodleJump.Pages;
 
-
+import DoodleJump.Main;
 import javafx.animation.*;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -12,11 +12,9 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class GameOver extends Pane {
+public class GameOverPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
-
+    private Stage PrimaryStage;
     private ImageView Background6_iv = new ImageView(Images.Background6);
     private ImageView Character_iv = new ImageView(Images.Character);
     private ImageView PlayAgain_iv = new ImageView(Images.PlayAgain);
@@ -27,18 +25,18 @@ public class GameOver extends Pane {
     private int time = 1;
     private long time2 = System.currentTimeMillis();
     private String data;
-    private Text score = new Text(1425, 850, ReadAndWrite.Read("Score.txt"));
+    private Text score = new Text(1425, 850, FileIO.Read("Score.txt"));
 
-    public GameOver(Stage stage) {
-        this.stage = stage;
+    public GameOverPage(Stage stage) {
+        this.PrimaryStage = stage;
     }
 
     public void start() {
         double x = 340.3;
         double y = 129;
 
-        if (Integer.parseInt(ReadAndWrite.Read("TopScore.txt")) < Integer.parseInt(ReadAndWrite.Read("Score.txt"))) {
-            ReadAndWrite.Write(ReadAndWrite.Read("Score.txt"), "TopScore.txt");
+        if (Integer.parseInt(FileIO.Read("TopScore.txt")) < Integer.parseInt(FileIO.Read("Score.txt"))) {
+            FileIO.Write(FileIO.Read("Score.txt"), "TopScore.txt");
         }
         score.setFill(Color.BLACK);
         score.setFont(Font.font("Impact", FontWeight.BOLD, FontPosture.ITALIC, 50));
@@ -59,13 +57,11 @@ public class GameOver extends Pane {
             PlayAgain_iv.setFitWidth(x);
         });
         PlayAgain_iv.setOnMouseClicked(e -> {
-            ReadAndWrite.Write("OFF", "AudioState.txt");
-            LevelPage play = new LevelPage(stage);
-            play.start();
-            stage.setScene(play.play());
+            FileIO.Write("OFF", "AudioState.txt");
+            PrimaryStage.setScene(new DifficultyPage(PrimaryStage).Create());
         });
 
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
         Main_iv.setX(1430);
         Main_iv.setY(500);
         Main_iv.setFitHeight(y);
@@ -82,12 +78,10 @@ public class GameOver extends Pane {
             Main_iv.setFitWidth(x);
         });
         Main_iv.setOnMouseClicked(e -> {
-            MainPage firstPage = new MainPage(stage);
-            firstPage.start();
-            stage.setScene(firstPage.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
         Character_iv.setX(490);
         Character_iv.setY(740);
         Character_iv.setFitWidth(89);
@@ -98,7 +92,7 @@ public class GameOver extends Pane {
         path.setCycleCount(Timeline.INDEFINITE);
         path.play();
 
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
         bat_iv.setFitHeight(67);
         bat_iv.setFitWidth(120);
         bat_iv.setX(770);
@@ -126,8 +120,12 @@ public class GameOver extends Pane {
 
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        this.setLayoutX(Main.SelectedOffset.getX());
+        this.setLayoutY(Main.SelectedOffset.getY());
+        this.setScaleX(Main.Factor / 3);
+        this.setScaleY(Main.Factor / 3);
+        start();
+        return new Scene(this, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
     }
 }

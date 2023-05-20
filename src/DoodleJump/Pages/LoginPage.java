@@ -1,6 +1,6 @@
 package DoodleJump.Pages;
 
-
+import DoodleJump.Main;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -8,10 +8,9 @@ import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class Login extends Pane {
+public class LoginPage extends Pane {
 
-    private Stage stage;
-    private Scene scene;
+    private Stage PrimaryStage;
     private ImageView Background_iv = new ImageView(Images.Background4);
     private ImageView Next_iv = new ImageView(Images.Next);
     private ImageView X_iv = new ImageView(Images.X);
@@ -19,8 +18,8 @@ public class Login extends Pane {
     TextField Age = new TextField();
     ChoiceDialog b = new ChoiceDialog();
 
-    public Login(Stage stage) {
-        this.stage = stage;
+    public LoginPage(Stage stage) {
+        this.PrimaryStage = stage;
     }
 
     public void start() {
@@ -38,12 +37,10 @@ public class Login extends Pane {
         });
         Next_iv.setOnMouseClicked(e -> {
             if (!(Name.getText().equals("") && Age.getText().equals(""))) {
-                ReadAndWrite.Write(Name.getText(), "PlayerName.txt");
-                ReadAndWrite.Write("0", "Score.txt");
-                ReadAndWrite.Write("0", "TopScore.txt");
-                LevelPage play = new LevelPage(stage);
-                play.start();
-                stage.setScene(play.play());
+                FileIO.Write(Name.getText(), "PlayerName.txt");
+                FileIO.Write("0", "Score.txt");
+                FileIO.Write("0", "TopScore.txt");
+                PrimaryStage.setScene(new DifficultyPage(PrimaryStage).Create());
             }
         });
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,9 +57,7 @@ public class Login extends Pane {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            MainPage mainPage = new MainPage(stage);
-            mainPage.start();
-            stage.setScene(mainPage.play());
+            PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,8 +76,12 @@ public class Login extends Pane {
 
     }
 
-    public Scene play() {
-        scene = new Scene(this);
-        return scene;
+    public Scene Create() {
+        this.setLayoutX(Main.SelectedOffset.getX());
+        this.setLayoutY(Main.SelectedOffset.getY());
+        this.setScaleX(Main.Factor / 3);
+        this.setScaleY(Main.Factor / 3);
+        start();
+        return new Scene(this, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
     }
 }

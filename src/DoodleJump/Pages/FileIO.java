@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 ////////////////////////////////////////////////////////////////////////////////
-public class ReadAndWrite {
+public class FileIO {
     private static  String data;
 ////////////////////////////////////////////////////////////////////////////////
     public static String Read(String fileName){
