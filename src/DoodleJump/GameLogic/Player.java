@@ -23,6 +23,10 @@ public class Player extends ImageView {
     private double jumpHeight = -20;
     private double Score = 0;
     private double xHitBoxOffset = 0;
+    public double getxHitBoxOffset() {
+        return xHitBoxOffset;
+    }
+
     private Point2D initialPosition = new Point2D(262, 940);
     private Boolean hasSomething = false;
     private Boolean canFlip = true;
@@ -77,8 +81,8 @@ public class Player extends ImageView {
             }
 
             for (int index = 0; index < newPowerUp.length; index++) {
-                if (Hitbox.getBoundsInParent().intersects(newPowerUp[index].getBoundsInParent())) {
-                    newPowerUp[index].Execute(this, Hitbox, distance, lastYPostion, jumpHeight);
+                if (Hitbox.getBoundsInParent().intersects(newPowerUp[index].getBoundsInParent()) && this.getHasSomething() == false) {
+                    newPowerUp[index].Execute(this,newObstacles, distance, lastYPostion, jumpHeight);
 
                 }
             }

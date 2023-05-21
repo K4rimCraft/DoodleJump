@@ -50,7 +50,7 @@ public class Main extends Application {
                 // gamePane.start();
                 // stage.setScene(gamePane.play());
 
-                stage.setScene(new MainPage(stage).Create());
+                stage.setScene(new GamePage(SelectedResolution,stage).Create());
 
 
                 // Intro.play();

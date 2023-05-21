@@ -33,7 +33,6 @@ public class PausePage {
         score.setFill(Color.BLACK);
         score.setFont(Font.font("Impact", FontWeight.BOLD, FontPosture.ITALIC, 50));
 
-
         PlayAgain_iv.setX(570);
         PlayAgain_iv.setY(730);
         PlayAgain_iv.setFitWidth(365.63);
@@ -53,7 +52,6 @@ public class PausePage {
             stage.setScene(new DifficultyPage(stage).Create());
         });
 
-
         Main_iv.setX(970);
         Main_iv.setY(730);
         Main_iv.setFitWidth(365.63);
@@ -72,7 +70,6 @@ public class PausePage {
         Main_iv.setOnMouseClicked(e -> {
             stage.setScene(new MainPage(stage).Create());
         });
-
 
         Resume_iv.setX(760);
         Resume_iv.setY(520);
@@ -94,7 +91,6 @@ public class PausePage {
             GameLoop.start();
         });
 
-
         X_iv.setX(1380);
         X_iv.setY(80);
         X_iv.setFitWidth(40);
@@ -111,9 +107,8 @@ public class PausePage {
             GameLoop.start();
         });
 
-
         pane.getChildren().addAll(BackGround4, X_iv, PlayAgain_iv, Main_iv, Resume_iv, score);
-        scene2 = new Scene(pane);
+        scene2 = new Scene(pane, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
         return scene2;
     }
 }

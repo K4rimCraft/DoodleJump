@@ -91,6 +91,10 @@ public class Images {
     public static Image playerTiles = new Image("Images/DoodleTiles.png");
     public static Image obstacleTiles = new Image("Images/ObstacleTiles.png");
     public static Image monster1Tiles = new Image("Images/Monster1Tiles.png");
+    public static Image monster2Tiles = new Image("Images/Monster2Tiles.png");
     public static Image Projectile = new Image("Images/Projectile.png");
+
+    public static Image HatAnimation = new Image("Images/Hat-Animation.png");
+    public static Image JetpackAnimation = new Image("Images/Jetpack-Animation.png");
 
 }

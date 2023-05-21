@@ -10,6 +10,8 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 import DoodleJump.Main;
 import DoodleJump.Pages.*;
@@ -43,11 +45,8 @@ public class GamePage extends Pane {
     private ImageView BackBackGround = new ImageView(Images.BackBackGround);
     private ImageView Pause_iv = new ImageView(Images.Pause);
 
-    private Label moveXLabel = new Label();
-    private Label moveYLabel = new Label();
     private Label FPSLabel = new Label();
     private Label ScoreLabel = new Label();
-    private Label stopYLabel = new Label();
     private Font doodleFont = Font.loadFont(Main.PathToFont + "DoodleJump.ttf", 50);
 
     private Text score = new Text(1425, 850, "");
@@ -69,44 +68,34 @@ public class GamePage extends Pane {
     }
 
     public void start() {
-        
 
         FileIO.Write((int) Doodle.getScore() + "", "Score.txt");
         AudioState = FileIO.Read("AudioState.txt");
-
+        // this.setEffect(new GaussianBlur());
         ScoreLabel.setLayoutX(75);
         ScoreLabel.setLayoutY(15);
         ScoreLabel.setFont(doodleFont);
-        moveYLabel.setLayoutY(15);
-        stopYLabel.setLayoutY(15);
         FPSLabel.setLayoutX(75);
-        stopYLabel.setLayoutX(100);
         BackGround.setX(635);
         BackGround2.setX(635);
         BackGround2.setY(-(GameScreenHeight + 500));
-        this.getChildren().addAll(BackGround, BackGround2, Doodle.Hitbox);
 
+        this.getChildren().addAll(BackGround, BackGround2, Doodle.Hitbox);
         Obstacle.initialize(newObstacles, this);
         PowerUp.initialize(newPowerUps, newObstacles, this);
         Monster.initialize(newMonsters, newPowerUps, newObstacles, this);
+        this.getChildren().addAll(Doodle.Nozzle, Doodle);
+        PowerUp.initializeAnimations(newPowerUps, this);
+        this.getChildren().addAll(BackBackGround, FPSLabel, ScoreLabel, Pause_iv);
 
-        this.getChildren().addAll(Doodle.Nozzle, Doodle, BackBackGround, moveXLabel, moveYLabel, FPSLabel,
-                stopYLabel,
-                ScoreLabel, Pause_iv);
 
         keyboardListener.Start();
-
-        
 
         GameLoop = new AnimationTimer() {
 
             @Override
             public void handle(long arg0) {
                 if (Status == true) {
-                    moveXLabel.setText("X = " + Doodle.getX());
-                    moveYLabel.setText("Y = " + Doodle.getY());
-                    // moveXLabel.setText("ad = " + newProjectiles.size());
-                    // moveYLabel.setText("re = " + removeProjectiles.size());
                     ScoreLabel.setText("Score: " + (int) Doodle.getScore());
 
                     keyboardListener.Loop();
@@ -124,11 +113,6 @@ public class GamePage extends Pane {
                     }
 
                     Projectile.Loop(newProjectiles, newMonsters);
-                    // BackBackGround.toFront();
-                    // for (Projectile pro : removeProjectiles){
-                    // pro.setVisible(false);
-                    // pro = null;
-                    // }
                     FPSCounter();
                     LoseCheck();
 
@@ -210,5 +194,11 @@ public class GamePage extends Pane {
         start();
         return thisScene;
     }
+
+     public void toAbove() {
+       
+         BackBackGround.toFront();
+         ScoreLabel.toFront();
+     }
 
 }

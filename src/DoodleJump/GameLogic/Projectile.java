@@ -57,7 +57,7 @@ public class Projectile extends ImageView {
         removeProjectiles.removeAll(removeProjectiles);
     }
 
-    public static void create(Player Doodle, ArrayList<Projectile> newProjectiles, Pane gamePane, double X, double Y) {
+    public static void create(Player Doodle, ArrayList<Projectile> newProjectiles, GamePage gamePane, double X, double Y) {
         if (Y > Doodle.Hitbox.getY() * Main.Factor / 3 || X > GamePage.PlayerRightBorder * Main.Factor / 3 || X < GamePage.PlayerLeftBorder * Main.Factor / 3) {
             return;
         }
@@ -75,6 +75,7 @@ public class Projectile extends ImageView {
         nowProjectile.setVisible(true);
         Doodle.shoot(nowProjectile.Angle);
         laserClip.play(0.2);
+        gamePane.toAbove();
 
         // System.out.println("screen X: " + X);
         // System.out.println("screen Y: " + Y);

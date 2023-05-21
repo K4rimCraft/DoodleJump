@@ -9,15 +9,15 @@ public class KeyboardListener {
     private Boolean aMove = false;
     private Boolean dMove = false;
     private Boolean canJump = true;
-    private Pane selectedPane;
+    private GamePage selectedPane;
     private Player selectedPlayer;
     private Obstacle[] selectedObstacles;
     private PowerUp[] selectedPowerUp;
     private Monster[] selectedMonsters;
     private ArrayList<Projectile> selectedProjectiles;
 
-    KeyboardListener(Pane scene, Player player, Obstacle obstacle[], PowerUp powerUp[], Monster monster[], ArrayList<Projectile> projectile) {
-        selectedPane = scene;
+    KeyboardListener(GamePage gamePage, Player player, Obstacle obstacle[], PowerUp powerUp[], Monster monster[], ArrayList<Projectile> projectile) {
+        selectedPane = gamePage;
         selectedPlayer = player;
         selectedObstacles = obstacle;
         selectedPowerUp = powerUp;
