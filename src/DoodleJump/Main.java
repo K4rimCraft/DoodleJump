@@ -2,6 +2,7 @@ package DoodleJump;
 
 import java.io.File;
 
+import DoodleJump.GameLogic.ArduinoListener;
 import DoodleJump.GameLogic.GamePage;
 import DoodleJump.Pages.Images;
 import DoodleJump.Pages.MainPage;
@@ -62,6 +63,10 @@ public class Main extends Application {
                 // stage.setScene(firstPage.play());
                 // }
                 // });
+                ArduinoListener.start();
+                stage.setOnCloseRequest(e ->{
+                        System.exit(0);
+                });
                 stage.setResizable(false);
                 stage.setTitle("Doddle_Jumb");
                 stage.show();

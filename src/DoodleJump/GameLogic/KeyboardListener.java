@@ -84,9 +84,9 @@ public class KeyboardListener {
         if (sMove == true)
             selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
         if (aMove == true)
-            selectedPlayer.moveX(Player.LEFT, selectedObstacles);
+            selectedPlayer.moveX(-selectedPlayer.getxVelocity(), selectedObstacles);
         if (dMove == true)
-            selectedPlayer.moveX(Player.RIGHT, selectedObstacles);
+            selectedPlayer.moveX(selectedPlayer.getxVelocity(), selectedObstacles);
 
         selectedPane.requestFocus();
     }

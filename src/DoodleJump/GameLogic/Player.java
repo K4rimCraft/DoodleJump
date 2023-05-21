@@ -19,7 +19,7 @@ public class Player extends ImageView {
     private double lastXPostion = 0;
     private double lastYPostion = 0;
     private double yVelocity = 0;
-    private double xVelocity = 5;
+    private int xVelocity = 5;
     private double jumpHeight = -20;
     private double Score = 0;
     private double xHitBoxOffset = 0;
@@ -31,6 +31,7 @@ public class Player extends ImageView {
     private Boolean hasSomething = false;
     private Boolean canFlip = true;
     private boolean shooting = false;
+
 
     public void setCanFlip(Boolean canFlip) {
         this.canFlip = canFlip;
@@ -65,7 +66,7 @@ public class Player extends ImageView {
 
     public void moveY(int distance, Obstacle newObstacles[], PowerUp newPowerUp[]) {
 
-        for (int i = 0; i < Math.abs(yVelocity); i++) {
+        for (int i = 0; i < Math.abs(distance); i++) {
             for (int index = 0; index < newObstacles.length; index++) {
                 if (Hitbox.getBoundsInParent().intersects(newObstacles[index].getBoundsInParent()) && Hitbox.getY()
                         + Hitbox.getHeight() < (GamePage.GameScreenHeight - GamePage.GameScreenHeightOffset)) {
@@ -99,12 +100,12 @@ public class Player extends ImageView {
         }
     }
 
-    public void moveX(int direction, Obstacle newObstacles[]) {
+    public void moveX(int distance, Obstacle newObstacles[]) {
 
-        for (int i = 0; i < Math.abs(xVelocity); i++) {
+        for (int i = 0; i < Math.abs(distance); i++) {
             for (int index = 0; index < newObstacles.length; index++) {
                 if (Hitbox.getBoundsInParent().intersects(newObstacles[index].getBoundsInParent())) {
-                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && direction > 0) {
+                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && distance > 0) {
                         Hitbox.setX(lastXPostion);
                         // canJump = true;
                         return;
@@ -114,7 +115,7 @@ public class Player extends ImageView {
 
             lastXPostion = Hitbox.getX();
 
-            if (direction == -1) {
+            if (distance < 0)  {
                 Hitbox.setX(Hitbox.getX() - 1);
                 if (canFlip == true && shooting == false) {
                     this.setViewport(new Rectangle2D(0, 90, 92, 90));
@@ -126,7 +127,7 @@ public class Player extends ImageView {
                 }
             }
 
-            if (direction == 1) {
+            if (distance > 0)  {
                 Hitbox.setX(Hitbox.getX() + 1);
                 if (canFlip == true && shooting == false) {
                     this.setViewport(new Rectangle2D(0, 0, 92, 90));
@@ -218,11 +219,11 @@ public class Player extends ImageView {
         this.yVelocity = yVelocity;
     }
 
-    public double getxVelocity() {
+    public int getxVelocity() {
         return xVelocity;
     }
 
-    public void setxVelocity(double xVelocity) {
+    public void setxVelocity(int xVelocity) {
         this.xVelocity = xVelocity;
     }
 

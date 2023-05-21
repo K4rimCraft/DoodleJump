@@ -57,6 +57,7 @@ public class GamePage extends Pane {
 
     private KeyboardListener keyboardListener = new KeyboardListener(this, Doodle, newObstacles, newPowerUps,
             newMonsters, newProjectiles);
+    
 
     public GamePage(Point2D Resolution, Stage stage) {
         super();
@@ -90,15 +91,18 @@ public class GamePage extends Pane {
 
 
         keyboardListener.Start();
+        ArduinoListener.Xspeed = 0;
+        ArduinoListener.Status = true;
 
         GameLoop = new AnimationTimer() {
 
             @Override
             public void handle(long arg0) {
                 if (Status == true) {
-                    ScoreLabel.setText("Score: " + (int) Doodle.getScore());
-
-                    keyboardListener.Loop();
+                    //ScoreLabel.setText("Score: " + (int) Doodle.getScore());
+                    ScoreLabel.setText("Score: " + ArduinoListener.Xspeed);
+                    
+                    
                     Doodle.gravityCycle(newObstacles, newPowerUps, newMonsters);
                     Doodle.screenScroll(newObstacles, BackGround, BackGround2);
 
@@ -110,6 +114,12 @@ public class GamePage extends Pane {
                     if (BackGround.getY() > GameScreenHeight) {
                         BackGround.setY(BackGround.getY() - 1 * (GameScreenHeight));
                         BackGround2.setY(BackGround2.getY() - 2 * (GameScreenHeight));
+                    }
+
+                    if(ArduinoListener.Status == true){
+                        Doodle.moveX(ArduinoListener.Xspeed, newObstacles);
+                    } else{
+                        keyboardListener.Loop();
                     }
 
                     Projectile.Loop(newProjectiles, newMonsters);
@@ -141,6 +151,7 @@ public class GamePage extends Pane {
             PrimaryStage.setScene(PausePage.Pause(PrimaryStage, thisScene, Doodle, GameLoop));
             GameLoop.stop();
         });
+
 
     }
 
