@@ -7,8 +7,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import DoodleJump.Main;
@@ -20,20 +18,17 @@ public class PausePage {
     private static ImageView PlayAgain_iv = new ImageView(Images.PlayAgain);
     private static ImageView Main_iv = new ImageView(Images.Main);
     private static ImageView Resume_iv = new ImageView(Images.Resume);
-    private static ImageView BackGround4 = new ImageView(Images.Background9);
+    private static ImageView PausePage = new ImageView(Images.PausePage);
+    private static Font doodleFont = Font.loadFont(Main.PathToFont + "DoodleJump.ttf", 50);
 
-    public static Scene Pause(Stage stage, Scene scene, Player Doodle, AnimationTimer GameLoop) {
-        Pane pane = new Pane();
-        pane.setLayoutX(Main.SelectedOffset.getX());
-        pane.setLayoutY(Main.SelectedOffset.getY());
-        pane.setScaleX(Main.Factor / 3);
-        pane.setScaleY(Main.Factor / 3);
-        Scene scene2;
+
+    public static void Pause(Stage stage, Scene scene, Player Doodle, AnimationTimer GameLoop, GamePage gamePage) {
+
+        Pane pause = new Pane();
         Text score = new Text(1150, 375, (int) Doodle.getScore() + "");
         score.setFill(Color.BLACK);
-        score.setFont(Font.font("Impact", FontWeight.BOLD, FontPosture.ITALIC, 50));
 
-
+        score.setFont(doodleFont);
         PlayAgain_iv.setX(570);
         PlayAgain_iv.setY(730);
         PlayAgain_iv.setFitWidth(365.63);
@@ -52,7 +47,6 @@ public class PausePage {
         PlayAgain_iv.setOnMouseClicked(e -> {
             stage.setScene(new DifficultyPage(stage).Create());
         });
-
 
         Main_iv.setX(970);
         Main_iv.setY(730);
@@ -73,7 +67,6 @@ public class PausePage {
             stage.setScene(new MainPage(stage).Create());
         });
 
-
         Resume_iv.setX(760);
         Resume_iv.setY(520);
         Resume_iv.setFitWidth(402.2);
@@ -90,10 +83,10 @@ public class PausePage {
             Resume_iv.setFitHeight(152.12);
         });
         Resume_iv.setOnMouseClicked(e -> {
-            stage.setScene(scene);
+            //stage.setScene(scene);
+            gamePage.getChildren().remove(pause);
             GameLoop.start();
         });
-
 
         X_iv.setX(1380);
         X_iv.setY(80);
@@ -107,13 +100,14 @@ public class PausePage {
             X_iv.setImage(Images.X);
         });
         X_iv.setOnMouseClicked(e -> {
-            stage.setScene(scene);
+            gamePage.getChildren().remove(pause);
             GameLoop.start();
         });
 
-
-        pane.getChildren().addAll(BackGround4, X_iv, PlayAgain_iv, Main_iv, Resume_iv, score);
-        scene2 = new Scene(pane);
-        return scene2;
+        pause.getChildren().addAll(PausePage, X_iv, PlayAgain_iv, Main_iv, Resume_iv, score);
+        gamePage.getChildren().addAll(pause);
+        //scene2 = new Scene(pane, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
+        //stage.setScene(scene2);
+        //return scene2;
     }
 }

@@ -1,17 +1,16 @@
 package DoodleJump.GameLogic;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import java.io.File;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import DoodleJump.Main;
+import DoodleJump.Pages.Audio;
 import DoodleJump.Pages.Images;
 
 public class Player extends ImageView {
@@ -19,11 +18,16 @@ public class Player extends ImageView {
     private double lastXPostion = 0;
     private double lastYPostion = 0;
     private double yVelocity = 0;
-    private double xVelocity = 5;
+    private int xVelocity = 5;
     private double jumpHeight = -20;
     private double Score = 0;
     private double xHitBoxOffset = 0;
-    private Point2D initialPosition = new Point2D(262, 940);
+
+    public double getxHitBoxOffset() {
+        return xHitBoxOffset;
+    }
+
+    private Point2D initialPosition = new Point2D(262, 930);
     private Boolean hasSomething = false;
     private Boolean canFlip = true;
     private boolean shooting = false;
@@ -32,44 +36,57 @@ public class Player extends ImageView {
         this.canFlip = canFlip;
     }
 
-    static private Image playerTiles = Images.playerTiles;
-
-    private static AudioClip pop = new AudioClip(new File(Main.PathToResources + "jump.wav").toURI().toString());
+    private static Audio pop = new Audio("jump.wav");
     private double accerlationOfGravity = 10;
     static final int LEFT = -1;
     static final int RIGHT = 1;
 
-    Rectangle Hitbox = new Rectangle(GamePage.LeftBorder + initialPosition.getX(), initialPosition.getY(), 40, 59);
+    private Audio soundBreak = new Audio("break.mp3");
+
+    Rectangle Hitbox = new Rectangle(GamePage.LeftBorder + initialPosition.getX(), initialPosition.getY(), 45, 69);
     ImageView Nozzle = new ImageView(Images.Nozzle);
 
     Player() {
-        super(playerTiles);
-        this.setFitHeight(60);
-        this.setFitWidth(60);
+        super(Main.imagChar);
+        this.setFitHeight(70);
+        this.setFitWidth(70);
         this.setX(GamePage.LeftBorder + initialPosition.getX());
         this.setY(initialPosition.getY());
         Hitbox.setVisible(false);
         Hitbox.setFill(Color.color(0, 0, 0, 0.5));
         this.setViewport(new Rectangle2D(0, 0, 92, 90));
-        Nozzle.xProperty().bind(Hitbox.xProperty().add(10));
+        Nozzle.xProperty().bind(Hitbox.xProperty().add(14));
         Nozzle.yProperty().bind(Hitbox.yProperty().subtract(14));
         Nozzle.setRotate(90);
-        Nozzle.setFitHeight(78);
-        Nozzle.setFitWidth(20);
+        Nozzle.setFitHeight(92);
+        Nozzle.setFitWidth(22);
         Nozzle.setVisible(false);
     }
 
     public void moveY(int distance, Obstacle newObstacles[], PowerUp newPowerUp[]) {
 
-        for (int i = 0; i < Math.abs(yVelocity); i++) {
+        for (int i = 0; i < Math.abs(distance); i++) {
             for (int index = 0; index < newObstacles.length; index++) {
                 if (Hitbox.getBoundsInParent().intersects(newObstacles[index].getBoundsInParent()) && Hitbox.getY()
                         + Hitbox.getHeight() < (GamePage.GameScreenHeight - GamePage.GameScreenHeightOffset)) {
-                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && distance > 0) {
+                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && distance > 0 && newObstacles[index].getDied() == false) {
                         Hitbox.setY(lastYPostion);
                         // canJump = true;
-                        yVelocity = jumpHeight;
-                        pop.play(0.2);
+                        if (Main.nojump == false) {
+                            yVelocity = jumpHeight;
+                            pop.play();
+                        }
+
+                        if (newObstacles[index].getActivated() == false) {
+
+                            FadeTransition ft = new FadeTransition(Duration.millis(100), newObstacles[index]);
+                            newObstacles[index].setDied(true);
+                            ft.setFromValue(1.0);
+                            ft.setToValue(0.0);
+                            ft.play();
+                            soundBreak.play();
+                        }
+
                         // direction = -1;
                         return;
                     }
@@ -77,8 +94,9 @@ public class Player extends ImageView {
             }
 
             for (int index = 0; index < newPowerUp.length; index++) {
-                if (Hitbox.getBoundsInParent().intersects(newPowerUp[index].getBoundsInParent())) {
-                    newPowerUp[index].Execute(this, Hitbox, distance, lastYPostion, jumpHeight);
+                if (Hitbox.getBoundsInParent().intersects(newPowerUp[index].getBoundsInParent())
+                        && this.getHasSomething() == false) {
+                    newPowerUp[index].Execute(this, newObstacles, distance, lastYPostion, jumpHeight);
 
                 }
             }
@@ -95,12 +113,12 @@ public class Player extends ImageView {
         }
     }
 
-    public void moveX(int direction, Obstacle newObstacles[]) {
+    public void moveX(int distance, Obstacle newObstacles[]) {
 
-        for (int i = 0; i < Math.abs(xVelocity); i++) {
+        for (int i = 0; i < Math.abs(distance); i++) {
             for (int index = 0; index < newObstacles.length; index++) {
                 if (Hitbox.getBoundsInParent().intersects(newObstacles[index].getBoundsInParent())) {
-                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && direction > 0) {
+                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && distance > 0) {
                         Hitbox.setX(lastXPostion);
                         // canJump = true;
                         return;
@@ -110,11 +128,11 @@ public class Player extends ImageView {
 
             lastXPostion = Hitbox.getX();
 
-            if (direction == -1) {
+            if (distance < 0) {
                 Hitbox.setX(Hitbox.getX() - 1);
                 if (canFlip == true && shooting == false) {
                     this.setViewport(new Rectangle2D(0, 90, 92, 90));
-                    xHitBoxOffset = 20;
+                    xHitBoxOffset = 24;
                 }
 
                 if (this.getX() < GamePage.PlayerLeftBorder - Hitbox.getWidth()) {
@@ -122,7 +140,7 @@ public class Player extends ImageView {
                 }
             }
 
-            if (direction == 1) {
+            if (distance > 0) {
                 Hitbox.setX(Hitbox.getX() + 1);
                 if (canFlip == true && shooting == false) {
                     this.setViewport(new Rectangle2D(0, 0, 92, 90));
@@ -189,24 +207,24 @@ public class Player extends ImageView {
     public void shoot(double Angle) {
 
         Timeline delay = new Timeline(new KeyFrame(Duration.millis(10), e -> {
-                this.setViewport(new Rectangle2D(0, 180, 92, 90));
-                xHitBoxOffset = 10;
-                this.setX(Hitbox.getX() - xHitBoxOffset);
-                this.Nozzle.setRotate(Math.toDegrees(Angle));
-                this.Nozzle.setVisible(true);
-                this.shooting = true;
+            this.setViewport(new Rectangle2D(0, 180, 92, 90));
+            xHitBoxOffset = 12;
+            this.setX(Hitbox.getX() - xHitBoxOffset);
+            this.Nozzle.setRotate(Math.toDegrees(Angle));
+            this.Nozzle.setVisible(true);
+            this.shooting = true;
         }));
 
         delay.setOnFinished(e -> {
             this.setViewport(new Rectangle2D(0, 90, 92, 90));
-            xHitBoxOffset = 20;
+            xHitBoxOffset = 24;
             this.setX(Hitbox.getX() - xHitBoxOffset);
             this.Nozzle.setVisible(false);
             this.shooting = false;
         });
         delay.setCycleCount(20);
         delay.playFromStart();
-        //delay.setDelay(Duration.millis(2000));
+        // delay.setDelay(Duration.millis(2000));
 
     }
 
@@ -214,11 +232,11 @@ public class Player extends ImageView {
         this.yVelocity = yVelocity;
     }
 
-    public double getxVelocity() {
+    public int getxVelocity() {
         return xVelocity;
     }
 
-    public void setxVelocity(double xVelocity) {
+    public void setxVelocity(int xVelocity) {
         this.xVelocity = xVelocity;
     }
 

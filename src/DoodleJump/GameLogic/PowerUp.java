@@ -5,9 +5,8 @@ import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import DoodleJump.Pages.Audio;
 import DoodleJump.Pages.Images;
 
 public class PowerUp extends ImageView {
@@ -17,11 +16,11 @@ public class PowerUp extends ImageView {
     static final public int TRAMPOLINE = 3;
     static final public int JETPACK = 4;
 
-    // private Obstacle myObstacle;
-    private double probablityActivated = 0.6;
+    private double probablityActivated = 0.7;
     private int Type = 0;
     private Boolean activated = false;
     private int obstacleIndex = 0;
+    private ImageView occuipedAnimation = new ImageView();
 
     public int getObstacleIndex() {
         return obstacleIndex;
@@ -32,11 +31,21 @@ public class PowerUp extends ImageView {
     static private Image Trampoline = Images.Trampoline;
     static private Image JetPack = Images.JetPack;
 
-    PowerUp(Pane gamePane) {
+    private Audio springSound = new Audio("spring.mp3");
+    private Audio trampolineSound = new Audio("trampoline.mp3");
+    private Audio jetpackSound = new Audio("jetpack.mp3");
+    private Audio hatSound = new Audio("hat.mp3");
+
+    PowerUp(GamePage gamePane) {
         super();
         gamePane.getChildren().add(this);
-        // this.myObstacle = obstacle;
-        // this.switchType();
+        occuipedAnimation.setVisible(false);
+    }
+
+    public static void initializeAnimations(PowerUp newPowerUps[], GamePage gamePane) {
+        for (int i = 0; i < newPowerUps.length; i++) {
+            gamePane.getChildren().add(newPowerUps[i].occuipedAnimation);
+        }
     }
 
     public static void initialize(PowerUp newPowerUps[], Obstacle newObstacles[], GamePage gamePane) {
@@ -55,7 +64,6 @@ public class PowerUp extends ImageView {
             nowObstacleIndex = (int) (newObstacles.length * Math.random());
         } while (CheckDuplicates(newPowerUps, nowObstacleIndex));
 
-        // System.out.println(nowObstacleIndex);
         this.radnomActivation();
         this.obstacleIndex = nowObstacleIndex;
         newObstacles[nowObstacleIndex].setOccupied(true);
@@ -88,7 +96,6 @@ public class PowerUp extends ImageView {
     public void boundTo(Obstacle myObstacle) {
 
         double probablity = Math.random();
-        // System.out.println(probablity);
         if (probablity > 0.20) {
             this.setType(SPRING, myObstacle);
         } else if (probablity > 0.10) {
@@ -107,8 +114,8 @@ public class PowerUp extends ImageView {
                 this.Type = type;
                 this.setImage(Spring);
                 this.setViewport(new Rectangle2D(0, 0, 34, 23));
-                this.setFitWidth(20);
-                this.setFitHeight(13);
+                this.setFitWidth(23);
+                this.setFitHeight(15);
                 this.yProperty().bind(myObstacle.yProperty().subtract(this.getFitHeight() - 1));
                 this.xProperty().bind(myObstacle.xProperty().add((int) (Math.random() * 40) + 6));
                 break;
@@ -116,8 +123,8 @@ public class PowerUp extends ImageView {
                 this.Type = type;
                 this.setImage(Hat);
                 this.setViewport(new Rectangle2D(0, 0, 60, 38));
-                this.setFitWidth(40);
-                this.setFitHeight(25);
+                this.setFitWidth(50);
+                this.setFitHeight(35);
                 this.yProperty().bind(myObstacle.yProperty().subtract(this.getFitHeight() - 1));
                 this.xProperty().bind(myObstacle.xProperty().add(14));
                 break;
@@ -125,8 +132,8 @@ public class PowerUp extends ImageView {
                 this.Type = type;
                 this.setImage(Trampoline);
                 this.setViewport(new Rectangle2D(0, 0, 71, 34));
-                this.setFitWidth(50);
-                this.setFitHeight(23);
+                this.setFitWidth(60);
+                this.setFitHeight(26);
                 this.yProperty().bind(myObstacle.yProperty().subtract(this.getFitHeight() - 3));
                 this.xProperty().bind(myObstacle.xProperty().add(11));
                 break;
@@ -134,74 +141,119 @@ public class PowerUp extends ImageView {
                 this.Type = type;
                 this.setImage(JetPack);
                 this.setViewport(new Rectangle2D(0, 0, 48, 74));
-                this.setFitWidth(33);
-                this.setFitHeight(50);
+                this.setFitWidth(36);
+                this.setFitHeight(58);
                 this.yProperty().bind(myObstacle.yProperty().subtract(this.getFitHeight() - 2));
-                this.xProperty().bind(myObstacle.xProperty().add(18));
+                this.xProperty().bind(myObstacle.xProperty().add(22));
                 break;
         }
 
     }
 
-    public void Execute(Player Doodle, Rectangle Hitbox, int distance, double lastYPostion, double jumpHeight) {
+    public void Execute(Player Doodle, Obstacle newObstacles[], int distance, double lastYPostion, double jumpHeight) {
         if (this.activated == false) {
             return;
         }
         switch (this.getType()) {
 
             case PowerUp.SPRING:
-                if (Hitbox.getY() + Hitbox.getHeight() == this.getY() && distance > 0) {
+                if (Doodle.Hitbox.getY() + Doodle.Hitbox.getHeight() == this.getY() && distance > 0) {
                     Doodle.setyVelocity(jumpHeight - 10);
-                    Hitbox.setY(lastYPostion);
+                    Doodle.Hitbox.setY(lastYPostion - 15);
+                    this.setViewport(new Rectangle2D(0, 23, 34, 55));
+                    this.setFitHeight(35);
+                    this.yProperty().bind(newObstacles[obstacleIndex].yProperty().subtract(this.getFitHeight() - 2));
+
+                    new Timeline(new KeyFrame(Duration.millis(500), e -> {
+                        this.setViewport(new Rectangle2D(0, 0, 34, 23));
+                        this.setFitHeight(15);
+                        this.yProperty()
+                                .bind(newObstacles[obstacleIndex].yProperty().subtract(this.getFitHeight() - 1));
+                    })).play();
+                    springSound.play();  
+
                 }
+
                 break;
 
             case PowerUp.HAT:
+
+                occuipedAnimation.setImage(Images.HatAnimation);
+                occuipedAnimation.setViewport(new Rectangle2D(0, 0, 64, 64));
+                occuipedAnimation.setFitHeight(65);
+                occuipedAnimation.setFitWidth(65);
+                occuipedAnimation.xProperty().bind(Doodle.xProperty().add(13));
+                occuipedAnimation.yProperty().bind(Doodle.yProperty().subtract(40));
+                Doodle.moveX(Player.LEFT, newObstacles);
+                Doodle.setCanFlip(false);
+                new Animation(occuipedAnimation, 64, 64, 20, 3, 0, 0);
+
                 Timeline hatFly = new Timeline(new KeyFrame(Duration.millis(20), e -> {
+                    occuipedAnimation.setVisible(true);
                     Doodle.setyVelocity(jumpHeight);
                     Doodle.setHasSomething(true);
-
                 }));
                 hatFly.setOnFinished(e -> {
                     Doodle.setHasSomething(false);
+                    occuipedAnimation.setVisible(false);
+                    Doodle.setCanFlip(true);
                 });
-                hatFly.setCycleCount(200);
+                hatFly.setCycleCount(120);
                 hatFly.play();
+                hatSound.play();
+
                 this.setVisible(false);
+                this.activated = false;
                 break;
 
             case PowerUp.TRAMPOLINE:
-                if (Hitbox.getY() + Hitbox.getHeight() == this.getY() && distance > 0) {
-                    Doodle.setyVelocity(jumpHeight -20);
-                    Hitbox.setY(lastYPostion - 40);
-                    //Hitbox.setY(lastYPostion);
+                if (Doodle.Hitbox.getY() + Doodle.Hitbox.getHeight() == this.getY() && distance > 0) {
+                    Doodle.setyVelocity(jumpHeight - 20);
+                    Doodle.Hitbox.setY(lastYPostion - 40);
                     Timeline flip = new Timeline(new KeyFrame(Duration.millis(4), e -> {
                         Doodle.setCanFlip(false);
-                        Doodle.setRotate(Doodle.getRotate()+ 2);
-    
+                        Doodle.setRotate(Doodle.getRotate() + 2);
+
                     }));
                     flip.setOnFinished(e -> {
-                         Doodle.setRotate(0);
-                         Doodle.setCanFlip(true);
+                        Doodle.setRotate(0);
+                        Doodle.setCanFlip(true);
                     });
+                    new Animation(this, 71, 34, 70, 3, 4, 1);
                     flip.setCycleCount(180);
                     flip.play();
-                    
+                    trampolineSound.play();
+
                 }
                 break;
-                
 
             case PowerUp.JETPACK:
+                occuipedAnimation.setImage(Images.JetpackAnimation);
+                occuipedAnimation.setViewport(new Rectangle2D(0, 0, 64, 128));
+                occuipedAnimation.setFitHeight(110);
+                occuipedAnimation.setFitWidth(55);
+                occuipedAnimation.xProperty().bind(Doodle.xProperty().add(53));
+                occuipedAnimation.yProperty().bind(Doodle.yProperty().subtract(0));
+                Doodle.moveX(Player.LEFT, newObstacles);
+                Doodle.setCanFlip(false);
+                new Animation(occuipedAnimation, 64, 128, 40, 3, 0, 0);
+
                 Timeline jetFly = new Timeline(new KeyFrame(Duration.millis(20), e -> {
+                    occuipedAnimation.setVisible(true);
                     Doodle.setyVelocity(jumpHeight - 5);
                     Doodle.setHasSomething(true);
+
                 }));
                 jetFly.setOnFinished(e -> {
                     Doodle.setHasSomething(false);
+                    occuipedAnimation.setVisible(false);
+                    Doodle.setCanFlip(true);
                 });
-                jetFly.setCycleCount(300);
+                jetFly.setCycleCount(220);
                 jetFly.play();
+                jetpackSound.play();
                 this.setVisible(false);
+                this.activated = false;
                 break;
 
         }

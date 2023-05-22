@@ -21,8 +21,8 @@ public class SelectPage extends Pane {
     }
 
     public void start() {
-        double x = 475.32;
-        double y = 179.78;
+        double x = 475;
+        double y = 180;
 
         NewGame_iv.setX(720);
         NewGame_iv.setY(600);
@@ -32,12 +32,16 @@ public class SelectPage extends Pane {
             NewGame_iv.setCursor(Cursor.HAND);
             NewGame_iv.setImage(Images.NewGame2);
             NewGame_iv.setFitWidth(x + 20);
-            NewGame_iv.setFitHeight(y + 7.56);
+            NewGame_iv.setFitHeight(y + 8);
+            NewGame_iv.setX(720-10);
+            NewGame_iv.setY(600-4);
         });
         NewGame_iv.setOnMouseExited(e -> {
             NewGame_iv.setImage(Images.NewGame);
             NewGame_iv.setFitWidth(x);
             NewGame_iv.setFitHeight(y);
+            NewGame_iv.setX(720);
+        NewGame_iv.setY(600);
         });
         NewGame_iv.setOnMouseClicked(e -> {
             PrimaryStage.setScene(new LoginPage(PrimaryStage).Create());
@@ -52,12 +56,16 @@ public class SelectPage extends Pane {
             Continue_iv.setCursor(Cursor.HAND);
             Continue_iv.setImage(Images.Continue2);
             Continue_iv.setFitWidth(x + 20);
-            Continue_iv.setFitHeight(y + 7.56);
+            Continue_iv.setFitHeight(y + 8);
+            Continue_iv.setX(720-10);
+        Continue_iv.setY(300-4);
         });
         Continue_iv.setOnMouseExited(e -> {
             Continue_iv.setImage(Images.Continue);
             Continue_iv.setFitWidth(x);
             Continue_iv.setFitHeight(y);
+            Continue_iv.setX(720);
+        Continue_iv.setY(300);
         });
         Continue_iv.setOnMouseClicked(e -> {
             PrimaryStage.setScene(new DifficultyPage(PrimaryStage).Create());
