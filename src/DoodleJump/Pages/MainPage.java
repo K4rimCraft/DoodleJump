@@ -31,34 +31,26 @@ public class MainPage extends Pane {
     private ImageView Monster = new ImageView(Images.monster1Tiles);
     private int i;
     private Boolean reverse = false;
-    double yVelocity = 0;
-    double lastYPostion = 0;
+    private double yVelocity = 0;
+    private double lastYPostion = 0;
 
     // private Ellipse ellipse = new Ellipse(1600, 770, 120, 40);
     //private Line line = new Line(535, 920, 535, 620);
     private String data;
-    private String AudioState;
-    private Audio audioGame;
+    private Audio soundGame = new Audio("jump.wav");
 
     public MainPage(Stage stage) {
         this.PrimaryStage = stage;
-        audioGame = new Audio(Main.PathToResources + "jump.wav");
-        audioGame.audioPlayer();
     }
 
     public void start() {
         double x = 300;
-        double y = 100;
+        double y = 110;
         ////////////////////////////////////////////////////////////////////////////////
 
         data = FileIO.Read("Character_Right.txt");
-        AudioState = FileIO.Read("AudioState.txt");
-
-        if (AudioState.equals("ON")) {
-            audioGame.play();
-        } else if (AudioState.equals("OFF")) {
-            audioGame.stop();
-        }
+        soundGame.play();
+        
         ////////////////////////////////////////////////////////////////////////////////
 
         // ellipse.setFill(Color.color(0, 0, 0, 0));
@@ -132,7 +124,7 @@ public class MainPage extends Pane {
             Play_iv.setY(240);
         });
         Play_iv.setOnMouseClicked(e -> {
-            audioGame.stop();
+            soundGame.stop();
             PrimaryStage.setScene(new SelectPage(PrimaryStage).Create());
         });
         ////////////////////////////////////////////////////////////////////////////////
@@ -157,7 +149,7 @@ public class MainPage extends Pane {
             Settings_iv.setY(400);
         });
         Settings_iv.setOnMouseClicked(e -> {
-            audioGame.stop();
+            soundGame.stop();
             PrimaryStage.setScene(new SettingsPage(PrimaryStage).Create());
         });
         ////////////////////////////////////////////////////////////////////////////////
@@ -181,7 +173,7 @@ public class MainPage extends Pane {
             Scores_iv.setY(560);
         });
         Scores_iv.setOnMouseClicked(e -> {
-            audioGame.stop();
+            soundGame.stop();
             PrimaryStage.setScene(new ScoresPage(PrimaryStage).Create());
         });
         ////////////////////////////////////////////////////////////////////////////////
@@ -206,6 +198,7 @@ public class MainPage extends Pane {
             Exit_iv.setY(720);
         });
         Exit_iv.setOnMouseClicked(e -> {
+            System.exit(0);
             PrimaryStage.close();
         });
 

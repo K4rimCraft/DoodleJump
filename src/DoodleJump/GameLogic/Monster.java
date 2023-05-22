@@ -34,7 +34,7 @@ public class Monster extends ImageView {
     private int yPos;
     private int time;
 
-    private double probablityActivated = 1;
+    private double probablityActivated = 0.5;
     private int Type = 0;
     private Boolean activated = false;
 
@@ -147,14 +147,14 @@ public class Monster extends ImageView {
                 this.Type = type;
                 this.setImage(Images.monster1Tiles);
                 this.setViewport(new Rectangle2D(0, 0, 156, 89));
-                this.setFitWidth(120);
-                this.setFitHeight(70);
+                this.setFitWidth(140);
+                this.setFitHeight(80);
                 this.width = 156;
                 this.height = 89;
                 this.time = 25;
                 this.numOfTiles = 5;
-                this.xPos = 25;
-                this.yPos = 67;
+                this.xPos = 30;
+                this.yPos = 75;
                 this.AnimationIndex = 0;
                 this.reverse = false;
                 this.xProperty().bind(myObstacle.xProperty().subtract(xPos));
@@ -166,14 +166,14 @@ public class Monster extends ImageView {
                 this.Type = type;
                 this.setImage(Images.monster2Tiles);
                 this.setViewport(new Rectangle2D(0, 0, 134, 175));
-                this.setFitWidth(100);
-                this.setFitHeight(130);
+                this.setFitWidth(120);
+                this.setFitHeight(145);
                 this.width = 134;
                 this.height = 175;
                 this.time = 1000;
-                this.numOfTiles = 3;
-                this.xPos = 30;
-                this.yPos = 127;
+                this.numOfTiles = 5;
+                this.xPos = 23;
+                this.yPos = 140;
                 this.AnimationIndex = 0;
                 this.reverse = false;;
                 this.xProperty().bind(myObstacle.xProperty().subtract(xPos));
@@ -204,13 +204,13 @@ public class Monster extends ImageView {
     }
 
     private void Loop(Obstacle myObstacle) {
-        wiggleAni = new Timeline(new KeyFrame(Duration.millis(25), e -> {
-            this.xProperty().bind(myObstacle.xProperty().subtract(xPos + (int) (Math.random() * 3)));
-            this.yProperty().bind(myObstacle.yProperty().subtract(yPos + (int) (Math.random() * 3)));
+        // wiggleAni = new Timeline(new KeyFrame(Duration.millis(25), e -> {
+        //     this.xProperty().bind(myObstacle.xProperty().subtract(xPos + (int) (Math.random() * 3)));
+        //     this.yProperty().bind(myObstacle.yProperty().subtract(yPos + (int) (Math.random() * 3)));
 
-        }));
-        wiggleAni.setCycleCount(Timeline.INDEFINITE);
-        wiggleAni.play();
+        // }));
+        // wiggleAni.setCycleCount(Timeline.INDEFINITE);
+        // wiggleAni.play();
 
         animate = new Timeline(new KeyFrame(Duration.millis(25), e -> {
             this.setViewport(new Rectangle2D(AnimationIndex * width, 0, width, height));

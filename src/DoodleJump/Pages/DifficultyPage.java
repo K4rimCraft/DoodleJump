@@ -26,11 +26,11 @@ public class DifficultyPage extends Pane {
     }
 
     public void start() {
-        double x = 453.75;
-        double y = 172;
-////////////////////////////////////////////////////////////////////////////////
+        double x = 400;
+        double y = 150;
+        ////////////////////////////////////////////////////////////////////////////////
 
-        Easy_iv.setX(720);
+        Easy_iv.setX(750);
         Easy_iv.setY(360);
         Easy_iv.setFitWidth(x);
         Easy_iv.setFitHeight(y);
@@ -38,21 +38,26 @@ public class DifficultyPage extends Pane {
             Easy_iv.setImage(Images.Easy2);
             Easy_iv.setCursor(Cursor.HAND);
             Easy_iv.setFitWidth(x + 20);
-            Easy_iv.setFitHeight(y + 7.56);
+            Easy_iv.setFitHeight(y + 8);
+            Easy_iv.setX(750 - 10);
+            Easy_iv.setY(360 - 4);
         });
         Easy_iv.setOnMouseExited(e -> {
             Easy_iv.setImage(Images.Easy);
             Easy_iv.setFitWidth(x);
             Easy_iv.setFitHeight(y);
+            Easy_iv.setX(750);
+            Easy_iv.setY(360);
         });
 
         Easy_iv.setOnMouseClicked(e -> {
-            
+            Main.numMonDifficulty = 2;
+            Main.numPowDifficulty = 6;
             PrimaryStage.setScene(new GamePage(Main.ResolutionCustom, PrimaryStage).Create());
         });
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
 
-        Medium_iv.setX(720);
+        Medium_iv.setX(750);
         Medium_iv.setY(560);
         Medium_iv.setFitWidth(x);
         Medium_iv.setFitHeight(y);
@@ -60,20 +65,27 @@ public class DifficultyPage extends Pane {
             Medium_iv.setImage(Images.Medium2);
             Medium_iv.setCursor(Cursor.HAND);
             Medium_iv.setFitWidth(x + 20);
-            Medium_iv.setFitHeight(y + 7.56);
+            Medium_iv.setFitHeight(y + 8);
+            Medium_iv.setX(750 - 10);
+            Medium_iv.setY(560 - 4);
         });
         Medium_iv.setOnMouseExited(e -> {
             Medium_iv.setImage(Images.Medium);
             Medium_iv.setFitWidth(x);
             Medium_iv.setFitHeight(y);
+            Medium_iv.setX(750);
+            Medium_iv.setY(560);
         });
 
         Medium_iv.setOnMouseClicked(e -> {
+            Main.numMonDifficulty = 3;
+            Main.numPowDifficulty = 4;
+            PrimaryStage.setScene(new GamePage(Main.ResolutionCustom, PrimaryStage).Create());
 
         });
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
 
-        Hard_iv.setX(720);
+        Hard_iv.setX(750);
         Hard_iv.setY(760);
         Hard_iv.setFitWidth(x);
         Hard_iv.setFitHeight(y);
@@ -81,18 +93,24 @@ public class DifficultyPage extends Pane {
             Hard_iv.setImage(Images.Hard2);
             Hard_iv.setCursor(Cursor.HAND);
             Hard_iv.setFitWidth(x + 20);
-            Hard_iv.setFitHeight(y + 7.56);
+            Hard_iv.setFitHeight(y + 8);
+            Hard_iv.setX(750 - 10);
+            Hard_iv.setY(760 - 4);
         });
         Hard_iv.setOnMouseExited(e -> {
             Hard_iv.setImage(Images.Hard);
             Hard_iv.setFitWidth(x);
             Hard_iv.setFitHeight(y);
+            Hard_iv.setX(750);
+            Hard_iv.setY(760);
         });
 
         Hard_iv.setOnMouseClicked(e -> {
-
+            Main.numMonDifficulty = 3;
+            Main.numPowDifficulty = 2;
+            PrimaryStage.setScene(new GamePage(Main.ResolutionCustom, PrimaryStage).Create());
         });
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
 
         X_iv.setX(1380);
         X_iv.setY(80);
@@ -108,7 +126,7 @@ public class DifficultyPage extends Pane {
         X_iv.setOnMouseClicked(e -> {
             PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
-////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////
 
         buttons.getChildren().addAll(Easy_iv, Medium_iv, Hard_iv);
         this.getChildren().addAll(Background2_iv, X_iv, buttons);

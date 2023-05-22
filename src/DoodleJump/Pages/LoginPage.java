@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class LoginPage extends Pane {
 
     private Stage PrimaryStage;
-    private ImageView Background_iv = new ImageView(Images.Background4);
+    private ImageView Background_iv = new ImageView(Images.Background7);
     private ImageView Next_iv = new ImageView(Images.Next);
     private ImageView X_iv = new ImageView(Images.X);
     TextField Name = new TextField();
@@ -26,14 +26,23 @@ public class LoginPage extends Pane {
 
         Next_iv.setX(780);
         Next_iv.setY(790);
-        Next_iv.setFitWidth(365.63);
-        Next_iv.setFitHeight(138.29);
+        Next_iv.setFitWidth(365);
+        Next_iv.setFitHeight(140);
         Next_iv.setOnMouseEntered(e -> {
             Next_iv.setCursor(Cursor.HAND);
             Next_iv.setImage(Images.Next2);
+            Next_iv.setFitWidth(365 + 20);
+            Next_iv.setFitHeight(140 + 8);
+            Next_iv.setX(780 - 10);
+            Next_iv.setY(790 - 4);
         });
         Next_iv.setOnMouseExited(e -> {
+            Next_iv.setFitWidth(365);
+            Next_iv.setFitHeight(140);
+            Next_iv.setX(780);
+            Next_iv.setY(790);
             Next_iv.setImage(Images.Next);
+
         });
         Next_iv.setOnMouseClicked(e -> {
             if (!(Name.getText().equals("") && Age.getText().equals(""))) {

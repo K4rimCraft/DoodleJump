@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import DoodleJump.Main;
+import DoodleJump.Pages.Audio;
 import DoodleJump.Pages.Images;
 
 public class Projectile extends ImageView {
@@ -16,9 +17,9 @@ public class Projectile extends ImageView {
     private double Xspeed = 0;
     private double Yspeed = 0;
     private double Angle = 0;
-    private static AudioClip laserClip = new AudioClip(new File(Main.PathToResources + "lazer.wav").toURI().toString());
-    private static AudioClip kill1Clip = new AudioClip(new File(Main.PathToResources + "kill2.wav").toURI().toString());
-    private static AudioClip kill2Clip = new AudioClip(new File(Main.PathToResources + "kill1.wav").toURI().toString());
+    private static Audio laserClip = new Audio( "lazer.wav");
+    private static Audio kill1Clip = new Audio("kill2.wav");
+    private static Audio kill2Clip = new Audio("kill1.wav");
 
     Projectile() {
         super(ProjectileImage);
@@ -40,9 +41,9 @@ public class Projectile extends ImageView {
                         pro.setVisible(false);
                         mon.Deactivate();
                         if (Math.random() > 0.5)
-                            kill1Clip.play(0.2);
+                            kill1Clip.play();
                         else
-                            kill2Clip.play(0.2);
+                            kill2Clip.play();
                     }
                 }
                 if (pro.getX() > GamePage.PlayerRightBorder || pro.getX() < GamePage.PlayerLeftBorder - 50
@@ -65,16 +66,16 @@ public class Projectile extends ImageView {
         gamePane.getChildren().add(nowProjectile);
         newProjectiles.add(nowProjectile);
 
-        double tempX = X - (Doodle.Hitbox.getX() + 10) * Main.Factor / 3;
+        double tempX = X - (Doodle.Hitbox.getX() + 30) * Main.Factor / 3;
         double tempY = (Doodle.Hitbox.getY() + 10) * Main.Factor / 3 - Y;
         nowProjectile.Angle = Math.atan2(tempX, tempY);
         nowProjectile.Xspeed = Math.sin(nowProjectile.Angle) * 10;
         nowProjectile.Yspeed = Math.cos(nowProjectile.Angle) * 10;
-        nowProjectile.setX(Doodle.Hitbox.getX() + 10);
-        nowProjectile.setY(Doodle.Hitbox.getY() + 10);
+        nowProjectile.setX(Doodle.Hitbox.getX() + 17);
+        nowProjectile.setY(Doodle.Hitbox.getY() + 20);
         nowProjectile.setVisible(true);
         Doodle.shoot(nowProjectile.Angle);
-        laserClip.play(0.2);
+        laserClip.play();
         gamePane.toAbove();
 
         // System.out.println("screen X: " + X);

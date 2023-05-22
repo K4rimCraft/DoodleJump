@@ -14,15 +14,15 @@ public class Obstacle extends ImageView {
      private Boolean canMove = false;
      private Boolean activated = true;
      private Boolean isOccupied = false;
+     private Boolean Died = false;
 
      static private Point2D PictureDimensions = new Point2D(115, 30);
-     static public double Width = 70;
-     static public double Height = 18;
+     static public double Width = 80;
+     static public double Height = 22;
 
      private int index = 0;
      static private int num = 0;
      static private Image obstacleTiles = Images.obstacleTiles;
-
 
      Obstacle(double X, double Y, int index, Pane gamePane) {
           super(obstacleTiles);
@@ -39,11 +39,11 @@ public class Obstacle extends ImageView {
           }
      }
 
-     public static void initialize(Obstacle newObstacles[], GamePage gamePane){
-          newObstacles[0] = new Obstacle(GamePage.LeftBorder + 250, 1000, 0,gamePane);
-        for (int i = 1; i < newObstacles.length; i++) {
-            newObstacles[i] = new Obstacle(Obstacle.xRandom(), 1000 - (35 * i), i,gamePane);
-        }
+     public static void initialize(Obstacle newObstacles[], GamePage gamePane) {
+          newObstacles[0] = new Obstacle(GamePage.LeftBorder + 250, 1000, 0, gamePane);
+          for (int i = 1; i < newObstacles.length; i++) {
+               newObstacles[i] = new Obstacle(Obstacle.xRandom(), 1000 - (50 * i), i, gamePane);
+          }
      }
 
      public void swing() {
@@ -56,29 +56,29 @@ public class Obstacle extends ImageView {
           }
      }
 
-     public void teleportUP(Player Doodle, PowerUp newPowerUps[],Monster newMonsters[]) {
+     public void teleportUP(Player Doodle, PowerUp newPowerUps[], Monster newMonsters[]) {
           if (this.getY() + Obstacle.Height > GamePage.GameScreenHeight && activated == true) {
                this.setY(this.getY() - GamePage.GameScreenHeight);
                this.setX(Obstacle.xRandom());
 
                double probablity = Math.random();
 
-               for(int i = 0; i < newPowerUps.length; i++){
-                    if(newPowerUps[i].getObstacleIndex() == index){
+               for (int i = 0; i < newPowerUps.length; i++) {
+                    if (newPowerUps[i].getObstacleIndex() == index) {
                          newPowerUps[i].radnomActivation();
                          newPowerUps[i].boundTo(this);
 
                     }
                }
 
-               for(int i = 0; i < newMonsters.length; i++){
-                    if(newMonsters[i].getObstacleIndex() == index){
+               for (int i = 0; i < newMonsters.length; i++) {
+                    if (newMonsters[i].getObstacleIndex() == index) {
                          newMonsters[i].radnomActivation();
                          newMonsters[i].boundTo(this);
 
                     }
                }
-     
+
                if (probablity > 0.5) {
                     this.toggleDir();
                }
@@ -95,16 +95,17 @@ public class Obstacle extends ImageView {
                }
 
                // if (Doodle.getScore() > 3000 && index % 4 == 0 && probablity > 0.7) {
-               //      this.Deactivate();
-               //      this.setViewport(new Rectangle2D(0, 90, PictureDimensions.getX(), PictureDimensions.getY()));
+               // this.Deactivate();
+               // this.setViewport(new Rectangle2D(0, 90, PictureDimensions.getX(),
+               // PictureDimensions.getY()));
                // }
           }
      }
 
      static public double xRandom() {
           return ((int) (Math.random() * 100) * (GamePage.GameScreenWidth - Obstacle.Width) / 100)
-                     + GamePage.LeftBorder;
-          // return 900;     
+                    + GamePage.LeftBorder;
+          // return 900;
      }
 
      public int getIndex() {
@@ -139,9 +140,9 @@ public class Obstacle extends ImageView {
      }
 
      public void setMove(Boolean i) {
-          if(i == false)
+          if (i == false)
                this.setViewport(new Rectangle2D(0, 0, PictureDimensions.getX(), PictureDimensions.getY()));
-          if(i == true)
+          if (i == true)
                this.setViewport(new Rectangle2D(0, 30, PictureDimensions.getX(), PictureDimensions.getY()));
           this.canMove = i;
      }
@@ -152,6 +153,14 @@ public class Obstacle extends ImageView {
 
      public void setOccupied(Boolean isOccupied) {
           this.isOccupied = isOccupied;
+     }
+
+     public Boolean getDied() {
+          return Died;
+     }
+
+     public void setDied(Boolean died) {
+          Died = died;
      }
 
 }

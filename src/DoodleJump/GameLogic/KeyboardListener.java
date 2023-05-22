@@ -3,6 +3,9 @@ package DoodleJump.GameLogic;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
+import DoodleJump.Main;
+import DoodleJump.Pages.SettingsPage;
+
 public class KeyboardListener {
     private Boolean wMove = false;
     private Boolean sMove = false;
@@ -16,7 +19,8 @@ public class KeyboardListener {
     private Monster[] selectedMonsters;
     private ArrayList<Projectile> selectedProjectiles;
 
-    KeyboardListener(GamePage gamePage, Player player, Obstacle obstacle[], PowerUp powerUp[], Monster monster[], ArrayList<Projectile> projectile) {
+    KeyboardListener(GamePage gamePage, Player player, Obstacle obstacle[], PowerUp powerUp[], Monster monster[],
+            ArrayList<Projectile> projectile) {
         selectedPane = gamePage;
         selectedPlayer = player;
         selectedObstacles = obstacle;
@@ -29,11 +33,14 @@ public class KeyboardListener {
         selectedPane.setOnKeyPressed(PressedKey -> {
             switch (PressedKey.getCode()) {
                 case W:
-                    // Move = true;
-                    if (canJump == true) {
+                    //wMove = true;
+
+                    if (Main.fly == true)
                         selectedPlayer.setyVelocity(-18);
-                        // canJump = false;
-                    }
+                    // if (canJump == true) {
+                    //     selectedPlayer.setyVelocity(-18);
+                    //     // canJump = false;
+                    // }
                     break;
                 case S:
                     sMove = true;
@@ -73,16 +80,19 @@ public class KeyboardListener {
         });
 
         selectedPane.setOnMouseClicked(Mouse -> {
-            Projectile.create(selectedPlayer, selectedProjectiles,selectedPane, Mouse.getSceneX(), Mouse.getSceneY());
+            Projectile.create(selectedPlayer, selectedProjectiles, selectedPane, Mouse.getSceneX(), Mouse.getSceneY());
         });
 
     }
 
     public void Loop() {
-        if (wMove == true)
-            selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
-        if (sMove == true)
-            selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
+        
+            // if (wMove == true)
+            //     selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
+            // if (sMove == true)
+            //     selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
+            //     System.out.println(Main.fly);
+       
         if (aMove == true)
             selectedPlayer.moveX(-selectedPlayer.getxVelocity(), selectedObstacles);
         if (dMove == true)
