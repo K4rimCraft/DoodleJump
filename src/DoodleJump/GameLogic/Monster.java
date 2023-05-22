@@ -179,38 +179,19 @@ public class Monster extends ImageView {
                 this.xProperty().bind(myObstacle.xProperty().subtract(xPos));
                 this.yProperty().bind(myObstacle.yProperty().subtract(yPos));
                 break;
-            // case PP:
-            // this.Type = type;
-            // this.setImage(Trampoline);
-            // this.setViewport(new Rectangle2D(0, 0, 71, 34));
-            // this.setFitWidth(50);
-            // this.setFitHeight(23);
-            // this.yProperty().bind(myObstacle.yProperty().subtract(this.getFitHeight() -
-            // 3));
-            // this.xProperty().bind(myObstacle.xProperty().add(11));
-            // break;
-            // case OP:
-            // this.Type = type;
-            // this.setImage(JetPack);
-            // this.setViewport(new Rectangle2D(0, 0, 48, 74));
-            // this.setFitWidth(33);
-            // this.setFitHeight(50);
-            // this.yProperty().bind(myObstacle.yProperty().subtract(this.getFitHeight() -
-            // 2));
-            // this.xProperty().bind(myObstacle.xProperty().add(18));
-            // break;
+
         }
 
     }
 
     private void Loop(Obstacle myObstacle) {
-        // wiggleAni = new Timeline(new KeyFrame(Duration.millis(25), e -> {
-        //     this.xProperty().bind(myObstacle.xProperty().subtract(xPos + (int) (Math.random() * 3)));
-        //     this.yProperty().bind(myObstacle.yProperty().subtract(yPos + (int) (Math.random() * 3)));
+        wiggleAni = new Timeline(new KeyFrame(Duration.millis(25), e -> {
+            this.xProperty().bind(myObstacle.xProperty().subtract(xPos + (int) (Math.random() * 3)));
+            this.yProperty().bind(myObstacle.yProperty().subtract(yPos + (int) (Math.random() * 3)));
 
-        // }));
-        // wiggleAni.setCycleCount(Timeline.INDEFINITE);
-        // wiggleAni.play();
+        }));
+        wiggleAni.setCycleCount(Timeline.INDEFINITE);
+        wiggleAni.play();
 
         animate = new Timeline(new KeyFrame(Duration.millis(25), e -> {
             this.setViewport(new Rectangle2D(AnimationIndex * width, 0, width, height));

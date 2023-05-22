@@ -13,6 +13,7 @@ public class Images {
     public static Image Background7 = new Image("Background/Background7.png");
     public static Image Background8 = new Image("Background/Background8.png");
     public static Image Background9 = new Image("Background/Background9.png");
+    public static Image CreditsBG = new Image("Background/Credits.png");
 ////////////////////////////////////////////////////////////////////////////////
     public static Image PlayAgain = new Image("Buttons/PlayAgain.png");
     public static Image PlayAgain2 = new Image("Buttons/PlayAgain2.png");
@@ -40,6 +41,9 @@ public class Images {
 
     public static Image Exit = new Image("Buttons/Exit.png");
     public static Image Exit2 = new Image("Buttons/Exit-on.png");
+
+    public static Image Credits = new Image("Buttons/Credits.png");
+    public static Image Credits2 = new Image("Buttons/Credits2.png");
 
     public static Image NewGame = new Image("Buttons/NewGame.png");
     public static Image NewGame2 = new Image("Buttons/NewGame2.png");
