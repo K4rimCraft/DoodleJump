@@ -31,7 +31,7 @@ public class MainPage extends Pane {
     private double yVelocity = 0;
     private double lastYPostion = 0;
 
-    private Audio soundGame = new Audio("jump.wav");
+    private Audio soundGame = new Audio("mystery.wav");
 
     public MainPage(Stage stage) {
         this.PrimaryStage = stage;
