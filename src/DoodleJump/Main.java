@@ -39,11 +39,11 @@ public class Main extends Application {
         public static int numPowDifficulty = 6;
 
         public static String PathToFont = "file:E:\\";
-        public static String PathToResources = "C:\\Users\\kimos\\Downloads\\CSE1 2nd Term\\Programming\\VS Code Java Projects\\DoodleJump Karim Branch\\DoodleJump\\";
+        public static String PathToResources = System.getProperty("user.dir") + "\\";
 
         @Override
         public void start(Stage stage) {
-
+                
                 SettingsPage.initialize();
                 ArduinoListener.start();
 
