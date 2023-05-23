@@ -53,7 +53,7 @@ public class FileIO {
         try {
             List<String> lines = Files.readAllLines(Paths.get("src\\Files\\Settings.txt"));
             lines.set(index, condition.toUpperCase());
-            Files.write(Paths.get("Settings.txt"), lines);
+            Files.write(Paths.get("src\\Files\\Settings.txt"), lines);
         } catch (IOException e) {
             System.out.println("Can not find file with the given path ");
         }

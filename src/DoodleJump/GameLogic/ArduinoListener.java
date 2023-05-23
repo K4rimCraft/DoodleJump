@@ -27,7 +27,7 @@ public class ArduinoListener {
             running = true;
 
         } catch (java.lang.ArrayIndexOutOfBoundsException ex) {
-            System.out.println("Arduino Port Not Found :()");
+            System.out.println("Arduino Port Not Found :(");
             running = false;
             Status = false;
         }
