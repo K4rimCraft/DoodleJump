@@ -379,9 +379,6 @@ public class SettingsPage extends Pane {
 
         });
 
-        // buttons.getChildren().addAll(Char1_iv, Char2_iv, Char3_iv, Char4_iv,
-        // Char5_iv, Voff_iv, Von_iv, Save_iv,
-        // Saved_iv);
         this.getChildren().addAll(Background3_iv, X_iv, Volume_iv, Zombie_iv, Snow_iv, Doodle_iv, Res_iv, fly_iv,
                 nojump_iv,
                 immune_iv, inputMode, buttons);
@@ -394,14 +391,17 @@ public class SettingsPage extends Pane {
             Main.SelectedResolution = Main.ResolutionFullHD;
             Main.SelectedOffset = Main.OffsetFullHD;
             Main.Factor = 3;
-        } else if (FileIO.SettingsRead(1).equals("RESOLUTION: HD")) {
+            Main.numRes = 1;
+        } else if (FileIO.SettingsRead(0).equals("RESOLUTION: HD")) {
             Main.SelectedResolution = Main.ResolutionHD;
             Main.SelectedOffset = Main.OffsetHD;
             Main.Factor = 2;
+            Main.numRes = 3;
         } else {
             Main.SelectedResolution = Main.ResolutionCustom;
             Main.SelectedOffset = Main.OffsetCustom;
             Main.Factor = 2.5;
+            Main.numRes = 2;
         }
 
         if (FileIO.SettingsRead(1).equals("THEME: DOODLE")) {

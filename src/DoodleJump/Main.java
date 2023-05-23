@@ -43,7 +43,7 @@ public class Main extends Application {
 
         @Override
         public void start(Stage stage) {
-                
+
                 SettingsPage.initialize();
                 ArduinoListener.start();
 
