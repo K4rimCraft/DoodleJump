@@ -32,34 +32,17 @@ public class Monster extends ImageView {
     private int numOfTiles;
     private int xPos;
     private int yPos;
-    private int time;
 
     private double probablityActivated = 0.5;
     private int Type = 0;
     private Boolean activated = false;
-
-    public Boolean getStatus() {
-        return activated;
-    }
-
-    public void Deactivate() {
-        this.setVisible(false);
-        this.activated = false;
-    }
-
     private int obstacleIndex = 0;
-
-    public int getObstacleIndex() {
-        return obstacleIndex;
-    }
-
-    public void setObstacleIndex(int obstacleIndex) {
-        this.obstacleIndex = obstacleIndex;
-    }
 
     public Monster(Pane gamePane) {
         gamePane.getChildren().add(this);
     }
+
+    // Call this static method to initialize any array containing monster objects.
 
     public static void initialize(Monster newMonsters[], PowerUp newPowerUps[], Obstacle newObstacles[],
             GamePage gamePane) {
@@ -72,6 +55,7 @@ public class Monster extends ImageView {
         }
     }
 
+    // This method sets up every monster Object
     public void Activate(Monster newMonsters[], PowerUp newPowerUps[], Obstacle newObstacles[]) {
         int nowObstacleIndex;
         do {
@@ -87,6 +71,7 @@ public class Monster extends ImageView {
         this.boundTo(newObstacles[nowObstacleIndex]);
     }
 
+    // This method is called for a random chance of activation of the monster.
     public void radnomActivation() {
         double probablity = Math.random();
 
@@ -101,6 +86,8 @@ public class Monster extends ImageView {
 
     }
 
+    // This method checks if there is already an object linked to the obstacle in
+    // question, if there it is, then it finds another obstacle.
     private Boolean CheckDuplicates(Monster newMonsters[], PowerUp newPowerUps[], int nowObstacleIndex) {
         for (int i = 0; i < newPowerUps.length; i++) {
             if (nowObstacleIndex == newPowerUps[i].getObstacleIndex()) {
@@ -118,6 +105,8 @@ public class Monster extends ImageView {
         return false;
     }
 
+    // This method is called when the monster is under the screen so it can be used
+    // again by teleporting it up the screen.
     public void teleportUP(Player Doodle, Obstacle newObstacles[]) {
         if (this.getY() + this.getFitHeight() < 0) {
             this.radnomActivation();
@@ -125,6 +114,7 @@ public class Monster extends ImageView {
         }
     }
 
+    // This method choses the type of monster randomly and calls the setType method
     public void boundTo(Obstacle myObstacle) {
 
         double probablity = Math.random();
@@ -141,6 +131,7 @@ public class Monster extends ImageView {
 
     }
 
+    // This method sets up the properties for the selected type sent.
     public void setType(int type, Obstacle myObstacle) {
         switch (type) {
             case FLY:
@@ -151,7 +142,6 @@ public class Monster extends ImageView {
                 this.setFitHeight(80);
                 this.width = 156;
                 this.height = 89;
-                this.time = 25;
                 this.numOfTiles = 5;
                 this.xPos = 30;
                 this.yPos = 75;
@@ -160,7 +150,7 @@ public class Monster extends ImageView {
                 this.xProperty().bind(myObstacle.xProperty().subtract(xPos));
                 this.yProperty().bind(myObstacle.yProperty().subtract(yPos));
 
-                //animate.setDelay(Duration.millis(this.time));
+                // animate.setDelay(Duration.millis(this.time));
                 break;
             case LONGFLY:
                 this.Type = type;
@@ -170,12 +160,12 @@ public class Monster extends ImageView {
                 this.setFitHeight(145);
                 this.width = 134;
                 this.height = 175;
-                this.time = 1000;
                 this.numOfTiles = 5;
                 this.xPos = 23;
                 this.yPos = 140;
                 this.AnimationIndex = 0;
-                this.reverse = false;;
+                this.reverse = false;
+                ;
                 this.xProperty().bind(myObstacle.xProperty().subtract(xPos));
                 this.yProperty().bind(myObstacle.yProperty().subtract(yPos));
                 break;
@@ -184,6 +174,7 @@ public class Monster extends ImageView {
 
     }
 
+    // This method is used to animate the monsters pictures.
     private void Loop(Obstacle myObstacle) {
         wiggleAni = new Timeline(new KeyFrame(Duration.millis(25), e -> {
             this.xProperty().bind(myObstacle.xProperty().subtract(xPos + (int) (Math.random() * 3)));
@@ -209,4 +200,20 @@ public class Monster extends ImageView {
         animate.play();
     }
 
+    public Boolean getStatus() {
+        return activated;
+    }
+
+    public void Deactivate() {
+        this.setVisible(false);
+        this.activated = false;
+    }
+
+    public int getObstacleIndex() {
+        return obstacleIndex;
+    }
+
+    public void setObstacleIndex(int obstacleIndex) {
+        this.obstacleIndex = obstacleIndex;
+    }
 }

@@ -8,14 +8,13 @@ import javafx.scene.media.AudioClip;
 public class Audio {
 
     private AudioClip Clip;
-    public static Boolean Mute = false;
 
     public Audio(String path) {
         Clip = new AudioClip(new File(Main.PathToResources + path).toURI().toString());
     }
 
     public void play() {
-        if (Mute == false) {
+        if (Main.Mute == false) {
             Clip.play(0.2);
         }
 

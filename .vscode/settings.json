@@ -10,5 +10,15 @@
         "c:\\Program Files\\Java\\javafx-sdk-20.0.1\\lib\\javafx.web.jar",
         "c:\\Program Files\\Java\\javafx-sdk-20.0.1\\lib\\javafx-swt.jar",
         "jSerialComm.jar"
-    ]
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/*.unotation": true
+    },
+    "bigUML.hideUnotation": true
 }

@@ -22,10 +22,6 @@ public class PowerUp extends ImageView {
     private int obstacleIndex = 0;
     private ImageView occuipedAnimation = new ImageView();
 
-    public int getObstacleIndex() {
-        return obstacleIndex;
-    }
-
     static private Image Spring = Images.Spring;
     static private Image Hat = Images.Hat;
     static private Image Trampoline = Images.Trampoline;
@@ -42,12 +38,13 @@ public class PowerUp extends ImageView {
         occuipedAnimation.setVisible(false);
     }
 
+    // Call this static method to initialize a PowerUp array containing PowerUpAnimation objects.
     public static void initializeAnimations(PowerUp newPowerUps[], GamePage gamePane) {
         for (int i = 0; i < newPowerUps.length; i++) {
             gamePane.getChildren().add(newPowerUps[i].occuipedAnimation);
         }
     }
-
+    // Call this static method to initialize any array containing PowerUp objects.
     public static void initialize(PowerUp newPowerUps[], Obstacle newObstacles[], GamePage gamePane) {
         for (int i = 0; i < newPowerUps.length; i++) {
             newPowerUps[i] = new PowerUp(gamePane);
@@ -58,6 +55,7 @@ public class PowerUp extends ImageView {
         }
     }
 
+    // This method sets up every PowerUp Object 
     public void Activate(PowerUp newPowerUps[], Obstacle newObstacles[]) {
         int nowObstacleIndex;
         do {
@@ -70,6 +68,7 @@ public class PowerUp extends ImageView {
         this.boundTo(newObstacles[nowObstacleIndex]);
     }
 
+    // This method is called for a random chance of activation of the PowerUp.
     public void radnomActivation() {
         double probablity = Math.random();
 
@@ -84,6 +83,8 @@ public class PowerUp extends ImageView {
 
     }
 
+    // This method checks if there is already an object linked to the obstacle in
+    // question, if there it is, then it finds another obstacle.
     private Boolean CheckDuplicates(PowerUp newPowerUps[], int nowObstacleIndex) {
         for (int i = 0; i < newPowerUps.length; i++) {
             if (nowObstacleIndex == newPowerUps[i].getObstacleIndex()) {
@@ -93,6 +94,9 @@ public class PowerUp extends ImageView {
         return false;
     }
 
+    
+    
+    // This method choses the type of monster randomly and calls the setType method
     public void boundTo(Obstacle myObstacle) {
 
         double probablity = Math.random();
@@ -107,7 +111,7 @@ public class PowerUp extends ImageView {
         }
 
     }
-
+    // This method sets up the properties for the selected type sent.
     public void setType(int type, Obstacle myObstacle) {
         switch (type) {
             case SPRING:
@@ -148,8 +152,18 @@ public class PowerUp extends ImageView {
                 break;
         }
 
+    } 
+
+    // This method is called when the monster is under the screen so it can be used
+    // again by teleporting it up the screen.
+    public void teleportUP(Player Doodle, Obstacle newObstacles[]) {
+        if (this.getY() + this.getFitHeight() < 0) {
+            this.radnomActivation();
+            this.boundTo(newObstacles[this.obstacleIndex]);
+        }
     }
 
+    //This method is called when the player collides with a PowerUp, So it starts its exectution
     public void Execute(Player Doodle, Obstacle newObstacles[], int distance, double lastYPostion, double jumpHeight) {
         if (this.activated == false) {
             return;
@@ -260,12 +274,7 @@ public class PowerUp extends ImageView {
 
     }
 
-    public void teleportUP(Player Doodle, Obstacle newObstacles[]) {
-        if (this.getY() + this.getFitHeight() < 0) {
-            this.radnomActivation();
-            this.boundTo(newObstacles[this.obstacleIndex]);
-        }
-    }
+    
 
     public void setPostion(double X, double Y) {
         this.setX(X);
@@ -278,6 +287,21 @@ public class PowerUp extends ImageView {
 
     public Boolean getStatus() {
         return activated;
+    }
+
+    public int getObstacleIndex() {
+        return obstacleIndex;
+    }
+
+    public PowerUp getPowerUp(int index){
+        if(this.getObstacleIndex() == index){
+            return this;
+        }
+        return null;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
     }
 
 }

@@ -1,6 +1,5 @@
 package DoodleJump.Pages;
 
-
 import javafx.scene.image.Image;
 
 public class Images {
@@ -14,11 +13,11 @@ public class Images {
     public static Image Background8 = new Image("Background/Background8.png");
     public static Image Background9 = new Image("Background/Background9.png");
     public static Image CreditsBG = new Image("Background/Credits.png");
-////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
     public static Image PlayAgain = new Image("Buttons/PlayAgain.png");
     public static Image PlayAgain2 = new Image("Buttons/PlayAgain2.png");
-    public static Image Pause = new Image("Images/PauseButton.png");
-    public static Image Pause2 = new Image("Images/PauseButton-On.png");
+    public static Image Pause = new Image("Buttons/PauseButton.png");
+    public static Image Pause2 = new Image("Buttons/PauseButton-On.png");
     public static Image Resume = new Image("Buttons/Resume.png");
     public static Image Resume2 = new Image("Buttons/Resume2.png");
     public static Image Easy = new Image("Buttons/Easy.png");
@@ -32,7 +31,7 @@ public class Images {
 
     public static Image Play = new Image("Buttons/Play.png");
     public static Image Play2 = new Image("Buttons/Play-on.png");
-    
+
     public static Image Settings = new Image("Buttons/Settings.png");
     public static Image Settings2 = new Image("Buttons/Settings-on.png");
 
@@ -56,36 +55,12 @@ public class Images {
     public static Image X = new Image("Buttons/x.png");
     public static Image X2 = new Image("Buttons/x2.png");
     public static Image Saved = new Image("Images/Saved.png");
-    public static Image Empty = new Image("Images/Empty.png");
     public static Image Voff = new Image("Buttons/Voff.png");
-    public static Image Voff2 = new Image("Buttons/Voff2.png");
-    public static Image Voff3 = new Image("Buttons/Voff3.png");
     public static Image Von = new Image("Buttons/Von.png");
-    public static Image Von2 = new Image("Buttons/Von2.png");
-    public static Image Von3 = new Image("Buttons/Von3.png");
     ////////////////////////////////////////////////////////////////////////////////
     public static Image Logo = new Image("Images/Logo.png");
-    public static Image Character = new Image("Character/Character_Right_1.png");
-    public static Image Bat1 = new Image("Character/bat1.png");
-    public static Image Bat3 = new Image("Character/bat3.png");
-    // public static Image Char1 = new Image("Buttons/char1.png");
-    // public static Image Char2 = new Image("Buttons/char2.png");
-    // public static Image Char3 = new Image("Buttons/char3.png");
-    // public static Image Char4 = new Image("Buttons/char4.png");
-    // public static Image Char5 = new Image("Buttons/char5.png");
-    // public static Image Char1_2 = new Image("Buttons/char1_2.png");
-    // public static Image Char2_2 = new Image("Buttons/char2_2.png");
-    // public static Image Char3_2 = new Image("Buttons/char3_2.png");
-    // public static Image Char4_2 = new Image("Buttons/char4_2.png");
-    // public static Image Char5_2 = new Image("Buttons/char5_2.png");
-    // public static Image Char1_3 = new Image("Buttons/char1_3.png");
-    // public static Image Char2_3 = new Image("Buttons/char2_3.png");
-    // public static Image Char3_3 = new Image("Buttons/char3_3.png");
-    // public static Image Char4_3 = new Image("Buttons/char4_3.png");
-    // public static Image Char5_3 = new Image("Buttons/char5_3.png");
-    // public static Image Char = new Image("Buttons/CharBW.png");
-    
-    
+    public static Image Character = new Image("Images/Character_Right_1.png");
+
     public static Image BackBackGround = new Image("Images/Background.png");
     public static Image Hat = new Image("Images/Hat.png");
     public static Image Trampoline = new Image("Images/Trampoline.png");
@@ -100,7 +75,7 @@ public class Images {
 
     public static Image HatAnimation = new Image("Images/Hat-Animation.png");
     public static Image JetpackAnimation = new Image("Images/Jetpack-Animation.png");
-    public static Image PausePage = new Image("Images/PausePage.png");
+    public static Image PausePage = new Image("Background/PausePage.png");
     public static Image SettingsPage = new Image("Background/Settings.png");
 
     public static Image ResHD = new Image("Buttons/ResHD.png");
@@ -111,27 +86,23 @@ public class Images {
     public static Image Fly = new Image("Buttons/fly.png");
     public static Image Immune = new Image("Buttons/Immune.png");
 
-    public static Image Keyboard = new Image("Buttons/Keyboard.png");   
+    public static Image Keyboard = new Image("Buttons/Keyboard.png");
     public static Image Arduino = new Image("Buttons/Arduino.png");
-    
-    public static Image nor1 = new Image("Buttons/nor1.png");   
+
+    public static Image nor1 = new Image("Buttons/nor1.png");
     public static Image nor2 = new Image("Buttons/nor2.png");
 
-    public static Image zom1 = new Image("Buttons/zom1.png");   
+    public static Image zom1 = new Image("Buttons/zom1.png");
     public static Image zom2 = new Image("Buttons/zom2.png");
 
-    public static Image ice1 = new Image("Buttons/ice1.png");   
+    public static Image ice1 = new Image("Buttons/ice1.png");
     public static Image ice2 = new Image("Buttons/ice2.png");
 
-    
     public static Image doodleTiles = new Image("Images/DoodleTiles.png");
     public static Image zombieTiles = new Image("Images/ZombieTiles.png");
     public static Image snowTiles = new Image("Images/SnowTiles.png");
 
-
     public static Image BGDoodle = new Image("Images/bgDoodle.png");
     public static Image BGZombie = new Image("Images/bgZombie.png");
     public static Image BGSnow = new Image("Images/bgSnow.png");
-
-    
 }

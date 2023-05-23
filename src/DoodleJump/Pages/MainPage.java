@@ -1,7 +1,5 @@
 package DoodleJump.Pages;
 
-
-////////////////////////////////////////////////////////////////////////////////
 import javafx.animation.AnimationTimer;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
@@ -9,12 +7,10 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import DoodleJump.Main;
-////////////////////////////////////////////////////////////////////////////////
 
 public class MainPage extends Pane {
 
@@ -35,9 +31,6 @@ public class MainPage extends Pane {
     private double yVelocity = 0;
     private double lastYPostion = 0;
 
-    // private Ellipse ellipse = new Ellipse(1600, 770, 120, 40);
-    //private Line line = new Line(535, 920, 535, 620);
-    private String data;
     private Audio soundGame = new Audio("jump.wav");
 
     public MainPage(Stage stage) {
@@ -47,40 +40,22 @@ public class MainPage extends Pane {
     public void start() {
         double x = 300;
         double y = 110;
-        ////////////////////////////////////////////////////////////////////////////////
-
-        data = FileIO.Read("Character_Right.txt");
         soundGame.play();
-        
-        ////////////////////////////////////////////////////////////////////////////////
-
-        // ellipse.setFill(Color.color(0, 0, 0, 0));
-        // ellipse.setOnMouseEntered(e -> {
-        // Exit_iv.setX(e.getX() + 10);
-        // Exit_iv.setY(e.getY() + 10);
-        // });
-        // ellipse.setOnMouseExited(e -> {
-        // Exit_iv.setX(1470);
-        // Exit_iv.setY(710);
-        // });
-        ////////////////////////////////////////////////////////////////////////////////
         Character_iv.setX(490);
         Character_iv.setY(100);
         Character_iv.setFitWidth(110);
         Character_iv.setFitHeight(110);
-        Character_iv.setImage(new Image(data));
-        
 
         AnimationTimer jumping = new AnimationTimer() {
 
             @Override
             public void handle(long arg0) {
-                
+
                 for (int i = 0; i < Math.abs(yVelocity); i++) {
-                        if (Character_iv.getY() + Character_iv.getFitHeight() > 950 ) {
-                            Character_iv.setY(lastYPostion);
-                                yVelocity = -20;
-                                return;
+                    if (Character_iv.getY() + Character_iv.getFitHeight() > 950) {
+                        Character_iv.setY(lastYPostion);
+                        yVelocity = -20;
+                        return;
                     }
                     lastYPostion = Character_iv.getY();
                     if (yVelocity < 0) {
@@ -90,12 +65,12 @@ public class MainPage extends Pane {
                         Character_iv.setY(Character_iv.getY() + 1);
                     }
                 }
-            
+
                 if (yVelocity < 12)
                     yVelocity++;
-           
-            
-        }};
+
+            }
+        };
         jumping.start();
         ////////////////////////////////////////////////////////////////////////////////
 
@@ -103,7 +78,7 @@ public class MainPage extends Pane {
         Logo_iv.setFitWidth(800);
         Logo_iv.setX(120);
         Logo_iv.setY(0);
-        
+
         ////////////////////////////////////////////////////////////////////////////////
         Play_iv.setFitHeight(y);
         Play_iv.setFitWidth(x);
@@ -234,7 +209,7 @@ public class MainPage extends Pane {
         Monster.setY(110);
         Monster.setRotate(10);
         Timeline animate = new Timeline(new KeyFrame(Duration.millis(50), e -> {
-            
+
             Monster.setViewport(new Rectangle2D(i * 156, 0, 156, 89));
             if (reverse == false) {
                 i++;
@@ -245,11 +220,11 @@ public class MainPage extends Pane {
                 if (i == 0)
                     reverse = false;
             }
-                    
+
         }));
         animate.setCycleCount(Timeline.INDEFINITE);
         animate.play();
-        
+
         ////////////////////////////////////////////////////////////////////////////////
 
         buttons.getChildren().addAll(Play_iv, Settings_iv, Scores_iv, Exit_iv, Character_iv, Credits_iv);

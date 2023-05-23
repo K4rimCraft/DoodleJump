@@ -19,16 +19,21 @@ public class PausePage {
     private static ImageView Main_iv = new ImageView(Images.Main);
     private static ImageView Resume_iv = new ImageView(Images.Resume);
     private static ImageView PausePage = new ImageView(Images.PausePage);
-    private static Font doodleFont = Font.loadFont(Main.PathToFont + "DoodleJump.ttf", 50);
+    private static Font doodleFont = Font.loadFont(Main.PathToFont + "ShortStack-Regular.ttf", 50);
 
+    //
+    // A class for the pause pane
+    //
 
     public static void Pause(Stage stage, Scene scene, Player Doodle, AnimationTimer GameLoop, GamePage gamePage) {
 
         Pane pause = new Pane();
         Text score = new Text(1150, 375, (int) Doodle.getScore() + "");
         score.setFill(Color.BLACK);
-
         score.setFont(doodleFont);
+
+        ////////////////////////////////////////////////////////////////////////////////
+
         PlayAgain_iv.setX(570);
         PlayAgain_iv.setY(730);
         PlayAgain_iv.setFitWidth(365.63);
@@ -47,6 +52,8 @@ public class PausePage {
         PlayAgain_iv.setOnMouseClicked(e -> {
             stage.setScene(new DifficultyPage(stage).Create());
         });
+
+        ////////////////////////////////////////////////////////////////////////////////
 
         Main_iv.setX(970);
         Main_iv.setY(730);
@@ -67,6 +74,8 @@ public class PausePage {
             stage.setScene(new MainPage(stage).Create());
         });
 
+        ////////////////////////////////////////////////////////////////////////////////
+
         Resume_iv.setX(760);
         Resume_iv.setY(520);
         Resume_iv.setFitWidth(402.2);
@@ -83,10 +92,12 @@ public class PausePage {
             Resume_iv.setFitHeight(152.12);
         });
         Resume_iv.setOnMouseClicked(e -> {
-            //stage.setScene(scene);
+            // stage.setScene(scene);
             gamePage.getChildren().remove(pause);
             GameLoop.start();
         });
+
+        ////////////////////////////////////////////////////////////////////////////////
 
         X_iv.setX(1380);
         X_iv.setY(80);
@@ -104,10 +115,9 @@ public class PausePage {
             GameLoop.start();
         });
 
+        ////////////////////////////////////////////////////////////////////////////////
+
         pause.getChildren().addAll(PausePage, X_iv, PlayAgain_iv, Main_iv, Resume_iv, score);
         gamePage.getChildren().addAll(pause);
-        //scene2 = new Scene(pane, Main.SelectedResolution.getX(), Main.SelectedResolution.getY());
-        //stage.setScene(scene2);
-        //return scene2;
     }
 }

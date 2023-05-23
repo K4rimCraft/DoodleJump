@@ -39,6 +39,7 @@ public class Obstacle extends ImageView {
           }
      }
 
+     // Call this static method to initialize any array containing Obstacle objects.
      public static void initialize(Obstacle newObstacles[], GamePage gamePane) {
           newObstacles[0] = new Obstacle(GamePage.LeftBorder + 250, 1000, 0, gamePane);
           for (int i = 1; i < newObstacles.length; i++) {
@@ -46,6 +47,7 @@ public class Obstacle extends ImageView {
           }
      }
 
+     // This method moves obstacles that are marked for moving from side to side
      public void swing() {
           if (canMove == true && activated == true) {
                double pos = this.getX();
@@ -56,6 +58,8 @@ public class Obstacle extends ImageView {
           }
      }
 
+     // This method is called when the obstacle is under the screen so it can be used
+     // again by teleporting it up the screen.
      public void teleportUP(Player Doodle, PowerUp newPowerUps[], Monster newMonsters[]) {
           if (this.getY() + Obstacle.Height > GamePage.GameScreenHeight && activated == true) {
                this.setY(this.getY() - GamePage.GameScreenHeight);
@@ -87,7 +91,7 @@ public class Obstacle extends ImageView {
                } else {
                     this.setMove(false);
                }
-               if (Doodle.getScore() > 1000 && index % 2 == 1 && probablity > 0.7) {
+               if (Doodle.getScore() > 2000 && index % 2 == 1 && probablity > 0.7) {
                     this.Deactivate();
                     // num++;
                     // System.out.println(num);
@@ -102,10 +106,20 @@ public class Obstacle extends ImageView {
           }
      }
 
+     //This method returns a random X value for the obstacle
      static public double xRandom() {
           return ((int) (Math.random() * 100) * (GamePage.GameScreenWidth - Obstacle.Width) / 100)
                     + GamePage.LeftBorder;
           // return 900;
+     }
+
+     //This method sets if the obstacle can swing or not
+     public void setMove(Boolean i) {
+          if (i == false)
+               this.setViewport(new Rectangle2D(0, 0, PictureDimensions.getX(), PictureDimensions.getY()));
+          if (i == true)
+               this.setViewport(new Rectangle2D(0, 30, PictureDimensions.getX(), PictureDimensions.getY()));
+          this.canMove = i;
      }
 
      public int getIndex() {
@@ -137,14 +151,6 @@ public class Obstacle extends ImageView {
 
      public void landOn() {
           this.landOn = true;
-     }
-
-     public void setMove(Boolean i) {
-          if (i == false)
-               this.setViewport(new Rectangle2D(0, 0, PictureDimensions.getX(), PictureDimensions.getY()));
-          if (i == true)
-               this.setViewport(new Rectangle2D(0, 30, PictureDimensions.getX(), PictureDimensions.getY()));
-          this.canMove = i;
      }
 
      public Boolean getMove() {
