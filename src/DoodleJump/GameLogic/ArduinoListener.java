@@ -17,9 +17,11 @@ public class ArduinoListener {
     public static Boolean Status = true;
     public static Boolean running = false;
 
+    // Initilize connection
     public static void start() {
 
         // if(Serial.commPorts.length > 0)
+        // initialize serial port communication
         try {
             Serial.OpenPort(portNumber);
             running = true;
@@ -29,12 +31,13 @@ public class ArduinoListener {
             running = false;
             Status = false;
         }
-        // initialize serial port communication
+
         // start the thread
         thread.start();
     }
 }
 
+// Creating a spertate thread so the progrma doesn't halt
 class MyRunnable implements Runnable {
     private Serial serial;
     private boolean interrupt = false;
@@ -49,18 +52,37 @@ class MyRunnable implements Runnable {
         while (true) {
             try {
                 if (ArduinoListener.running == true) {
-                    int x = serial.listenToPort(ArduinoListener.portNumber) - 512;
 
-                    if (x > 600 || x < -600) {
-                        x = 0;
-                    }
-                    if (x > 50) {
-                        ArduinoListener.Xspeed = (x / 50);
-                    } else if (x < -50) {
-                        ArduinoListener.Xspeed = (x / 50);
+                    // JOYSTICK
+
+                    // int x = serial.listenToPort(ArduinoListener.portNumber) - 512;
+                    // if (x > 600 || x < -600) {
+                    // x = 0;
+                    // }
+                    // if (x > 50) {
+                    // ArduinoListener.Xspeed = (x / 50);
+                    // } else if (x < -50) {
+                    // ArduinoListener.Xspeed = (x / 50);
+                    // } else {
+                    // ArduinoListener.Xspeed = 0;
+                    // }
+
+                    // if (x > 600 || x < -600) {
+                    // x = 0;
+                    // }
+                    // System.out.println(x);
+
+                    // GYROSCOPE
+                    int x = serial.listenToPort(ArduinoListener.portNumber) - 90;
+                    if (x > 7) {
+                        ArduinoListener.Xspeed = (x / 4);
+                    } else if (x < -7) {
+                        ArduinoListener.Xspeed = (x / 4);
                     } else {
                         ArduinoListener.Xspeed = 0;
                     }
+                    System.out.println(ArduinoListener.Xspeed);
+
                 }
 
             } catch (IOException ex) {
@@ -88,7 +110,8 @@ class Serial {
 
     public static boolean OpenPort(int NO) {
         boolean CASE = commPorts[NO].openPort();
-        commPorts[NO].setComPortParameters(9600, 8, 1, 0);
+        // commPorts[NO].setComPortParameters(9600, 8, 1, 0);
+        commPorts[NO].setComPortParameters(115200, 8, 1, 0);
         commPorts[NO].setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 0);
         // Ensure the port is open
         if (CASE == true) {

@@ -1,6 +1,5 @@
 package DoodleJump.Pages;
 
-
 import DoodleJump.Main;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -18,20 +17,19 @@ public class ScoresPage extends Pane {
     private Stage PrimaryStage;
     private ImageView Background5_iv = new ImageView(Images.Background5);
     private ImageView X_iv = new ImageView(Images.X);
-    private Text topscore =new Text(1050,475,FileIO.Read("TopScore.txt"));
-    private Text playerName =new Text(650,475,FileIO.Read("PlayerName.txt"));
+    private Text topscore = new Text(1050, 475, FileIO.Read("TopScore.txt"));
+    private Text playerName = new Text(650, 475, FileIO.Read("PlayerName.txt"));
 
     public ScoresPage(Stage stage) {
         this.PrimaryStage = stage;
     }
 
     public void start() {
-        
-        
+
         topscore.setFill(Color.BLACK);
-        topscore.setFont(Font.font("Impact",FontWeight.BOLD,FontPosture.ITALIC,50));
+        topscore.setFont(Font.font("Impact", FontWeight.BOLD, FontPosture.ITALIC, 50));
         playerName.setFill(Color.BLACK);
-        playerName.setFont(Font.font("Impact",FontWeight.BOLD,FontPosture.ITALIC,50));
+        playerName.setFont(Font.font("Impact", FontWeight.BOLD, FontPosture.ITALIC, 50));
 
         X_iv.setX(1380);
         X_iv.setY(80);
@@ -47,7 +45,7 @@ public class ScoresPage extends Pane {
         X_iv.setOnMouseClicked(e -> {
             PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
-        this.getChildren().addAll(Background5_iv, topscore,X_iv,playerName);
+        this.getChildren().addAll(Background5_iv, topscore, X_iv, playerName);
     }
 
     public Scene Create() {

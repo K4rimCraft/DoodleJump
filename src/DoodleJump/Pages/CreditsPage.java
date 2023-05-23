@@ -19,7 +19,6 @@ public class CreditsPage extends Pane {
     }
 
     public void start() {
-////////////////////////////////////////////////////////////////////////////////
 
         X_iv.setX(1380);
         X_iv.setY(80);
@@ -35,7 +34,6 @@ public class CreditsPage extends Pane {
         X_iv.setOnMouseClicked(e -> {
             PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
-////////////////////////////////////////////////////////////////////////////////
 
         this.getChildren().addAll(Background_iv, X_iv);
     }

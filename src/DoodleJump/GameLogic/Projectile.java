@@ -1,11 +1,8 @@
 package DoodleJump.GameLogic;
 
-import java.io.File;
 import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.media.AudioClip;
 import DoodleJump.Main;
 import DoodleJump.Pages.Audio;
 import DoodleJump.Pages.Images;
@@ -17,7 +14,7 @@ public class Projectile extends ImageView {
     private double Xspeed = 0;
     private double Yspeed = 0;
     private double Angle = 0;
-    private static Audio laserClip = new Audio( "lazer.wav");
+    private static Audio laserClip = new Audio("lazer.wav");
     private static Audio kill1Clip = new Audio("kill2.wav");
     private static Audio kill2Clip = new Audio("kill1.wav");
 
@@ -28,6 +25,7 @@ public class Projectile extends ImageView {
         this.setFitWidth(15);
     }
 
+    //This Method moves every projectile its assigned x and y speeds
     public static void Loop(ArrayList<Projectile> newProjectiles, Monster newMonsters[]) {
         for (Projectile pro : newProjectiles) {
             for (int i = 0; i < 2; i++) {
@@ -57,9 +55,12 @@ public class Projectile extends ImageView {
         newProjectiles.removeAll(removeProjectiles);
         removeProjectiles.removeAll(removeProjectiles);
     }
-
-    public static void create(Player Doodle, ArrayList<Projectile> newProjectiles, GamePage gamePane, double X, double Y) {
-        if (Y > Doodle.Hitbox.getY() * Main.Factor / 3 || X > GamePage.PlayerRightBorder * Main.Factor / 3 || X < GamePage.PlayerLeftBorder * Main.Factor / 3 || Doodle.getHasSomething() == true) {
+    
+    //This Method Creates a projectile when the used clicks the screen.
+    public static void create(Player Doodle, ArrayList<Projectile> newProjectiles, GamePage gamePane, double X,
+            double Y) {
+        if (Y > Doodle.Hitbox.getY() * Main.Factor / 3 || X > GamePage.PlayerRightBorder * Main.Factor / 3
+                || X < GamePage.PlayerLeftBorder * Main.Factor / 3 || Doodle.getHasSomething() == true) {
             return;
         }
         Projectile nowProjectile = new Projectile();

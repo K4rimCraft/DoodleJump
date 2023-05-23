@@ -23,18 +23,10 @@ public class Player extends ImageView {
     private double Score = 0;
     private double xHitBoxOffset = 0;
 
-    public double getxHitBoxOffset() {
-        return xHitBoxOffset;
-    }
-
     private Point2D initialPosition = new Point2D(262, 930);
     private Boolean hasSomething = false;
     private Boolean canFlip = true;
     private boolean shooting = false;
-
-    public void setCanFlip(Boolean canFlip) {
-        this.canFlip = canFlip;
-    }
 
     private static Audio pop = new Audio("jump.wav");
     private double accerlationOfGravity = 10;
@@ -63,13 +55,17 @@ public class Player extends ImageView {
         Nozzle.setVisible(false);
     }
 
+    // This method contians esstentially all the logic for moving in the Y-axis for
+    // the game.
+    // It also contains the Collision Detection Logic for every object.
     public void moveY(int distance, Obstacle newObstacles[], PowerUp newPowerUp[]) {
 
         for (int i = 0; i < Math.abs(distance); i++) {
             for (int index = 0; index < newObstacles.length; index++) {
                 if (Hitbox.getBoundsInParent().intersects(newObstacles[index].getBoundsInParent()) && Hitbox.getY()
                         + Hitbox.getHeight() < (GamePage.GameScreenHeight - GamePage.GameScreenHeightOffset)) {
-                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && distance > 0 && newObstacles[index].getDied() == false) {
+                    if (Hitbox.getY() + Hitbox.getHeight() == newObstacles[index].getY() && distance > 0
+                            && newObstacles[index].getDied() == false) {
                         Hitbox.setY(lastYPostion);
                         // canJump = true;
                         if (Main.nojump == false) {
@@ -85,6 +81,17 @@ public class Player extends ImageView {
                             ft.setToValue(0.0);
                             ft.play();
                             soundBreak.play();
+
+                            for (int PUindex = 0; PUindex < newPowerUp.length; PUindex++) {
+                                if (newPowerUp[PUindex].getObstacleIndex() == index) {
+                                    FadeTransition PUft = new FadeTransition(Duration.millis(100), newPowerUp[PUindex]);
+                                    newPowerUp[PUindex].setActivated(false);
+                                    PUft.setFromValue(1.0);
+                                    PUft.setToValue(0.0);
+                                    PUft.play();
+                                }
+                            }
+
                         }
 
                         // direction = -1;
@@ -97,7 +104,6 @@ public class Player extends ImageView {
                 if (Hitbox.getBoundsInParent().intersects(newPowerUp[index].getBoundsInParent())
                         && this.getHasSomething() == false) {
                     newPowerUp[index].Execute(this, newObstacles, distance, lastYPostion, jumpHeight);
-
                 }
             }
 
@@ -113,6 +119,9 @@ public class Player extends ImageView {
         }
     }
 
+    // This method contians esstentially all the logic for moving in the X-axis for
+    // the game.
+    // It also contains the Collision Detection Logic for every object.
     public void moveX(int distance, Obstacle newObstacles[]) {
 
         for (int i = 0; i < Math.abs(distance); i++) {
@@ -157,6 +166,10 @@ public class Player extends ImageView {
 
     }
 
+    // This method is called in a loop when the player reaches a certain threshold
+    // on the
+    // Y-axis of the screen. So when that condition is true, every object get moved
+    // down until its under the threshold again.
     public void screenScroll(Obstacle newObstacles[], ImageView BG, ImageView BG2) {
 
         double damping = 0.05;
@@ -198,12 +211,15 @@ public class Player extends ImageView {
         }
     }
 
+    // This method moves the player down with acceleration of gravity
     public void gravityCycle(Obstacle newObstacles[], PowerUp newPowerUp[], Monster newMonsters[]) {
         if (yVelocity < accerlationOfGravity)
             yVelocity++;
         this.moveY((int) yVelocity, newObstacles, newPowerUp);
     }
 
+    // This method rotates the nozzle of the doodle when a projectile object is
+    // created.
     public void shoot(double Angle) {
 
         Timeline delay = new Timeline(new KeyFrame(Duration.millis(10), e -> {
@@ -252,4 +268,11 @@ public class Player extends ImageView {
         this.hasSomething = hasSomething;
     }
 
+    public double getxHitBoxOffset() {
+        return xHitBoxOffset;
+    }
+
+    public void setCanFlip(Boolean canFlip) {
+        this.canFlip = canFlip;
+    }
 }

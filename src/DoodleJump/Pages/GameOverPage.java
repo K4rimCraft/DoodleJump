@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -21,9 +20,6 @@ public class GameOverPage extends Pane {
     private ImageView PlayAgain_iv = new ImageView(Images.PlayAgain);
     private ImageView Main_iv = new ImageView(Images.Main);
 
-    private int time = 1;
-    private long time2 = System.currentTimeMillis();
-    private String data;
     private Text score = new Text(1425, 850, FileIO.Read("Score.txt"));
     private ImageView Monster = new ImageView(Images.monster1Tiles);
 
@@ -45,7 +41,6 @@ public class GameOverPage extends Pane {
         }
         score.setFill(Color.BLACK);
         score.setFont(Font.font("Impact", FontWeight.BOLD, FontPosture.ITALIC, 50));
-        data = FileIO.Read("Character_Right.txt");
 
         PlayAgain_iv.setX(940);
         PlayAgain_iv.setY(500);
@@ -99,19 +94,17 @@ public class GameOverPage extends Pane {
         Character_iv.setY(100);
         Character_iv.setFitWidth(110);
         Character_iv.setFitHeight(110);
-        Character_iv.setImage(new Image(data));
-        
 
         AnimationTimer jumping = new AnimationTimer() {
 
             @Override
             public void handle(long arg0) {
-                
+
                 for (int i = 0; i < Math.abs(yVelocity); i++) {
-                        if (Character_iv.getY() + Character_iv.getFitHeight() > 950 ) {
-                            Character_iv.setY(lastYPostion);
-                                yVelocity = -20;
-                                return;
+                    if (Character_iv.getY() + Character_iv.getFitHeight() > 950) {
+                        Character_iv.setY(lastYPostion);
+                        yVelocity = -20;
+                        return;
                     }
                     lastYPostion = Character_iv.getY();
                     if (yVelocity < 0) {
@@ -121,12 +114,12 @@ public class GameOverPage extends Pane {
                         Character_iv.setY(Character_iv.getY() + 1);
                     }
                 }
-            
+
                 if (yVelocity < 12)
                     yVelocity++;
-           
-            
-        }};
+
+            }
+        };
         jumping.start();
 
         ////////////////////////////////////////////////////////////////////////////////
@@ -136,7 +129,7 @@ public class GameOverPage extends Pane {
         Monster.setY(110);
         Monster.setRotate(10);
         Timeline animate = new Timeline(new KeyFrame(Duration.millis(50), e -> {
-            
+
             Monster.setViewport(new Rectangle2D(i * 156, 0, 156, 89));
             if (reverse == false) {
                 i++;
@@ -147,11 +140,11 @@ public class GameOverPage extends Pane {
                 if (i == 0)
                     reverse = false;
             }
-                    
+
         }));
         animate.setCycleCount(Timeline.INDEFINITE);
         animate.play();
-        
+
         this.getChildren().addAll(Background6_iv, Character_iv, Monster, PlayAgain_iv, Main_iv, score);
 
     }

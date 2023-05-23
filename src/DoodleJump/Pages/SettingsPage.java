@@ -1,15 +1,11 @@
 package DoodleJump.Pages;
 
-import javax.swing.plaf.metal.MetalBorders.Flush3DBorder;
-
 import DoodleJump.Main;
 import javafx.scene.Cursor;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.*;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 
 public class SettingsPage extends Pane {
@@ -18,30 +14,21 @@ public class SettingsPage extends Pane {
     private Pane buttons = new Pane();
 
     private ImageView Background3_iv = new ImageView(Images.SettingsPage);
-    // private ImageView Char1_iv = new ImageView(Images.Char1);
-    // private ImageView Char2_iv = new ImageView(Images.Char2);
-    // private ImageView Char3_iv = new ImageView(Images.Char3);
-    // private ImageView Char4_iv = new ImageView(Images.Char4);
-    // private ImageView Char5_iv = new ImageView(Images.Char5);
+
     private ImageView X_iv = new ImageView(Images.X);
-    private ImageView Voff_iv = new ImageView(Images.Voff3);
-    private ImageView Von_iv = new ImageView(Images.Von);
-    private ImageView Save_iv = new ImageView(Images.Save);
-    private ImageView Saved_iv = new ImageView(Images.Empty);
+    private ImageView Volume_iv = new ImageView(Images.Von);
 
     private ImageView Res_iv = new ImageView();
 
-    private ImageView zom_iv = new ImageView();
-    private ImageView nor_iv = new ImageView();
-    private ImageView ice_iv = new ImageView();
+    private ImageView Zombie_iv = new ImageView();
+    private ImageView Doodle_iv = new ImageView();
+    private ImageView Snow_iv = new ImageView();
 
     private ImageView inputMode = new ImageView();
 
     private ImageView fly_iv = new ImageView(Images.Fly);
     private ImageView nojump_iv = new ImageView(Images.noJump);
     private ImageView immune_iv = new ImageView(Images.Immune);
-
-    
 
     boolean click = false;
     boolean click2 = false;
@@ -60,23 +47,23 @@ public class SettingsPage extends Pane {
             Res_iv.setImage(Images.ResFullHD);
 
         if (Main.numChar == 1) {
-            nor_iv.setImage(Images.nor2);
-            zom_iv.setImage(Images.zom1);
-            ice_iv.setImage(Images.ice1);
+            Doodle_iv.setImage(Images.nor2);
+            Zombie_iv.setImage(Images.zom1);
+            Snow_iv.setImage(Images.ice1);
         } else if (Main.numChar == 2) {
-            nor_iv.setImage(Images.nor1);
-            zom_iv.setImage(Images.zom2);
-            ice_iv.setImage(Images.ice1);
+            Doodle_iv.setImage(Images.nor1);
+            Zombie_iv.setImage(Images.zom2);
+            Snow_iv.setImage(Images.ice1);
         } else if (Main.numChar == 3) {
-            nor_iv.setImage(Images.nor1);
-            zom_iv.setImage(Images.zom1);
-            ice_iv.setImage(Images.ice2);
+            Doodle_iv.setImage(Images.nor1);
+            Zombie_iv.setImage(Images.zom1);
+            Snow_iv.setImage(Images.ice2);
         }
 
-        if (FileIO.Read("AudioState.txt").equals("ON")) {
-            Von_iv.setImage(Images.Von);
+        if (Main.Mute == false) {
+            Volume_iv.setImage(Images.Von);
         } else {
-            Von_iv.setImage(Images.Voff);
+            Volume_iv.setImage(Images.Voff);
         }
 
         if (Main.numInput == 1) {
@@ -124,13 +111,14 @@ public class SettingsPage extends Pane {
                 Main.SelectedOffset = Main.OffsetCustom;
                 Main.Factor = 2.5;
                 Res_iv.setImage(Images.ResCustom);
+                FileIO.SettingsWrite("RESOLUTION: CUSTOM", 0);
             }
             if (Main.numRes == 3) {
                 Main.SelectedResolution = Main.ResolutionHD;
                 Main.SelectedOffset = Main.OffsetHD;
                 Main.Factor = 2;
                 Res_iv.setImage(Images.ResHD);
-
+                FileIO.SettingsWrite("RESOLUTION: HD", 0);
             }
             if (Main.numRes == 4) {
                 Main.SelectedResolution = Main.ResolutionFullHD;
@@ -138,88 +126,92 @@ public class SettingsPage extends Pane {
                 Main.Factor = 3;
                 Main.numRes = 1;
                 Res_iv.setImage(Images.ResFullHD);
+                FileIO.SettingsWrite("RESOLUTION: FULLHD", 0);
             }
 
         });
 
-        nor_iv.setX(920);
-        nor_iv.setY(310);
-        nor_iv.setFitWidth(100);
-        nor_iv.setFitHeight(100);
-        nor_iv.setOnMouseEntered(e -> {
-            nor_iv.setCursor(Cursor.HAND);
-            nor_iv.setFitWidth(100 + 10);
-            nor_iv.setFitHeight(100 + 10);
-            nor_iv.setX(920 - 5);
-            nor_iv.setY(310 - 5);
+        Doodle_iv.setX(920);
+        Doodle_iv.setY(310);
+        Doodle_iv.setFitWidth(100);
+        Doodle_iv.setFitHeight(100);
+        Doodle_iv.setOnMouseEntered(e -> {
+            Doodle_iv.setCursor(Cursor.HAND);
+            Doodle_iv.setFitWidth(100 + 10);
+            Doodle_iv.setFitHeight(100 + 10);
+            Doodle_iv.setX(920 - 5);
+            Doodle_iv.setY(310 - 5);
         });
-        nor_iv.setOnMouseExited(e -> {
-            nor_iv.setFitWidth(100);
-            nor_iv.setFitHeight(100);
-            nor_iv.setX(920);
-            nor_iv.setY(310);
+        Doodle_iv.setOnMouseExited(e -> {
+            Doodle_iv.setFitWidth(100);
+            Doodle_iv.setFitHeight(100);
+            Doodle_iv.setX(920);
+            Doodle_iv.setY(310);
         });
-        nor_iv.setOnMouseClicked(e -> {
+        Doodle_iv.setOnMouseClicked(e -> {
             Main.numChar = 1;
             Main.imagChar = Images.doodleTiles;
             Main.imagBG = Images.BGDoodle;
-            nor_iv.setImage(Images.nor2);
-            zom_iv.setImage(Images.zom1);
-            ice_iv.setImage(Images.ice1);
+            Doodle_iv.setImage(Images.nor2);
+            Zombie_iv.setImage(Images.zom1);
+            Snow_iv.setImage(Images.ice1);
+            FileIO.SettingsWrite("THEME: DOODLE", 1);
 
         });
 
-        zom_iv.setX(1070);
-        zom_iv.setY(310);
-        zom_iv.setFitWidth(100);
-        zom_iv.setFitHeight(100);
-        zom_iv.setOnMouseEntered(e -> {
-            zom_iv.setCursor(Cursor.HAND);
-            zom_iv.setFitWidth(100 + 10);
-            zom_iv.setFitHeight(100 + 10);
-            zom_iv.setX(1070 - 5);
-            zom_iv.setY(310 - 5);
+        Zombie_iv.setX(1070);
+        Zombie_iv.setY(310);
+        Zombie_iv.setFitWidth(100);
+        Zombie_iv.setFitHeight(100);
+        Zombie_iv.setOnMouseEntered(e -> {
+            Zombie_iv.setCursor(Cursor.HAND);
+            Zombie_iv.setFitWidth(100 + 10);
+            Zombie_iv.setFitHeight(100 + 10);
+            Zombie_iv.setX(1070 - 5);
+            Zombie_iv.setY(310 - 5);
         });
-        zom_iv.setOnMouseExited(e -> {
-            zom_iv.setFitWidth(100);
-            zom_iv.setFitHeight(100);
-            zom_iv.setX(1070);
-            zom_iv.setY(310);
+        Zombie_iv.setOnMouseExited(e -> {
+            Zombie_iv.setFitWidth(100);
+            Zombie_iv.setFitHeight(100);
+            Zombie_iv.setX(1070);
+            Zombie_iv.setY(310);
         });
-        zom_iv.setOnMouseClicked(e -> {
+        Zombie_iv.setOnMouseClicked(e -> {
             Main.numChar = 2;
             Main.imagChar = Images.zombieTiles;
             Main.imagBG = Images.BGZombie;
-            nor_iv.setImage(Images.nor1);
-            zom_iv.setImage(Images.zom2);
-            ice_iv.setImage(Images.ice1);
+            Doodle_iv.setImage(Images.nor1);
+            Zombie_iv.setImage(Images.zom2);
+            Snow_iv.setImage(Images.ice1);
+            FileIO.SettingsWrite("THEME: ZOMBIE", 1);
 
         });
 
-        ice_iv.setX(1220);
-        ice_iv.setY(310);
-        ice_iv.setFitWidth(100);
-        ice_iv.setFitHeight(100);
-        ice_iv.setOnMouseEntered(e -> {
-            ice_iv.setCursor(Cursor.HAND);
-            ice_iv.setFitWidth(100 + 10);
-            ice_iv.setFitHeight(100 + 10);
-            ice_iv.setX(1220 - 5);
-            ice_iv.setY(310 - 5);
+        Snow_iv.setX(1220);
+        Snow_iv.setY(310);
+        Snow_iv.setFitWidth(100);
+        Snow_iv.setFitHeight(100);
+        Snow_iv.setOnMouseEntered(e -> {
+            Snow_iv.setCursor(Cursor.HAND);
+            Snow_iv.setFitWidth(100 + 10);
+            Snow_iv.setFitHeight(100 + 10);
+            Snow_iv.setX(1220 - 5);
+            Snow_iv.setY(310 - 5);
         });
-        ice_iv.setOnMouseExited(e -> {
-            ice_iv.setFitWidth(100);
-            ice_iv.setFitHeight(100);
-            ice_iv.setX(1220);
-            ice_iv.setY(310);
+        Snow_iv.setOnMouseExited(e -> {
+            Snow_iv.setFitWidth(100);
+            Snow_iv.setFitHeight(100);
+            Snow_iv.setX(1220);
+            Snow_iv.setY(310);
         });
-        ice_iv.setOnMouseClicked(e -> {
+        Snow_iv.setOnMouseClicked(e -> {
             Main.numChar = 3;
             Main.imagChar = Images.snowTiles;
             Main.imagBG = Images.BGSnow;
-            nor_iv.setImage(Images.nor1);
-            zom_iv.setImage(Images.zom1);
-            ice_iv.setImage(Images.ice2);
+            Doodle_iv.setImage(Images.nor1);
+            Zombie_iv.setImage(Images.zom1);
+            Snow_iv.setImage(Images.ice2);
+            FileIO.SettingsWrite("THEME: SNOW", 1);
         });
 
         inputMode.setX(1085);
@@ -243,9 +235,11 @@ public class SettingsPage extends Pane {
             if (Main.numInput == 1) {
                 inputMode.setImage(Images.Arduino);
                 Main.numInput = 2;
+                FileIO.SettingsWrite("INPUT: ARDUINO", 3);
             } else {
                 inputMode.setImage(Images.Keyboard);
                 Main.numInput = 1;
+                FileIO.SettingsWrite("INPUT: KEYBOARD", 3);
             }
         });
 
@@ -269,9 +263,11 @@ public class SettingsPage extends Pane {
         fly_iv.setOnMouseClicked(e -> {
             if (Main.fly == true) {
                 Main.fly = false;
+                FileIO.SettingsWrite("FLY: OFF", 4);
                 fly_iv.setEffect(new ColorAdjust(0, 0, -0.5, 0));
             } else {
                 Main.fly = true;
+                FileIO.SettingsWrite("FLY: ON", 4);
                 fly_iv.setEffect(new ColorAdjust(0, 0, 0, 0));
             }
 
@@ -297,9 +293,11 @@ public class SettingsPage extends Pane {
         nojump_iv.setOnMouseClicked(e -> {
             if (Main.nojump == true) {
                 Main.nojump = false;
+                FileIO.SettingsWrite("NOJUMP: OFF", 5);
                 nojump_iv.setEffect(new ColorAdjust(0, 0, -0.5, 0));
             } else {
                 Main.nojump = true;
+                FileIO.SettingsWrite("NOJUMP: ON", 5);
                 nojump_iv.setEffect(new ColorAdjust(0, 0, 0, 0));
             }
         });
@@ -324,9 +322,11 @@ public class SettingsPage extends Pane {
         immune_iv.setOnMouseClicked(e -> {
             if (Main.immune == true) {
                 Main.immune = false;
+                FileIO.SettingsWrite("IMMUNE: OFF", 6);
                 immune_iv.setEffect(new ColorAdjust(0, 0, -0.5, 0));
             } else {
                 Main.immune = true;
+                FileIO.SettingsWrite("IMMUNE: ON", 6);
                 immune_iv.setEffect(new ColorAdjust(0, 0, 0, 0));
             }
         });
@@ -346,35 +346,35 @@ public class SettingsPage extends Pane {
             PrimaryStage.setScene(new MainPage(PrimaryStage).Create());
         });
 
-        Von_iv.setFitHeight(100);
-        Von_iv.setFitWidth(100);
-        Von_iv.setX(1050);
-        Von_iv.setY(450);
-        Von_iv.setOnMouseEntered(e -> {
-            Von_iv.setCursor(Cursor.HAND);
-            Von_iv.setFitHeight(110);
-            Von_iv.setFitWidth(110);
-            Von_iv.setX(1050 - 5);
-            Von_iv.setY(450 - 5);
+        Volume_iv.setFitHeight(100);
+        Volume_iv.setFitWidth(100);
+        Volume_iv.setX(1050);
+        Volume_iv.setY(450);
+        Volume_iv.setOnMouseEntered(e -> {
+            Volume_iv.setCursor(Cursor.HAND);
+            Volume_iv.setFitHeight(110);
+            Volume_iv.setFitWidth(110);
+            Volume_iv.setX(1050 - 5);
+            Volume_iv.setY(450 - 5);
 
         });
-        Von_iv.setOnMouseExited(e -> {
-            Von_iv.setFitHeight(100);
-            Von_iv.setFitWidth(100);
-            Von_iv.setX(1050);
-            Von_iv.setY(450);
+        Volume_iv.setOnMouseExited(e -> {
+            Volume_iv.setFitHeight(100);
+            Volume_iv.setFitWidth(100);
+            Volume_iv.setX(1050);
+            Volume_iv.setY(450);
         });
-        Von_iv.setOnMouseClicked(e -> {
+        Volume_iv.setOnMouseClicked(e -> {
             // click2 = true;
             // Voff_iv.setImage(Images.Voff3);
-            if (Audio.Mute == true) {
-                Von_iv.setImage(Images.Von);
-                Audio.Mute = false;
-                FileIO.Write("ON", "AudioState.txt");
+            if (Main.Mute == true) {
+                Volume_iv.setImage(Images.Von);
+                Main.Mute = false;
+                FileIO.SettingsWrite("SOUND: ON", 2);
             } else {
-                Von_iv.setImage(Images.Voff);
-                Audio.Mute = true;
-                FileIO.Write("OFF", "AudioState.txt");
+                Volume_iv.setImage(Images.Voff);
+                Main.Mute = true;
+                FileIO.SettingsWrite("SOUND: OFF", 2);
             }
 
         });
@@ -382,9 +382,66 @@ public class SettingsPage extends Pane {
         // buttons.getChildren().addAll(Char1_iv, Char2_iv, Char3_iv, Char4_iv,
         // Char5_iv, Voff_iv, Von_iv, Save_iv,
         // Saved_iv);
-        this.getChildren().addAll(Background3_iv, X_iv, Von_iv, zom_iv, ice_iv, nor_iv, Res_iv, fly_iv, nojump_iv,
+        this.getChildren().addAll(Background3_iv, X_iv, Volume_iv, Zombie_iv, Snow_iv, Doodle_iv, Res_iv, fly_iv,
+                nojump_iv,
                 immune_iv, inputMode, buttons);
 
+    }
+
+    public static void initialize() {
+
+        if (FileIO.SettingsRead(0).equals("RESOLUTION: FULLHD")) {
+            Main.SelectedResolution = Main.ResolutionFullHD;
+            Main.SelectedOffset = Main.OffsetFullHD;
+            Main.Factor = 3;
+        } else if (FileIO.SettingsRead(1).equals("RESOLUTION: HD")) {
+            Main.SelectedResolution = Main.ResolutionHD;
+            Main.SelectedOffset = Main.OffsetHD;
+            Main.Factor = 2;
+        } else {
+            Main.SelectedResolution = Main.ResolutionCustom;
+            Main.SelectedOffset = Main.OffsetCustom;
+            Main.Factor = 2.5;
+        }
+
+        if (FileIO.SettingsRead(1).equals("THEME: DOODLE")) {
+            Main.numChar = 1;
+            Main.imagChar = Images.doodleTiles;
+            Main.imagBG = Images.BGDoodle;
+        } else if (FileIO.SettingsRead(1).equals("THEME: ZOMBIE")) {
+            Main.numChar = 2;
+            Main.imagChar = Images.zombieTiles;
+            Main.imagBG = Images.BGZombie;
+        } else {
+            Main.numChar = 3;
+            Main.imagChar = Images.snowTiles;
+            Main.imagBG = Images.BGSnow;
+        }
+
+        if (FileIO.SettingsRead(2).equals("SOUND: ON"))
+            Main.Mute = false;
+        else
+            Main.Mute = true;
+
+        if (FileIO.SettingsRead(3).equals("INPUT: KEYBOARD"))
+            Main.numInput = 1;
+        else
+            Main.numInput = 2;
+
+        if (FileIO.SettingsRead(4).equals("FLY: OFF"))
+            Main.fly = false;
+        else
+            Main.fly = true;
+
+        if (FileIO.SettingsRead(5).equals("NOJUMP: OFF"))
+            Main.nojump = false;
+        else
+            Main.nojump = true;
+
+        if (FileIO.SettingsRead(6).equals("IMMUNE: OFF"))
+            Main.immune = false;
+        else
+            Main.immune = false;
     }
 
     public Scene Create() {

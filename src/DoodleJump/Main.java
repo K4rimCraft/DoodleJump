@@ -1,23 +1,12 @@
 package DoodleJump;
 
-import java.io.File;
-
 import DoodleJump.GameLogic.ArduinoListener;
-import DoodleJump.GameLogic.GamePage;
-import DoodleJump.Pages.Audio;
-import DoodleJump.Pages.DifficultyPage;
-import DoodleJump.Pages.FileIO;
 import DoodleJump.Pages.Images;
 import DoodleJump.Pages.MainPage;
+import DoodleJump.Pages.SettingsPage;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -40,6 +29,8 @@ public class Main extends Application {
         public static Image imagBG;
         public static int numInput = 1;
 
+        public static Boolean Mute = false;
+
         public static Boolean fly = false;
         public static Boolean nojump = false;
         public static Boolean immune = false;
@@ -53,37 +44,18 @@ public class Main extends Application {
         @Override
         public void start(Stage stage) {
 
-                // Media media = new Media(new File(PathToResources +
-                // "Intro.mp4").toURI().toString());
-                // MediaPlayer Intro = new MediaPlayer(media);
-                // MediaView intro = new MediaView(Intro);
-                // intro.setFitWidth(1920);
-                // intro.setFitHeight(1080);
-
-                if (FileIO.Read("AudioState.txt").equals("ON"))
-                        Audio.Mute = false;
-                else
-                        Audio.Mute = true;
-
+                SettingsPage.initialize();
                 ArduinoListener.start();
+
                 Images images = new Images();
                 imagChar = Images.doodleTiles;
                 imagBG = Images.BGDoodle;
                 
-
-                // Intro.play();
-                // Intro.setOnEndOfMedia(new Runnable() {
-                // @Override
-                // public void run() {
-                // Intro.pause();
-                // firstPage.start();
-                // stage.setScene(firstPage.play());
-                // }
-                // });
                 stage.setScene(new MainPage(stage).Create());
                 stage.setOnCloseRequest(e -> {
                         System.exit(0);
                 });
+                //stage.setFullScreen(true);
                 stage.setResizable(false);
                 stage.setTitle("Doddle_Jumb");
                 stage.show();

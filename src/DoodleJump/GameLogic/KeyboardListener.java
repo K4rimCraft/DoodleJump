@@ -1,10 +1,7 @@
 package DoodleJump.GameLogic;
 
-import javafx.scene.layout.Pane;
 import java.util.ArrayList;
-
 import DoodleJump.Main;
-import DoodleJump.Pages.SettingsPage;
 
 public class KeyboardListener {
     private Boolean wMove = false;
@@ -29,17 +26,18 @@ public class KeyboardListener {
         selectedProjectiles = projectile;
     }
 
+    // Initilize Key Events
     public void Start() {
         selectedPane.setOnKeyPressed(PressedKey -> {
             switch (PressedKey.getCode()) {
                 case W:
-                    //wMove = true;
+                    // wMove = true;
 
                     if (Main.fly == true)
                         selectedPlayer.setyVelocity(-18);
                     // if (canJump == true) {
-                    //     selectedPlayer.setyVelocity(-18);
-                    //     // canJump = false;
+                    // selectedPlayer.setyVelocity(-18);
+                    // // canJump = false;
                     // }
                     break;
                 case S:
@@ -85,14 +83,15 @@ public class KeyboardListener {
 
     }
 
+    // Checks for conditions to move the player either in Y or in X
     public void Loop() {
-        
-            // if (wMove == true)
-            //     selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
-            // if (sMove == true)
-            //     selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
-            //     System.out.println(Main.fly);
-       
+
+        // if (wMove == true)
+        // selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
+        // if (sMove == true)
+        // selectedPlayer.moveY(5, selectedObstacles, selectedPowerUp);
+        // System.out.println(Main.fly);
+
         if (aMove == true)
             selectedPlayer.moveX(-selectedPlayer.getxVelocity(), selectedObstacles);
         if (dMove == true)
