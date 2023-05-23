@@ -9,7 +9,8 @@
         "c:\\Program Files\\Java\\javafx-sdk-20.0.1\\lib\\javafx.swing.jar",
         "c:\\Program Files\\Java\\javafx-sdk-20.0.1\\lib\\javafx.web.jar",
         "c:\\Program Files\\Java\\javafx-sdk-20.0.1\\lib\\javafx-swt.jar",
-        "jSerialComm.jar"
+        "jSerialComm.jar",
+        "Arduino/jSerialComm.jar"
     ],
     "files.exclude": {
         "**/.git": true,

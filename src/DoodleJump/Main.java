@@ -38,8 +38,8 @@ public class Main extends Application {
         public static int numMonDifficulty = 2;
         public static int numPowDifficulty = 6;
 
-        public static String PathToFont = "file:" + System.getProperty("user.dir") + "\\";
-        public static String PathToResources = System.getProperty("user.dir") + "\\";
+        public static String PathToFont = "file:" + System.getProperty("user.dir") + "\\src\\Files\\";
+        public static String PathToResources = System.getProperty("user.dir") + "\\src\\Sounds\\";
 
         @Override
         public void start(Stage stage) {
@@ -57,7 +57,7 @@ public class Main extends Application {
                 });
                 //stage.setFullScreen(true);
                 stage.setResizable(false);
-                stage.setTitle("Doddle_Jumb");
+                stage.setTitle("Doodle Jumb");
                 stage.show();
         }
 

@@ -14,13 +14,13 @@ public class FileIO {
 
     public static String Read(String fileName) {
         try {
-            Scanner input = new Scanner(new File(fileName));
+            Scanner input = new Scanner(new File("src\\Files\\" + fileName));
             data = "";
             while (input.hasNext()) {
                 data = input.nextLine();
             }
         } catch (FileNotFoundException ex) {
-            System.out.println("Can’t find file with the given path ");
+            System.out.println("Can not find file with the given path ");
         }
         return data;
     }
@@ -28,22 +28,22 @@ public class FileIO {
     public static void Write(String path, String fileName) {
         try {
             Scanner input = new Scanner(path);
-            PrintWriter output = new PrintWriter(new File(fileName));
+            PrintWriter output = new PrintWriter(new File("src\\Files\\" + fileName));
             while (input.hasNext()) {
                 output.println(input.nextLine());
             }
             output.close();
         } catch (FileNotFoundException ex) {
-            System.out.println("Can’t find file with the given path ");
+            System.out.println("Can not find file with the given path ");
         }
     }
 
     public static String SettingsRead(int index) {
 
         try {
-            data = Files.readAllLines(Paths.get("Settings.txt")).get(index);
+            data = Files.readAllLines(Paths.get("src\\Files\\Settings.txt")).get(index);
         } catch (IOException e) {
-            System.out.println("Can’t find file with the given path ");
+            System.out.println("Can not find file with the given path ");
         }
 
         return data;
@@ -51,11 +51,11 @@ public class FileIO {
 
     public static void SettingsWrite(String condition, int index) {
         try {
-            List<String> lines = Files.readAllLines(Paths.get("Settings.txt"));
+            List<String> lines = Files.readAllLines(Paths.get("src\\Files\\Settings.txt"));
             lines.set(index, condition.toUpperCase());
             Files.write(Paths.get("Settings.txt"), lines);
         } catch (IOException e) {
-            System.out.println("Can’t find file with the given path ");
+            System.out.println("Can not find file with the given path ");
         }
     }
 
