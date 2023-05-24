@@ -56,7 +56,7 @@ public class Projectile extends ImageView {
         removeProjectiles.removeAll(removeProjectiles);
     }
     
-    //This Method Creates a projectile when the used clicks the screen.
+    //This Method Creates a projectile when the user clicks on the screen.
     public static void create(Player Doodle, ArrayList<Projectile> newProjectiles, GamePage gamePane, double X,
             double Y) {
         if (Y > Doodle.Hitbox.getY() * Main.Factor / 3 || X > GamePage.PlayerRightBorder * Main.Factor / 3
