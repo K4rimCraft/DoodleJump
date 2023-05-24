@@ -13,7 +13,7 @@ public class ArduinoListener {
     private static MyRunnable RUN = new MyRunnable(serial);
     private static Thread thread = new Thread(RUN);
     public static int Xspeed = 0;
-    public static int portNumber = 1;
+    public static int portNumber = 0;
     public static Boolean Status = true;
     public static Boolean running = false;
 
