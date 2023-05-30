@@ -16,7 +16,7 @@ public class LoginPage extends Pane {
     private ImageView X_iv = new ImageView(Images.X);
     TextField Name = new TextField();
     TextField Age = new TextField();
-    ChoiceDialog b = new ChoiceDialog();
+    //ChoiceDialog b = new ChoiceDialog();
 
     public LoginPage(Stage stage) {
         this.PrimaryStage = stage;

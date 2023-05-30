@@ -44,12 +44,13 @@ public class Main extends Application {
         @Override
         public void start(Stage stage) {
 
+                // imagChar = Images.doodleTiles;
+                // imagBG = Images.BGDoodle;
+        
                 SettingsPage.initialize();
                 ArduinoListener.start();
 
                 Images images = new Images();
-                imagChar = Images.doodleTiles;
-                imagBG = Images.BGDoodle;
                 
                 stage.setScene(new MainPage(stage).Create());
                 stage.setOnCloseRequest(e -> {

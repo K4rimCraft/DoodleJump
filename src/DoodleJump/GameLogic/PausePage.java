@@ -36,18 +36,22 @@ public class PausePage {
 
         PlayAgain_iv.setX(570);
         PlayAgain_iv.setY(730);
-        PlayAgain_iv.setFitWidth(365.63);
-        PlayAgain_iv.setFitHeight(138.29);
+        PlayAgain_iv.setFitWidth(365);
+        PlayAgain_iv.setFitHeight(138);
         PlayAgain_iv.setOnMouseEntered(e -> {
             PlayAgain_iv.setImage(Images.PlayAgain2);
-            PlayAgain_iv.setFitWidth(365.63 + 20);
-            PlayAgain_iv.setFitHeight(138.29 + 7.56);
+            PlayAgain_iv.setFitWidth(365 + 20);
+            PlayAgain_iv.setFitHeight(138 + 8);
+            PlayAgain_iv.setX(570 - 10);
+            PlayAgain_iv.setY(730 - 4);
             PlayAgain_iv.setCursor(Cursor.HAND);
         });
         PlayAgain_iv.setOnMouseExited(e -> {
             PlayAgain_iv.setImage(Images.PlayAgain);
-            PlayAgain_iv.setFitWidth(365.63);
-            PlayAgain_iv.setFitHeight(138.29);
+            PlayAgain_iv.setFitWidth(365);
+            PlayAgain_iv.setFitHeight(138);
+            PlayAgain_iv.setX(570);
+            PlayAgain_iv.setY(730);
         });
         PlayAgain_iv.setOnMouseClicked(e -> {
             stage.setScene(new DifficultyPage(stage).Create());
@@ -57,18 +61,22 @@ public class PausePage {
 
         Main_iv.setX(970);
         Main_iv.setY(730);
-        Main_iv.setFitWidth(365.63);
-        Main_iv.setFitHeight(138.29);
+        Main_iv.setFitWidth(365);
+        Main_iv.setFitHeight(138);
         Main_iv.setOnMouseEntered(e -> {
             Main_iv.setCursor(Cursor.HAND);
             Main_iv.setImage(Images.Main2);
-            Main_iv.setFitWidth(365.63 + 20);
-            Main_iv.setFitHeight(138.29 + 7.56);
+            Main_iv.setFitWidth(365 + 20);
+            Main_iv.setFitHeight(138 + 8);
+            Main_iv.setX(970 - 10);
+            Main_iv.setY(730 - 4);
         });
         Main_iv.setOnMouseExited(e -> {
             Main_iv.setImage(Images.Main);
-            Main_iv.setFitWidth(365.63);
-            Main_iv.setFitHeight(138.29);
+            Main_iv.setFitWidth(365);
+            Main_iv.setFitHeight(138);
+            Main_iv.setX(970);
+            Main_iv.setY(730);
         });
         Main_iv.setOnMouseClicked(e -> {
             stage.setScene(new MainPage(stage).Create());
@@ -78,22 +86,27 @@ public class PausePage {
 
         Resume_iv.setX(760);
         Resume_iv.setY(520);
-        Resume_iv.setFitWidth(402.2);
-        Resume_iv.setFitHeight(152.12);
+        Resume_iv.setFitWidth(402);
+        Resume_iv.setFitHeight(152);
         Resume_iv.setOnMouseEntered(e -> {
             Resume_iv.setCursor(Cursor.HAND);
             Resume_iv.setImage(Images.Resume2);
-            Resume_iv.setFitWidth(402.2 + 20);
-            Resume_iv.setFitHeight(152.12 + 7.56);
+            Resume_iv.setFitWidth(402 + 20);
+            Resume_iv.setFitHeight(152 + 8);
+            Resume_iv.setX(760 - 10);
+            Resume_iv.setY(520 - 4);
         });
         Resume_iv.setOnMouseExited(e -> {
             Resume_iv.setImage(Images.Resume);
             Resume_iv.setFitWidth(402.2);
             Resume_iv.setFitHeight(152.12);
+            Resume_iv.setX(760);
+            Resume_iv.setY(520);
         });
         Resume_iv.setOnMouseClicked(e -> {
             // stage.setScene(scene);
             gamePage.getChildren().remove(pause);
+            gamePage.setPauseActive(false);
             GameLoop.start();
         });
 
@@ -112,6 +125,7 @@ public class PausePage {
         });
         X_iv.setOnMouseClicked(e -> {
             gamePage.getChildren().remove(pause);
+            gamePage.setPauseActive(false);
             GameLoop.start();
         });
 

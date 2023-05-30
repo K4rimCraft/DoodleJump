@@ -47,17 +47,17 @@ public class SettingsPage extends Pane {
             Res_iv.setImage(Images.ResFullHD);
 
         if (Main.numChar == 1) {
-            Doodle_iv.setImage(Images.nor2);
-            Zombie_iv.setImage(Images.zom1);
-            Snow_iv.setImage(Images.ice1);
+            Doodle_iv.setImage(Images.NormalDoodle2);
+            Zombie_iv.setImage(Images.ZombieDoodle);
+            Snow_iv.setImage(Images.SnowDoodle);
         } else if (Main.numChar == 2) {
-            Doodle_iv.setImage(Images.nor1);
-            Zombie_iv.setImage(Images.zom2);
-            Snow_iv.setImage(Images.ice1);
+            Doodle_iv.setImage(Images.NormalDoodle);
+            Zombie_iv.setImage(Images.ZombieDoodle2);
+            Snow_iv.setImage(Images.SnowDoodle);
         } else if (Main.numChar == 3) {
-            Doodle_iv.setImage(Images.nor1);
-            Zombie_iv.setImage(Images.zom1);
-            Snow_iv.setImage(Images.ice2);
+            Doodle_iv.setImage(Images.NormalDoodle);
+            Zombie_iv.setImage(Images.ZombieDoodle);
+            Snow_iv.setImage(Images.SnowDoodle2);
         }
 
         if (Main.Mute == false) {
@@ -112,6 +112,7 @@ public class SettingsPage extends Pane {
                 Main.Factor = 2.5;
                 Res_iv.setImage(Images.ResCustom);
                 FileIO.SettingsWrite("RESOLUTION: CUSTOM", 0);
+                PrimaryStage.setScene(new SettingsPage(PrimaryStage).Create());
             }
             if (Main.numRes == 3) {
                 Main.SelectedResolution = Main.ResolutionHD;
@@ -119,6 +120,7 @@ public class SettingsPage extends Pane {
                 Main.Factor = 2;
                 Res_iv.setImage(Images.ResHD);
                 FileIO.SettingsWrite("RESOLUTION: HD", 0);
+                PrimaryStage.setScene(new SettingsPage(PrimaryStage).Create());
             }
             if (Main.numRes == 4) {
                 Main.SelectedResolution = Main.ResolutionFullHD;
@@ -127,6 +129,7 @@ public class SettingsPage extends Pane {
                 Main.numRes = 1;
                 Res_iv.setImage(Images.ResFullHD);
                 FileIO.SettingsWrite("RESOLUTION: FULLHD", 0);
+                PrimaryStage.setScene(new SettingsPage(PrimaryStage).Create());
             }
 
         });
@@ -152,9 +155,9 @@ public class SettingsPage extends Pane {
             Main.numChar = 1;
             Main.imagChar = Images.doodleTiles;
             Main.imagBG = Images.BGDoodle;
-            Doodle_iv.setImage(Images.nor2);
-            Zombie_iv.setImage(Images.zom1);
-            Snow_iv.setImage(Images.ice1);
+            Doodle_iv.setImage(Images.NormalDoodle2);
+            Zombie_iv.setImage(Images.ZombieDoodle);
+            Snow_iv.setImage(Images.SnowDoodle);
             FileIO.SettingsWrite("THEME: DOODLE", 1);
 
         });
@@ -180,9 +183,9 @@ public class SettingsPage extends Pane {
             Main.numChar = 2;
             Main.imagChar = Images.zombieTiles;
             Main.imagBG = Images.BGZombie;
-            Doodle_iv.setImage(Images.nor1);
-            Zombie_iv.setImage(Images.zom2);
-            Snow_iv.setImage(Images.ice1);
+            Doodle_iv.setImage(Images.NormalDoodle);
+            Zombie_iv.setImage(Images.ZombieDoodle2);
+            Snow_iv.setImage(Images.SnowDoodle);
             FileIO.SettingsWrite("THEME: ZOMBIE", 1);
 
         });
@@ -208,9 +211,9 @@ public class SettingsPage extends Pane {
             Main.numChar = 3;
             Main.imagChar = Images.snowTiles;
             Main.imagBG = Images.BGSnow;
-            Doodle_iv.setImage(Images.nor1);
-            Zombie_iv.setImage(Images.zom1);
-            Snow_iv.setImage(Images.ice2);
+            Doodle_iv.setImage(Images.NormalDoodle);
+            Zombie_iv.setImage(Images.ZombieDoodle);
+            Snow_iv.setImage(Images.SnowDoodle2);
             FileIO.SettingsWrite("THEME: SNOW", 1);
         });
 

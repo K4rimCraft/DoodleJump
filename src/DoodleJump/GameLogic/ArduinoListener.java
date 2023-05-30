@@ -60,13 +60,12 @@ class MyRunnable implements Runnable {
                     // x = 0;
                     // }
                     // if (x > 50) {
-                    // ArduinoListener.Xspeed = (x / 50);
+                    // ArduinoListener.Xspeed = (x / 40);
                     // } else if (x < -50) {
-                    // ArduinoListener.Xspeed = (x / 50);
+                    // ArduinoListener.Xspeed = (x / 40);
                     // } else {
                     // ArduinoListener.Xspeed = 0;
                     // }
-
                     // if (x > 600 || x < -600) {
                     // x = 0;
                     // }

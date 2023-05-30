@@ -152,7 +152,7 @@ public class GamePage extends Pane {
         });
         Pause_iv.setOnMouseClicked(e -> {
             PausePage.Pause(PrimaryStage, thisScene, Doodle, GameLoop, this);
-            pauseActive = true;
+            this.pauseActive = true;
             GameLoop.stop();
         });
 
@@ -222,4 +222,9 @@ public class GamePage extends Pane {
     public Boolean getPauseActive() {
         return pauseActive;
     }
+
+    public void setPauseActive(Boolean pauseActive) {
+        this.pauseActive = pauseActive;
+    }
+
 }
